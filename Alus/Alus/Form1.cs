@@ -16,5 +16,25 @@ namespace Alus
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.InitialDirectory = "c:\\";
+            open.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            open.FilterIndex = 2;
+            open.RestoreDirectory = true;
+
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                string file = open.FileName;
+                pictureBox1.Load(file);
+            }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
