@@ -37,10 +37,11 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.imageBox1 = new Emgu.CV.UI.ImageBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
+            this.label4 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -119,14 +120,6 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // imageBox1
-            // 
-            this.imageBox1.Location = new System.Drawing.Point(9, 50);
-            this.imageBox1.Name = "imageBox1";
-            this.imageBox1.Size = new System.Drawing.Size(577, 499);
-            this.imageBox1.TabIndex = 2;
-            this.imageBox1.TabStop = false;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -143,26 +136,44 @@
             this.label1.Size = new System.Drawing.Size(0, 13);
             this.label1.TabIndex = 11;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(608, 106);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "label4";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(9, 62);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(593, 534);
+            this.pictureBox1.TabIndex = 14;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown_1);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove_1);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp_1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(791, 608);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.ToGray);
             this.Controls.Add(this.Back);
             this.Controls.Add(this.Next);
-            this.Controls.Add(this.imageBox1);
             this.Controls.Add(this.button1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "Form1";
             this.Text = "ALUS";
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -178,9 +189,10 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private Emgu.CV.UI.ImageBox imageBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

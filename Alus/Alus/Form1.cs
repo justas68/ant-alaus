@@ -1,8 +1,10 @@
 ﻿using Emgu.CV;
+using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -12,7 +14,11 @@ namespace Alus
 {
     public partial class Form1 : Form
     {
-        int top, mid, bot;
+        Location location = new Alus.Location();
+        bool pressed = false; //ar nuspaustas peles mygtukas
+        LineSegment2D top = new LineSegment2D(); //taurės viršus.
+        LineSegment2D bottom = new LineSegment2D(); //taurės apačia.
+        int count = 0;
         Image<Bgr, byte> img;
         int point = 0; // pasako, į kurį image žiūriu programa
         List<String> sarasas;
@@ -42,7 +48,7 @@ namespace Alus
                     }
                 }
                 img = new Image<Bgr, byte>(sarasas.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
-                imageBox1.Image = img;
+                pictureBox1.Image = img.Bitmap;
 
             }
         }
@@ -67,7 +73,7 @@ namespace Alus
             }
 
             img = new Image<Bgr, byte>(sarasas.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
-            imageBox1.Image = img;
+            pictureBox1.Image = img.Bitmap;
         }
 
         private void Next_Click(object sender, EventArgs e)
@@ -85,7 +91,7 @@ namespace Alus
 
             img = new Image<Bgr, byte>(sarasas.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
 
-            imageBox1.Image = img;
+            pictureBox1.Image = img.Bitmap;
         }
 
         private bool CheckBounds(int x1, int x2, int x)
@@ -109,7 +115,7 @@ namespace Alus
             grayImage = new Image<Gray, byte>(img.Width, img.Height, new Gray(0));
             grayImage = img.Canny(50, 100);
 
-            imageBox1.Image = grayImage;
+            pictureBox1.Image = grayImage.Bitmap;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -122,9 +128,9 @@ namespace Alus
             Image<Gray, float> sobelImage;
             Image<Gray, byte> grayImage = img.Convert<Gray, byte>();
             sobelImage = grayImage.Sobel(0, 1, 3);
-
-            imageBox1.Image = sobelImage;
+            pictureBox1.Image = sobelImage.Bitmap;
         }
+
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -137,17 +143,36 @@ namespace Alus
             Image<Gray, byte> grayImage = img.Convert<Gray, byte>();
             laplaceImage = grayImage.Laplace(3);
 
-            imageBox1.Image = laplaceImage;
+            pictureBox1.Image = laplaceImage.Bitmap;
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             img = new Image<Bgr, byte>(sarasas.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
             Image<Gray, byte> grayImage = img.Convert<Gray, byte>();
+            Image<Hsv, byte> imgSource = img.Convert<Hsv, byte>();
+
+            Image<Gray, byte> imgThreshold = new Image<Gray, byte>(imgSource.Size);
+
+            imgThreshold = imgSource.InRange(new Hsv(20, 100, 100), new Hsv(50, 355, 355));
+            pictureBox1.Image = imgThreshold.Bitmap;
+        }
 
 
+        private void imageBox1_Paint(object sender, PaintEventArgs e)
+        {
+        }
 
+        private void pictureBox1_MouseDown_1(object sender, MouseEventArgs e)
+        {
+        }
 
+        private void pictureBox1_MouseMove_1(object sender, MouseEventArgs e)
+        {
+        }
+
+        private void pictureBox1_MouseUp_1(object sender, MouseEventArgs e)
+        {
         }
     }
 }
