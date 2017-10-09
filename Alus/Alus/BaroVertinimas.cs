@@ -79,7 +79,12 @@ namespace Alus
             label2.Text = "" + trackBar1.Value;
         }
 
+        public bool evaluation_check(int eva) {
 
+            if (eva <= 10 && eva >= 1)
+                return true;
+            else return false;
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -87,10 +92,14 @@ namespace Alus
             if (File.Exists(path)) {
                 using (TextWriter sw = new StreamWriter(path, true))
                 {
-                    sw.WriteLine(textBox2.Text.ToString()+","+trackBar1.Value.ToString());
-                    bars.Add(textBox2.Text);
-                    ranks.Add(trackBar1.Value.ToString());
-                    listBox1.Items.Add(textBox2.Text);
+                    if (evaluation_check(trackBar1.Value))
+                    {
+                        sw.WriteLine(textBox2.Text.ToString() + "," + trackBar1.Value.ToString());
+                        bars.Add(textBox2.Text);
+                        ranks.Add(trackBar1.Value.ToString());
+                        listBox1.Items.Add(textBox2.Text);
+                    }
+                    else MessageBox.Show("Bad evaluation input");
                 }
             }
         }
@@ -100,6 +109,5 @@ namespace Alus
 
         }
 
-      
     }
 }
