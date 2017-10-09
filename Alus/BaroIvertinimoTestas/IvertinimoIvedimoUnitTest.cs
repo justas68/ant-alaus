@@ -5,7 +5,7 @@ using Alus;
 namespace BaroIvertinimoTestas
 {
     [TestClass]
-    public class IvertinimoIvedimoTestas
+    public class IvertinimoIvedimoUnitTest
     {
         [TestMethod]
         public void Ivertinimo_Ivedimo_Testas() {
