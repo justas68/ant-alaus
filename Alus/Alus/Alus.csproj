@@ -118,6 +118,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculator.cs" />
     <Compile Include="BaroVertinimas.cs">
       <SubType>Form</SubType>
     </Compile>

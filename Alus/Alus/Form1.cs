@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Windows.Forms;
 
 
@@ -15,16 +16,15 @@ namespace Alus
     public partial class Form1 : Form
     {
         Location location = new Alus.Location();
-        bool pressed = false; //ar nuspaustas peles mygtukas
-        LineSegment2D top = new LineSegment2D(); //taurės viršus.
-        LineSegment2D bottom = new LineSegment2D(); //taurės apačia.
-        int count = 0;
+        Point[] p1 = new Point[3];  //liniju pirmas taskas
+        Point[] p2 = new Point[3];  //liniju antras taskas
+        int eilCount = 0; // pasako, kiek liniju uzbrezta
         Image<Bgr, byte> img;
         int point = 0; // pasako, į kurį image žiūriu programa
         List<String> sarasas;
-        public Form1()
-        {
-            InitializeComponent();
+            public Form1()
+            {
+                InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -37,6 +37,7 @@ namespace Alus
                 {
                     point = 0;
                 }
+
                 string[] files = Directory.GetFiles(open.SelectedPath);
                 sarasas = new List<string>(files);
                 sarasas = sarasas.Where(path => path.ToLower().EndsWith(".jpg")).ToList();
@@ -49,7 +50,6 @@ namespace Alus
                 }
                 img = new Image<Bgr, byte>(sarasas.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
                 pictureBox1.Image = img.Bitmap;
-
             }
         }
 
@@ -66,7 +66,10 @@ namespace Alus
                 return;
             }
             point--;
-
+            eilCount = 0;
+            p1 = new Point[3];
+            p2 = new Point[3];
+            pictureBox1.Invalidate();
             if (!sarasas.InRange(point))
             {
                 point = sarasas.Count() - 1;
@@ -77,13 +80,16 @@ namespace Alus
         }
 
         private void Next_Click(object sender, EventArgs e)
-        {
+        { 
             if (sarasas == null)
             {
                 return;
             }
             point++;
-
+            eilCount = 0;
+            p1 = new Point[3];
+            p2 = new Point[3];
+            pictureBox1.Invalidate();
             if (!sarasas.InRange(point))
             {
                 point = 0;
@@ -104,82 +110,72 @@ namespace Alus
             return CheckBounds(0, list.Count(), x);
         }
 
-        private void ToGray_Click(object sender, EventArgs e)
+        private void pictureBox1_MouseDown_1(object sender, MouseEventArgs e)
         {
-            if (sarasas == null)
+            if (eilCount < 3)
             {
-                return;
+                p1[eilCount] = e.Location;
             }
-            img = new Image<Bgr, byte>(sarasas.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
-            Image<Gray, byte> grayImage;
-            grayImage = new Image<Gray, byte>(img.Width, img.Height, new Gray(0));
-            grayImage = img.Canny(50, 100);
-
-            pictureBox1.Image = grayImage.Bitmap;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void pictureBox1_MouseMove_1(object sender, MouseEventArgs e)
         {
-            if (sarasas == null)
+            if (e.Button == MouseButtons.Left)
             {
-                return;
+                if (eilCount < 3)
+                {
+                    p2[eilCount] = e.Location;
+                    pictureBox1.Invalidate();
+                }
             }
-            img = new Image<Bgr, byte>(sarasas.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
-            Image<Gray, float> sobelImage;
-            Image<Gray, byte> grayImage = img.Convert<Gray, byte>();
-            sobelImage = grayImage.Sobel(0, 1, 3);
-            pictureBox1.Image = sobelImage.Bitmap;
         }
-
         private void button5_Click(object sender, EventArgs e)
         {
             
             BaroVertinimas brv = new BaroVertinimas();
             brv.Show();
         }
-
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (sarasas == null)
-            {
-                return;
-            }
-            img = new Image<Bgr, byte>(sarasas.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
-            Image<Gray, float> laplaceImage;
-            Image<Gray, byte> grayImage = img.Convert<Gray, byte>();
-            laplaceImage = grayImage.Laplace(3);
-
-            pictureBox1.Image = laplaceImage.Bitmap;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            img = new Image<Bgr, byte>(sarasas.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
-            Image<Gray, byte> grayImage = img.Convert<Gray, byte>();
-            Image<Hsv, byte> imgSource = img.Convert<Hsv, byte>();
-
-            Image<Gray, byte> imgThreshold = new Image<Gray, byte>(imgSource.Size);
-
-            imgThreshold = imgSource.InRange(new Hsv(20, 100, 100), new Hsv(50, 355, 355));
-            pictureBox1.Image = imgThreshold.Bitmap;
-        }
-
-
-        private void imageBox1_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void pictureBox1_MouseDown_1(object sender, MouseEventArgs e)
-        {
-        }
-
-        private void pictureBox1_MouseMove_1(object sender, MouseEventArgs e)
-        {
-        }
-
         private void pictureBox1_MouseUp_1(object sender, MouseEventArgs e)
         {
+            if (eilCount < 3)
+            {
+                p2[eilCount] = e.Location;
+                pictureBox1.Invalidate();
+                eilCount++;
+            }
         }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if ((p1[i] != null) && (p2[i] != null))
+                {
+                    e.Graphics.DrawLine(new Pen(Color.Red), p1[i], p2[i]);
+                }
+            }
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            if (eilCount != 3)
+            {
+                MessageBox.Show("Pirma pažimėkite linijas, kurios žymi bokalo viršų, pripilimo lygį ir apačią");
+                return;
+            }
+            Calculator calc = new Calculator();
+            double proc = calc.percentage(p1, p2);
+            if (proc == 0)
+            {
+                MessageBox.Show("Tokios formos bokalo pripylimo lygio apskaičiuoti negalime");
+                eilCount = 0;
+                p1 = new Point[3];
+                p2 = new Point[3];
+                pictureBox1.Invalidate();
+                return;
+            }
+            MessageBox.Show("Pripilta : " + Math.Round(proc, 2).ToString() + "%");
+        }
+
     }
 }
