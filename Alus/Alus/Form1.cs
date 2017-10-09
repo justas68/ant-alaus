@@ -131,6 +131,13 @@ namespace Alus
             pictureBox1.Image = sobelImage.Bitmap;
         }
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+            
+            BaroVertinimas brv = new BaroVertinimas();
+            brv.Show();
+        }
+
 
         private void button3_Click(object sender, EventArgs e)
         {
