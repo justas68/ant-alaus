@@ -9,10 +9,10 @@ namespace Alus
 {
     public class Calculator
     {
-        public double percentage(Point[] p1, Point[] p2)
+        public double Percentage(Point[] p1, Point[] p2)
         {
             Point temp;
-            if (!(isParallel(p1[0], p2[0], p1[1], p2[1]) && isParallel(p1[0], p2[0], p1[2], p2[2]) && isParallel(p1[1], p2[1], p1[2], p2[2])))
+            if (!(IsParallel(p1[0], p2[0], p1[1], p2[1]) && IsParallel(p1[0], p2[0], p1[2], p2[2]) && IsParallel(p1[1], p2[1], p1[2], p2[2])))
                 return 0;
             if (p1[0].Y > p1[1].Y)
             {
@@ -49,7 +49,7 @@ namespace Alus
 
             return s2*100/s1;
         }
-        public bool isParallel(Point p1L1, Point p2L1, Point p1L2, Point p2L2)
+        public bool IsParallel(Point p1L1, Point p2L1, Point p1L2, Point p2L2)
         {
             double dx1 = Math.Abs(p1L1.X - p2L1.X);
             double dy1 = Math.Abs(p1L1.Y - p2L1.Y);

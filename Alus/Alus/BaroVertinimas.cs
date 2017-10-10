@@ -114,6 +114,5 @@ namespace Alus
             (new Form2()).Show();
             this.Close();
         }
-
     }
 }

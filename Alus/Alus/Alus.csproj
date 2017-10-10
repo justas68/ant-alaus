@@ -127,6 +127,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Baras.cs" />
     <Compile Include="Calculator.cs" />
     <Compile Include="BaroVertinimas.cs">
       <SubType>Form</SubType>

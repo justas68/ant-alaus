@@ -163,7 +163,7 @@ namespace Alus
                 return;
             }
             Calculator calc = new Calculator();
-            double proc = calc.percentage(p1, p2);
+            double proc = calc.Percentage(p1, p2);
             if (proc == 0)
             {
                 MessageBox.Show("Tokios formos bokalo pripylimo lygio apskaičiuoti negalime");
