@@ -63,7 +63,5 @@ namespace Alus.Tests
 
             Assert.AreEqual(isPar, false);
         }
-
-
     }
 }

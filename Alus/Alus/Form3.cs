@@ -10,6 +10,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GoogleApi.Entities;
 
 namespace Alus
 {
@@ -29,9 +30,18 @@ namespace Alus
             location.findLocation();
             Double lat = location.Lat;
             Double lon = location.Lon;
+            while (lat.ToString() == "NaN")
+            {
+                location.findLocation();
+                lat = location.Lat;
+                lon = location.Lon;
+            }
+            double lat2 = lat;
+            double lon2 = lon;
+            lat2 -= 0.1;
             string latlng = lat.ToString().Replace(",", ".") + "," + lon.ToString().Replace(",", ".");
-            string path = "https://maps.googleapis.com/maps/api/staticmap?center=" + latlng +
-               "&zoom=" + zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:S%7C" + latlng + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
+            string latlng2 = lat2.ToString().Replace(",", ".") + "," + lon2.ToString().Replace(",", ".");
+            string path = "https://maps.googleapis.com/maps/api/staticmap?center=" +  latlng+ "&zoom=" + zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:S%7C" + latlng + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
             using (WebClient wc = new WebClient())
 
             {
@@ -43,23 +53,26 @@ namespace Alus
         }
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
         {
-            if (e.Delta > 0)
+            if (ModifierKeys.HasFlag(Keys.Control))
             {
-                if (zoom == 20)
+                if (e.Delta > 0)
                 {
-                    return;
+                    if (zoom == 20)
+                    {
+                        return;
+                    }
+                    zoom++;
                 }
-                zoom++;
-            }
-            else
-            {
-                if (zoom == 0)
+                else
                 {
-                    return;
+                    if (zoom == 0)
+                    {
+                        return;
+                    }
+                    zoom--;
                 }
-                zoom--;
+                button1.PerformClick();
             }
-            button1.PerformClick();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -67,5 +80,6 @@ namespace Alus
             (new Form2()).Show();
             this.Close();
         }
+
     }
 }
