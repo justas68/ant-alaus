@@ -18,30 +18,31 @@ namespace Alus
             {
                 temp = p1[0];
                 p1[0] = p1[1];
-                p1[0] = temp;
+                p1[1] = temp;
                 temp = p2[0];
-                p2[0] = p1[1];
-                p2[0] = temp;
+                p2[0] = p2[1];
+                p2[1] = temp;
+                Console.WriteLine("sort " + p1[0].Y + " " + p1[1].Y);
             }
             if (p1[0].Y > p1[2].Y)
             {
                 temp = p1[0];
                 p1[0] = p1[2];
-                p1[0] = temp;
+                p1[2] = temp;
                 temp = p2[0];
-                p2[0] = p1[2];
-                p2[0] = temp;
+                p2[0] = p2[2];
+                p2[2] = temp;
             }
             if (p1[1].Y > p1[2].Y)
             {
                 temp = p1[1];
                 p1[1] = p1[2];
-                p1[1] = temp;
+                p1[2] = temp;
                 temp = p2[1];
-                p2[1] = p1[2];
-                p2[1] = temp;
+                p2[1] = p2[2];
+                p2[2] = temp;
             }
-
+            
             // po šito jau aišku, kuri linija yra kuri
             double s1 = (Math.Abs(p1[0].X - p2[0].X) + Math.Abs(p1[2].X - p2[2].X)) / 2 * Math.Abs(p1[0].Y - p2[2].Y);
             double s2 = (Math.Abs(p1[1].X - p2[1].X) + Math.Abs(p1[2].X - p2[2].X)) / 2 * Math.Abs(p1[1].Y - p2[2].Y);
