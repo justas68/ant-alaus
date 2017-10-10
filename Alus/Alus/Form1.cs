@@ -132,8 +132,7 @@ namespace Alus
         private void button5_Click(object sender, EventArgs e)
         {
             
-            BaroVertinimas brv = new BaroVertinimas();
-            brv.Show();
+
         }
         private void pictureBox1_MouseUp_1(object sender, MouseEventArgs e)
         {
@@ -177,5 +176,10 @@ namespace Alus
             MessageBox.Show("Pripilta : " + Math.Round(proc, 2).ToString() + "%");
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            (new Form2()).Show();
+        }
     }
 }
