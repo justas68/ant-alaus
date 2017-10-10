@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Alus
 {
-    class Calculator
+    public class Calculator
     {
         public double percentage(Point[] p1, Point[] p2)
         {
