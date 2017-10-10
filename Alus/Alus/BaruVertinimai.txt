@@ -1,0 +1,7 @@
+Pavadinimas,ivertinimas
+Metrukse,10
+Mr. Pub,7
+Skyle,8
+Snekutis,6
+Liverpool,5
+loooool,2
