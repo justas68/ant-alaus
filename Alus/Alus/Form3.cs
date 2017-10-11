@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -19,36 +20,49 @@ namespace Alus
 
     public partial class Form3 : Form
     {
+        private bool _isDown = false;
+        private double _cordChange1 = 0;
+        private double _cordChange2 = 0;
         private List<Baras> _barai;
         private Location _location = new Alus.Location();
         private Image<Bgr, byte> _image;
         private int _zoom = 12;
-        private int _count = 0;
+        private char _count = 'A';
         private bool _ieskoti = true;
+        private bool _ctrl = false;
+        Double lat;
+        Double lon;
+        Double lat2;
+        Double lon2;
         public Form3()
         {
             InitializeComponent();
+            this.pictureBox1.MouseWheel += pictureBox1_MouseWheel;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _count = 0;
-            _location.FindLocation();
-            Double lat = _location.Lat;
-            Double lon = _location.Lon;
+            _count = 'A';
+            if (_ieskoti == true)
+            {
+                _location.FindLocation();
+                lat = _location.Lat;
+                lon = _location.Lon;
+                lat2 = _location.Lat;
+                lon2 = _location.Lon;
+            }
             while (lat.ToString() == "NaN")
             {
                 _location.FindLocation();
                 lat = _location.Lat;
                 lon = _location.Lon;
+                lat2 = _location.Lat;
+                lon2 = _location.Lon;
             }
             String path;
-            double lat2 = lat;
-            double lon2 = lon;
-            lat2 -= 0.1;
             if (_ieskoti == true)
             {
-                textBox1.AppendText("0 - Jūsų buvimo vieta " + Environment.NewLine);
+                listBox1.Items.Add("* - Jūsų buvimo vieta ");
                 _barai = new List<Baras>();
             }
             string latlng = lat.ToString().Replace(",", ".") + "," + lon.ToString().Replace(",", ".");
@@ -62,16 +76,18 @@ namespace Alus
                 }
                 FindBars();
             }
-            path = "https://maps.googleapis.com/maps/api/staticmap?center=" +  latlng+ "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:0%7C" + latlng;
-            foreach(Baras baras in _barai) {
-                _count++;
-                path = path + "&markers=color:blue%7Clabel:" + _count.ToString() + "%7C" + baras.getCords();
+            path = "https://maps.googleapis.com/maps/api/staticmap?center=" + latlng + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + latlng2;
+            foreach (Baras baras in _barai)
+            {
+                path = path + "&markers=color:blue%7Clabel:" + _count + "%7C" + baras.getCords();
                 if (_ieskoti == true)
                 {
-                    textBox1.AppendText(_count.ToString() + " - " + baras.getPav() + Environment.NewLine);
+                    listBox1.Items.Add(_count.ToString() + " - " + baras.getPav());
                 }
+                _count++;
             }
-            path = path + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
+
+            path = path + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU"; // API key
 
             using (WebClient wc = new WebClient())
             {
@@ -79,16 +95,11 @@ namespace Alus
                 _image = new Image<Bgr, byte>("lol.png");
                 pictureBox1.Image = _image.Bitmap;
             }
-            path = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latlng + "&rankby=distance&type=bar&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
-            using (WebClient wc = new WebClient())
-            {
-                wc.DownloadFile(path, "lol.txt");
-            }
-            
+            _ieskoti = false;
         }
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
         {
-            if (ModifierKeys.HasFlag(Keys.Control))
+            if (_ctrl)
             {
                 if (e.Delta > 0)
                 {
@@ -106,7 +117,6 @@ namespace Alus
                     }
                     _zoom--;
                 }
-                _ieskoti = false;
                 button1.PerformClick();
             }
         }
@@ -130,7 +140,7 @@ namespace Alus
                 while ((st = reader.ReadLine()) != null)
                 {
                     while (!(st.Contains("location")))
-                        {
+                    {
                         st = reader.ReadLine();
                         if (st == null)
                         {
@@ -157,11 +167,167 @@ namespace Alus
                     {
                         break;
                     }
-                    st = st.Replace(" ", "").Replace("\"", "").Replace("\\", "").Replace(":", "").Replace(",", "").Replace("name", "");
+                    st = st.Replace("   ", "").Replace("  ", "").Replace("\"", "").Replace("\\", "").Replace(":", "").Replace(",", "").Replace("name", "");
                     _barai.Add(new Baras(st, lat + "," + lon));
                 }
             }
         }
 
+        private void Form3_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (ModifierKeys.HasFlag(Keys.Control))
+            {
+                _ctrl = true;
+                return;
+            }
+
+            if (e.KeyCode == Keys.W)
+            {
+                _isDown = true;
+                _cordChange1 = 0.004;
+                _cordChange2 = 0;
+                InitTimer();
+            }
+            if (e.KeyCode == Keys.S)
+            {
+                _isDown = true;
+                _cordChange1 = -0.004;
+                _cordChange2 = 0;
+                InitTimer();
+            }
+            if (e.KeyCode == Keys.D)
+            {
+                _isDown = true;
+                _cordChange1 = 0;
+                _cordChange2 = 0.004;
+                InitTimer();
+            }
+            if (e.KeyCode == Keys.A)
+            {
+                _isDown = true;
+                _cordChange1 = 0;
+                _cordChange2 = -0.004;
+                InitTimer();
+            }
+
+        }
+        private Timer timer1;
+        public void InitTimer()
+        {
+            timer1 = new Timer();
+            timer1.Tick += new EventHandler(timer1_Tick);
+            timer1.Interval = 600; // in miliseconds
+            timer1.Start();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (!_isDown)
+            {
+                return;
+            }
+            lat += _cordChange1;
+            lon += _cordChange2;
+            button1.PerformClick();
+        }
+
+        private void Form3_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (ModifierKeys.HasFlag(Keys.Control))
+            {
+                _ctrl = false;
+                return;
+            }
+            if (_isDown)
+            {
+                timer1.Stop();
+                _isDown = false;
+            }
+
+        }
+
+        private void listBox1_DoubleClick(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem != null)
+            {
+
+                String item = listBox1.SelectedItem.ToString();
+                if (item == "* - Jūsų buvimo vieta ")
+                {
+                    return;
+                }
+                Baras baras = _barai.ElementAt(item[0] - 65);
+                string latlng = lat.ToString().Replace(",", ".") + "," + lon.ToString().Replace(",", ".");
+                String path = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + latlng + "&destinations=" + baras.getCords() + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
+                using (WebClient wc = new WebClient())
+                {
+                    wc.DownloadFile(path, "destiny.txt");
+                }
+                String matVienetai = "unknown";
+                const Int32 BufferSize = 128;
+                using (var fileStream = File.OpenRead("destiny.txt"))
+                using (var reader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
+                {
+                    int i = 0;
+                    string st;
+                    st = reader.ReadLine();
+                    while ((st = reader.ReadLine()) != null)
+                    {
+                        while (!(st.Contains("distance")))
+                        {
+                            st = reader.ReadLine();
+                            if (st == null)
+                            {
+                                break;
+                            }
+                        }
+                        if (st == null)
+                        {
+                            break;
+                        }
+                        String distance = reader.ReadLine();
+                        if (distance.Contains("mi"))
+                        {
+                            distance = Regex.Replace(distance, "[^0-9.]", "");
+                            double temp = Math.Round(double.Parse(distance, CultureInfo.InvariantCulture) * 1.609344, 2);
+                            distance = temp.ToString();
+                            matVienetai = "km";
+                        }
+                        else if (distance.Contains("ft")){
+                            distance = Regex.Replace(distance, "[^0-9.]", "");
+                            double temp = Math.Round(double.Parse(distance, CultureInfo.InvariantCulture) * 0.3048, 2);
+                            distance = temp.ToString();
+                            matVienetai = "metrai";
+                        }
+                        while (!(st.Contains("duration")))
+                        {
+                            st = reader.ReadLine();
+                            if (st == null)
+                            {
+                                break;
+                            }
+                        }
+                        if (st == null)
+                        {
+                            break;
+                        }
+                        String duration = reader.ReadLine();
+                        duration = Regex.Replace(duration, "[^0-9.]", "");
+                        MessageBox.Show("Atstumas: " + distance + matVienetai + Environment.NewLine + "Uztruks: " + duration + "min");
+                    }
+
+                }
+            }
+        }
+
+        private void listBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                listBox1_DoubleClick(null, null);
+            }
+
+            e.SuppressKeyPress = true;
+        }
     }
 }
