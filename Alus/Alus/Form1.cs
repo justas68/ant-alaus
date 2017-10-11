@@ -145,6 +145,13 @@ namespace Alus
             }
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            img = new Image<Bgr, byte>(sarasas.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
+            Image<Gray, byte> grayImage = img.Convert<Gray, byte>();
+        }
+
+        
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             for (int i = 0; i < 3; i++)
@@ -177,5 +184,12 @@ namespace Alus
             MessageBox.Show("Pripilta : " + Math.Round(proc, 2).ToString() + "%");
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form2 f2 = new Form2();
+            f2.ShowDialog();
+            this.Close();
+        }
     }
 }
