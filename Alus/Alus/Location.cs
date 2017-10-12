@@ -11,33 +11,33 @@ namespace Alus
     class Location
     {
         GeoCoordinateWatcher _watcher;
-        private double lat;
-        private double lon;
+        private double _lat;
+        private double _lon;
         public Location()
         {
             _watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
             if (_watcher.TryStart(false, TimeSpan.FromSeconds(3)))
             {
-                lat = _watcher.Position.Location.Latitude;
-                lon = _watcher.Position.Location.Longitude;
+                _lat = _watcher.Position.Location.Latitude;
+                _lon = _watcher.Position.Location.Longitude;
             }
             else
             {
-                lat = 0;
-                lon = 0;
+                _lat = 0;
+                _lon = 0;
             }
         }
-        public void findLocation()
+        public void FindLocation()
         {
             if (_watcher.TryStart(false, TimeSpan.FromSeconds(3)))
             {
-                lat = _watcher.Position.Location.Latitude;
-                lon = _watcher.Position.Location.Longitude;
+                _lat = _watcher.Position.Location.Latitude;
+                _lon = _watcher.Position.Location.Longitude;
             }
             else
             {
-                lat = 0;
-                lon = 0;
+                _lat = 0;
+                _lon = 0;
             }
 
         }
@@ -45,14 +45,14 @@ namespace Alus
         {
             get
             {
-                return this.lat;
+                return this._lat;
             }
         }
         public double Lon
         {
             get
             {
-                return this.lon;
+                return this._lon;
             }
         }
 
