@@ -216,6 +216,25 @@ namespace Alus
 
         }
 
+        private Alus.GoogleApi.Element GetDistanceElement(Location origin, Bar destinationBar)
+        {
+            string url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + origin + "&destinations=" + destinationBar.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
+
+            using (var reader = new JsonTextReader(new StreamReader(GetStreamFromUrl(url))))
+            {
+                var serializer = new JsonSerializer();
+                var response = serializer.Deserialize<DistanceMatrixRequest>(reader);
+                if (response.Status == "OK")
+                {
+                    return response.Rows[0].Elements[0];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem != null)
@@ -226,62 +245,11 @@ namespace Alus
                     return;
                 }
 
-                var baras = _barList.ElementAt(listBox1.SelectedIndex);
+                var bar = _barList.ElementAt(listBox1.SelectedIndex);
 
-                string path = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + _location + "&destinations=" + baras.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
+                var element = GetDistanceElement(_location, bar);
 
-                string matVienetai = "unknown";
-                using (var reader = new StreamReader(GetStreamFromUrl(path)))
-                {
-                    int i = 0;
-                    string st;
-                    st = reader.ReadLine();
-                    while ((st = reader.ReadLine()) != null)
-                    {
-                        while (!(st.Contains("distance")))
-                        {
-                            st = reader.ReadLine();
-                            if (st == null)
-                            {
-                                break;
-                            }
-                        }
-                        if (st == null)
-                        {
-                            break;
-                        }
-                        String distance = reader.ReadLine();
-                        if (distance.Contains("mi"))
-                        {
-                            distance = Regex.Replace(distance, "[^0-9.]", "");
-                            double temp = Math.Round(double.Parse(distance, CultureInfo.InvariantCulture) * 1.609344, 2);
-                            distance = temp.ToString();
-                            matVienetai = "km";
-                        }
-                        else if (distance.Contains("ft")){
-                            distance = Regex.Replace(distance, "[^0-9.]", "");
-                            double temp = Math.Round(double.Parse(distance, CultureInfo.InvariantCulture) * 0.3048, 2);
-                            distance = temp.ToString();
-                            matVienetai = "metrai";
-                        }
-                        while (!(st.Contains("duration")))
-                        {
-                            st = reader.ReadLine();
-                            if (st == null)
-                            {
-                                break;
-                            }
-                        }
-                        if (st == null)
-                        {
-                            break;
-                        }
-                        String duration = reader.ReadLine();
-                        duration = Regex.Replace(duration, "[^0-9.]", "");
-                        MessageBox.Show("Atstumas: " + distance + matVienetai + Environment.NewLine + "Uztruks: " + duration + "min");
-                    }
-
-                }
+                MessageBox.Show("Distance: " + element.Distance.Text + Environment.NewLine + "Duration: " + element.Duration.Text);
             }
         }
 

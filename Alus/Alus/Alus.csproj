@@ -135,6 +135,7 @@
     <Compile Include="EvaluationForm.Designer.cs">
       <DependentUpon>EvaluationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GoogleApi\DistanceMatrixObjects.cs" />
     <Compile Include="GoogleApi\NearbyRequestObjects.cs" />
     <Compile Include="ImageRecognitionForm.cs">
       <SubType>Form</SubType>
