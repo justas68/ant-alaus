@@ -127,7 +127,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Baras.cs" />
+    <Compile Include="Bar.cs" />
     <Compile Include="Calculator.cs" />
     <Compile Include="EvaluationForm.cs">
       <SubType>Form</SubType>

@@ -23,7 +23,7 @@ namespace Alus
         private bool _isDown = false;
         private double _cordChange1 = 0;
         private double _cordChange2 = 0;
-        private List<Baras> _barai;
+        private List<Bar> _barai;
         private Location _location = new Alus.Location();
         private Image<Bgr, byte> _image;
         private int _zoom = 12;
@@ -63,7 +63,7 @@ namespace Alus
             if (_ieskoti == true)
             {
                 listBox1.Items.Add("* - Jūsų buvimo vieta ");
-                _barai = new List<Baras>();
+                _barai = new List<Bar>();
             }
             string latlng = lat.ToString().Replace(",", ".") + "," + lon.ToString().Replace(",", ".");
             string latlng2 = lat2.ToString().Replace(",", ".") + "," + lon2.ToString().Replace(",", ".");
@@ -77,12 +77,12 @@ namespace Alus
                 FindBars();
             }
             path = "https://maps.googleapis.com/maps/api/staticmap?center=" + latlng + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + latlng2;
-            foreach (Baras baras in _barai)
+            foreach (Bar baras in _barai)
             {
-                path = path + "&markers=color:blue%7Clabel:" + _count + "%7C" + baras.getCords();
+                path = path + "&markers=color:blue%7Clabel:" + _count + "%7C" + baras.Coordinates;
                 if (_ieskoti == true)
                 {
-                    listBox1.Items.Add(_count.ToString() + " - " + baras.getPav());
+                    listBox1.Items.Add(_count.ToString() + " - " + baras.Name);
                 }
                 _count++;
             }
@@ -168,7 +168,7 @@ namespace Alus
                         break;
                     }
                     st = st.Replace("   ", "").Replace("  ", "").Replace("\"", "").Replace("\\", "").Replace(":", "").Replace(",", "").Replace("name", "");
-                    _barai.Add(new Baras(st, lat + "," + lon));
+                    _barai.Add(new Bar(st, lat + "," + lon));
                 }
             }
         }
@@ -256,9 +256,9 @@ namespace Alus
                 {
                     return;
                 }
-                Baras baras = _barai.ElementAt(item[0] - 65);
+                Bar baras = _barai.ElementAt(item[0] - 65);
                 string latlng = lat.ToString().Replace(",", ".") + "," + lon.ToString().Replace(",", ".");
-                String path = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + latlng + "&destinations=" + baras.getCords() + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
+                String path = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + latlng + "&destinations=" + baras.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
                 using (WebClient wc = new WebClient())
                 {
                     wc.DownloadFile(path, "destiny.txt");
