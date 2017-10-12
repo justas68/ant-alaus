@@ -1,6 +1,4 @@
-﻿using Emgu.CV;
-using Emgu.CV.Structure;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,7 +23,6 @@ namespace Alus
         private double _cordChange2 = 0;
         private List<Bar> _barai;
         private Location _location = new Alus.Location();
-        private Image<Bgr, byte> _image;
         private int _zoom = 12;
         private bool _ieskoti = true;
         private bool _ctrl = false;
@@ -95,12 +92,7 @@ namespace Alus
 
             path = path + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU"; // API key
 
-            using (WebClient wc = new WebClient())
-            {
-                wc.DownloadFile(path, "lol.png");
-                _image = new Image<Bgr, byte>("lol.png");
-                pictureBox1.Image = _image.Bitmap;
-            }
+            pictureBox1.Image = Image.FromStream(GetStreamFromUrl(path));
             _ieskoti = false;
         }
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
