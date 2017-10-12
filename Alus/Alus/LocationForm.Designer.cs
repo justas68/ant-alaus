@@ -1,6 +1,6 @@
 ﻿namespace Alus
 {
-    partial class Form3
+    partial class LocationForm
     {
         /// <summary>
         /// Required designer variable.

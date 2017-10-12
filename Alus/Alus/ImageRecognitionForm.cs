@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Alus
 {
-    public partial class Form1 : Form
+    public partial class ImageRecognitionForm : Form
     {
         Location location = new Alus.Location();
         Point[] p1 = new Point[3];  //liniju pirmas taskas
@@ -22,7 +22,7 @@ namespace Alus
         Image<Bgr, byte> img;
         int point = 0; // pasako, į kurį image žiūriu programa
         List<String> sarasas;
-            public Form1()
+            public ImageRecognitionForm()
             {
                 InitializeComponent();
         }
@@ -179,7 +179,7 @@ namespace Alus
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();
-            (new Form2()).Show();
+            (new MainForm()).Show();
         }
     }
 }

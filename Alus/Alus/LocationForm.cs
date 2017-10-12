@@ -18,7 +18,7 @@ using System.Windows.Forms;
 namespace Alus
 {
 
-    public partial class Form3 : Form
+    public partial class LocationForm : Form
     {
         private bool _isDown = false;
         private double _cordChange1 = 0;
@@ -34,7 +34,7 @@ namespace Alus
         Double lon;
         Double lat2;
         Double lon2;
-        public Form3()
+        public LocationForm()
         {
             InitializeComponent();
             this.pictureBox1.MouseWheel += pictureBox1_MouseWheel;
@@ -123,7 +123,7 @@ namespace Alus
 
         private void button2_Click(object sender, EventArgs e)
         {
-            (new Form2()).Show();
+            (new MainForm()).Show();
             this.Close();
         }
         private void FindBars()

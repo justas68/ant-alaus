@@ -1,6 +1,6 @@
 ﻿namespace Alus
 {
-    partial class Form1
+    partial class ImageRecognitionForm
     {
         /// <summary>
         /// Required designer variable.
