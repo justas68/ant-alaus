@@ -23,7 +23,7 @@ namespace Alus
 
         private static GeoCoordinateWatcher _watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
 
-        public static Location FindLocation(int tries = 1)
+        public static Location FindLocation(int tries = 1, Location defaultLocation = null)
         {
             for (int i = 0; i < tries; i++) {
                 if (_watcher.TryStart(false, TimeSpan.FromSeconds(3)))
@@ -37,6 +37,10 @@ namespace Alus
                         _watcher.Position.Location.Longitude
                     );
                 }
+            }
+            if (defaultLocation != null)
+            {
+                return defaultLocation;
             }
             return new Location();
         }

@@ -36,6 +36,9 @@ namespace Alus
         private double lat2;
         private double lon2;
 
+        // use coordinates of faculty campus as default location
+        private static Location defaultLocation = new Alus.Location(54.729714d, 25.263445d);
+
         public LocationForm()
         {
             InitializeComponent();
@@ -46,16 +49,10 @@ namespace Alus
         {
             _count = 'A';
 
-            _location = Alus.Location.FindLocation(3);
+            _location = Alus.Location.FindLocation(3, defaultLocation);
 
             lat = lat2 = _location.Latitude;
             lon = lon2 = _location.Longtitude;
-
-            if (_location.IsZero)
-            {
-                lat = lat2 = 54.729714;
-                lon = lon2 = 25.263445;
-            }
 
             String path;
             if (_ieskoti == true)
