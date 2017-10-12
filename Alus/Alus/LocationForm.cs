@@ -67,7 +67,7 @@ namespace Alus
             String path;
             if (_ieskoti == true)
             {
-                listBox1.Items.Add("* - Jūsų buvimo vieta ");
+                listBox1.Items.Add("* - Your location");
                 _barai = new List<Bar>();
             }
             string latlng = _location.ToString();
