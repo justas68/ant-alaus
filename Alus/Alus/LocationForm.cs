@@ -27,7 +27,6 @@ namespace Alus
         private Location _location = new Alus.Location();
         private Image<Bgr, byte> _image;
         private int _zoom = 12;
-        private char _count = 'A';
         private bool _ieskoti = true;
         private bool _ctrl = false;
 
@@ -57,8 +56,6 @@ namespace Alus
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _count = 'A';
-
             _location = Alus.Location.FindLocation(3, defaultLocation);
 
             lat = lat2 = _location.Latitude;
@@ -81,14 +78,15 @@ namespace Alus
             }
 
             path = "https://maps.googleapis.com/maps/api/staticmap?center=" + latlng + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + latlng;
+            int count = 'A';
             foreach (Bar baras in _barai)
             {
-                path = path + "&markers=color:blue%7Clabel:" + _count + "%7C" + baras.Coordinates;
+                path = path + "&markers=color:blue%7Clabel:" + (char)count + "%7C" + baras.Coordinates;
                 if (_ieskoti == true)
                 {
-                    listBox1.Items.Add(_count.ToString() + " - " + baras.Name);
+                    listBox1.Items.Add((char)count + " - " + baras.Name);
                 }
-                _count++;
+                count++;
             }
 
             path = path + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU"; // API key
