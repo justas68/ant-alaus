@@ -51,7 +51,7 @@ namespace Alus
                 lat2 = _location.Lat;
                 lon2 = _location.Lon;
             }
-            while (lat.ToString() == "NaN")
+            while (lat != double.NaN)
             {
                 _location.FindLocation();
                 lat = _location.Lat;
@@ -59,6 +59,7 @@ namespace Alus
                 lat2 = _location.Lat;
                 lon2 = _location.Lon;
             }
+
             String path;
             if (_ieskoti == true)
             {
