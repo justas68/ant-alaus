@@ -4,10 +4,8 @@ using Newtonsoft.Json;
 
 namespace Alus.GoogleApi
 {
-
     public class Viewport
     {
-
         [JsonProperty("northeast")]
         public Location Northeast { get; set; }
 
@@ -17,7 +15,6 @@ namespace Alus.GoogleApi
 
     public class Geometry
     {
-
         [JsonProperty("location")]
         public Location Location { get; set; }
 
@@ -27,7 +24,6 @@ namespace Alus.GoogleApi
 
     public class OpeningHours
     {
-
         [JsonProperty("open_now")]
         public bool IsOpenNow { get; set; }
 
@@ -37,7 +33,6 @@ namespace Alus.GoogleApi
 
     public class Photo
     {
-
         [JsonProperty("height")]
         public int Height { get; set; }
 
