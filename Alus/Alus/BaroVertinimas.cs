@@ -46,6 +46,7 @@ namespace Alus
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             using (StreamReader reader = new StreamReader(stream))
             {
+                int i = 0;
                 string st;
                 st = reader.ReadLine();
                 while ((st = reader.ReadLine()) != null)
