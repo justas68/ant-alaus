@@ -44,14 +44,18 @@ namespace Alus
             this.pictureBox1.MouseWheel += pictureBox1_MouseWheel;
         }
 
-        private byte[] NearbySearch(Location location)
+        private Stream GetStreamFromUrl(string url)
         {
-            string path = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + location + "&rankby=distance&type=bar&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
-
             using (WebClient wc = new WebClient())
             {
-                return wc.DownloadData(path);
+                return new MemoryStream(wc.DownloadData(url));
             }
+        }
+
+        private Stream NearbySearch(Location location)
+        {
+            string path = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + location + "&rankby=distance&type=bar&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
+            return GetStreamFromUrl(path);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -71,7 +75,7 @@ namespace Alus
 
             if (_ieskoti == true)
             {
-                using (var ms = new MemoryStream(NearbySearch(_location)))
+                using (var ms = NearbySearch(_location))
                 {
                     _barai.AddRange(FindBars(ms).ToList());
                 }
@@ -252,22 +256,17 @@ namespace Alus
             if (listBox1.SelectedItem != null)
             {
 
-                String item = listBox1.SelectedItem.ToString();
-                if (item == "* - Jūsų buvimo vieta ")
+                if (listBox1.SelectedIndex == 0)
                 {
                     return;
                 }
-                Bar baras = _barai.ElementAt(item[0] - 65);
-                string latlng = lat.ToString().Replace(",", ".") + "," + lon.ToString().Replace(",", ".");
-                String path = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + latlng + "&destinations=" + baras.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
-                using (WebClient wc = new WebClient())
-                {
-                    wc.DownloadFile(path, "destiny.txt");
-                }
-                String matVienetai = "unknown";
-                const Int32 BufferSize = 128;
-                using (var fileStream = File.OpenRead("destiny.txt"))
-                using (var reader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
+
+                var baras = _barai.ElementAt(listBox1.SelectedIndex);
+
+                string path = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + _location + "&destinations=" + baras.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
+
+                string matVienetai = "unknown";
+                using (var reader = new StreamReader(GetStreamFromUrl(path)))
                 {
                     int i = 0;
                     string st;
