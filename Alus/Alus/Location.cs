@@ -8,54 +8,36 @@ using System.Device.Location;
 
 namespace Alus
 {
-    class Location
+    public class Location
     {
-        GeoCoordinateWatcher _watcher;
-        private double _lat;
-        private double _lon;
         public Location()
         {
-            _watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
-            if (_watcher.TryStart(false, TimeSpan.FromSeconds(3)))
-            {
-                _lat = _watcher.Position.Location.Latitude;
-                _lon = _watcher.Position.Location.Longitude;
-            }
-            else
-            {
-                _lat = 0;
-                _lon = 0;
-            }
         }
-        public void FindLocation()
+
+        public Location(double latitude, double longtitude)
+        {
+            Latitude = latitude;
+            Longtitude = longtitude;
+        }
+
+        private static GeoCoordinateWatcher _watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
+
+        public static Location FindLocation()
         {
             if (_watcher.TryStart(false, TimeSpan.FromSeconds(3)))
             {
-                _lat = _watcher.Position.Location.Latitude;
-                _lon = _watcher.Position.Location.Longitude;
+                return new Location(
+                    _watcher.Position.Location.Latitude,
+                    _watcher.Position.Location.Longitude
+                );
             }
             else
             {
-                _lat = 0;
-                _lon = 0;
+                return new Location();
             }
 
         }
-        public double Lat
-        {
-            get
-            {
-                return this._lat;
-            }
-        }
-        public double Lon
-        {
-            get
-            {
-                return this._lon;
-            }
-        }
-
-
+        public double Latitude { get; private set; }
+        public double Longtitude { get; private set; }
     }
 }

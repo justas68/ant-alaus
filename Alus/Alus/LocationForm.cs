@@ -47,19 +47,20 @@ namespace Alus
             _count = 'A';
             if (_ieskoti == true)
             {
-                _location.FindLocation();
-                lat = _location.Lat;
-                lon = _location.Lon;
-                lat2 = _location.Lat;
-                lon2 = _location.Lon;
+                _location = Alus.Location.FindLocation();
+
+                lat = _location.Latitude;
+                lon = _location.Longtitude;
+                lat2 = _location.Latitude;
+                lon2 = _location.Longtitude;
             }
             while (lat != double.NaN)
             {
-                _location.FindLocation();
-                lat = _location.Lat;
-                lon = _location.Lon;
-                lat2 = _location.Lat;
-                lon2 = _location.Lon;
+                _location = Alus.Location.FindLocation();
+                lat = _location.Latitude;
+                lon = _location.Longtitude;
+                lat2 = _location.Latitude;
+                lon2 = _location.Longtitude;
             }
 
             String path;
