@@ -132,8 +132,7 @@ namespace Alus
         private void button5_Click(object sender, EventArgs e)
         {
             
-            BaroVertinimas brv = new BaroVertinimas();
-            brv.Show();
+
         }
         private void pictureBox1_MouseUp_1(object sender, MouseEventArgs e)
         {
@@ -164,7 +163,7 @@ namespace Alus
                 return;
             }
             Calculator calc = new Calculator();
-            double proc = calc.percentage(p1, p2);
+            double proc = calc.Percentage(p1, p2);
             if (proc == 0)
             {
                 MessageBox.Show("Tokios formos bokalo pripylimo lygio apskaičiuoti negalime");
@@ -177,5 +176,10 @@ namespace Alus
             MessageBox.Show("Pripilta : " + Math.Round(proc, 2).ToString() + "%");
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            (new Form2()).Show();
+        }
     }
 }
