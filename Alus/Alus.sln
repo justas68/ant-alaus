@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TestSettings1.testsettings = TestSettings1.testsettings
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alus.Tests", "AlusTests\Alus.Tests.csproj", "{F82E9CDB-6147-4E31-B586-630CDD73DCA7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alus.Tests", "Alus.Tests\Alus.Tests.csproj", "{F82E9CDB-6147-4E31-B586-630CDD73DCA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
