@@ -50,9 +50,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(312, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(208, 37);
+            this.label1.Size = new System.Drawing.Size(115, 37);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Barų sąrašas";
+            this.label1.Text = "Bar list";
             // 
             // listBox1
             // 
@@ -80,7 +80,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(199, 44);
             this.button1.TabIndex = 4;
-            this.button1.Text = "Įvertinti";
+            this.button1.Text = "Evaluate";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -110,9 +110,9 @@
             this.label3.Location = new System.Drawing.Point(292, 221);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(135, 20);
+            this.label3.Size = new System.Drawing.Size(78, 20);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Baro pavadinimas";
+            this.label3.Text = "Bar name";
             // 
             // label4
             // 
@@ -121,9 +121,9 @@
             this.label4.Location = new System.Drawing.Point(292, 263);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(85, 20);
+            this.label4.Size = new System.Drawing.Size(83, 20);
             this.label4.TabIndex = 9;
-            this.label4.Text = "Įvertinimas";
+            this.label4.Text = "Evaluation";
             // 
             // label2
             // 
@@ -142,11 +142,11 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(76, 39);
             this.button2.TabIndex = 11;
-            this.button2.Text = "Atgal";
+            this.button2.Text = "Back";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // BaroVertinimas
+            // BarEvaluation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -162,7 +162,7 @@
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.label1);
             this.MinimumSize = new System.Drawing.Size(800, 597);
-            this.Name = "BaroVertinimas";
+            this.Name = "BarEvaluation";
             this.Text = "BaroVertinimas";
             this.Load += new System.EventHandler(this.BarEvaluation_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
