@@ -45,22 +45,16 @@ namespace Alus
         private void button1_Click(object sender, EventArgs e)
         {
             _count = 'A';
-            if (_ieskoti == true)
-            {
-                _location = Alus.Location.FindLocation();
 
-                lat = _location.Latitude;
-                lon = _location.Longtitude;
-                lat2 = _location.Latitude;
-                lon2 = _location.Longtitude;
-            }
-            while (lat != double.NaN)
+            _location = Alus.Location.FindLocation(3);
+
+            lat = lat2 = _location.Latitude;
+            lon = lon2 = _location.Longtitude;
+
+            if (_location.IsZero)
             {
-                _location = Alus.Location.FindLocation();
-                lat = _location.Latitude;
-                lon = _location.Longtitude;
-                lat2 = _location.Latitude;
-                lon2 = _location.Longtitude;
+                lat = lat2 = 54.729714;
+                lon = lon2 = 25.263445;
             }
 
             String path;
@@ -80,6 +74,7 @@ namespace Alus
                 }
                 FindBars();
             }
+
             path = "https://maps.googleapis.com/maps/api/staticmap?center=" + latlng + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + latlng2;
             foreach (Bar baras in _barai)
             {

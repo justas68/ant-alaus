@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Device.Location;
+using System.Globalization;
 
 namespace Alus
 {
@@ -22,22 +23,32 @@ namespace Alus
 
         private static GeoCoordinateWatcher _watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
 
-        public static Location FindLocation()
+        public static Location FindLocation(int tries = 1)
         {
-            if (_watcher.TryStart(false, TimeSpan.FromSeconds(3)))
-            {
-                return new Location(
-                    _watcher.Position.Location.Latitude,
-                    _watcher.Position.Location.Longitude
-                );
+            for (int i = 0; i < tries; i++) {
+                if (_watcher.TryStart(false, TimeSpan.FromSeconds(3)))
+                {
+                    if (_watcher.Position.Location.IsUnknown)
+                    {
+                        continue;
+                    }
+                    return new Location(
+                        _watcher.Position.Location.Latitude,
+                        _watcher.Position.Location.Longitude
+                    );
+                }
             }
-            else
-            {
-                return new Location();
-            }
-
+            return new Location();
         }
         public double Latitude { get; private set; }
         public double Longtitude { get; private set; }
+
+        public bool IsZero
+        {
+            get
+            {
+                return Latitude == 0.0d && Longtitude == 0.0d;
+            }
+        }
     }
 }
