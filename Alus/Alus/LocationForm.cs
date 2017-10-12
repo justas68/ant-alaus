@@ -30,10 +30,12 @@ namespace Alus
         private char _count = 'A';
         private bool _ieskoti = true;
         private bool _ctrl = false;
-        Double lat;
-        Double lon;
-        Double lat2;
-        Double lon2;
+
+        private double lat;
+        private double lon;
+        private double lat2;
+        private double lon2;
+
         public LocationForm()
         {
             InitializeComponent();
