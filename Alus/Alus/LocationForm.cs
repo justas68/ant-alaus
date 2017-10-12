@@ -12,6 +12,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Alus.GoogleApi;
+using Newtonsoft.Json;
 
 namespace Alus
 {
@@ -127,45 +129,16 @@ namespace Alus
 
         private IEnumerable<Bar> FindBars(Stream stream)
         {
-            String lat;
-            String lon;
-            using (var reader = new StreamReader(stream))
+            using (var reader = new JsonTextReader(new StreamReader(stream)))
             {
-                int i = 0;
-                string st;
-                st = reader.ReadLine();
-                while ((st = reader.ReadLine()) != null)
+                var serializer = new JsonSerializer();
+                var response = serializer.Deserialize<NearbyRequestResponse>(reader);
+                if (response.Status == "OK")
                 {
-                    while (!(st.Contains("location")))
+                    foreach (var result in response.Results)
                     {
-                        st = reader.ReadLine();
-                        if (st == null)
-                        {
-                            break;
-                        }
+                        yield return new Bar(result.Name, result.Geometry.Location.ToString());
                     }
-                    if (st == null)
-                    {
-                        break;
-                    }
-                    lat = reader.ReadLine();
-                    lat = Regex.Replace(lat, "[^0-9.]", "");
-                    lon = reader.ReadLine();
-                    lon = Regex.Replace(lon, "[^0-9.]", "");
-                    while (!(st.Contains("name")))
-                    {
-                        st = reader.ReadLine();
-                        if (st == null)
-                        {
-                            break;
-                        }
-                    }
-                    if (st == null)
-                    {
-                        break;
-                    }
-                    st = st.Replace("   ", "").Replace("  ", "").Replace("\"", "").Replace("\\", "").Replace(":", "").Replace(",", "").Replace("name", "");
-                    yield return new Bar(st, lat + "," + lon);
                 }
             }
         }

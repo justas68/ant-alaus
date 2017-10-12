@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Device.Location;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace Alus
 {
@@ -44,9 +40,14 @@ namespace Alus
             }
             return new Location();
         }
+
+        [JsonProperty("lat")]
         public double Latitude { get; private set; }
+
+        [JsonProperty("lng")]
         public double Longtitude { get; private set; }
 
+        [JsonIgnore]
         public bool IsZero
         {
             get
