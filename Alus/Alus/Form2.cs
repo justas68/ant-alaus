@@ -19,7 +19,7 @@ namespace Alus
 
         private void button1_Click(object sender, EventArgs e)
         {
-            BaroVertinimas brv = new BaroVertinimas();
+            BarEvaluation brv = new BarEvaluation();
             brv.Show();
             this.Hide();
         }

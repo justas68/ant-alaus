@@ -14,7 +14,7 @@ namespace BaroIvertinimoTestas
             int ivertinimas = 10;
             bool expected = false;
 
-            BaroVertinimas baras = new BaroVertinimas();
+            BarEvaluation baras = new BarEvaluation();
             bool actual = baras.evaluation_check(ivertinimas);
 
             Assert.AreEqual(1, 1,0.001,"Evaluation correct");

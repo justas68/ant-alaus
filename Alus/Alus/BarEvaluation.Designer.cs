@@ -1,6 +1,6 @@
 ﻿namespace Alus
 {
-    partial class BaroVertinimas
+    partial class BarEvaluation
     {
         /// <summary>
         /// Required designer variable.
@@ -53,7 +53,6 @@
             this.label1.Size = new System.Drawing.Size(208, 37);
             this.label1.TabIndex = 0;
             this.label1.Text = "Barų sąrašas";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // listBox1
             // 
@@ -92,7 +91,6 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(200, 20);
             this.textBox2.TabIndex = 5;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // trackBar1
             // 
@@ -126,7 +124,6 @@
             this.label4.Size = new System.Drawing.Size(85, 20);
             this.label4.TabIndex = 9;
             this.label4.Text = "Įvertinimas";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label2
             // 
@@ -138,7 +135,6 @@
             this.label2.Size = new System.Drawing.Size(24, 26);
             this.label2.TabIndex = 10;
             this.label2.Text = "1";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // button2
             // 
@@ -168,7 +164,7 @@
             this.MinimumSize = new System.Drawing.Size(800, 597);
             this.Name = "BaroVertinimas";
             this.Text = "BaroVertinimas";
-            this.Load += new System.EventHandler(this.BaroVertinimas_Load);
+            this.Load += new System.EventHandler(this.BarEvaluation_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
