@@ -21,7 +21,7 @@ namespace Alus
         private bool _isDown = false;
         private double _cordChange1 = 0;
         private double _cordChange2 = 0;
-        private List<Bar> _barai;
+        private List<Bar> _barList;
         private Location _location = new Alus.Location();
         private int _zoom = 12;
         private bool _ieskoti = true;
@@ -66,7 +66,7 @@ namespace Alus
             if (_ieskoti == true)
             {
                 listBox1.Items.Add("* - Your location");
-                _barai = new List<Bar>();
+                _barList = new List<Bar>();
             }
             string latlng = _location.ToString();
 
@@ -74,13 +74,13 @@ namespace Alus
             {
                 using (var ms = NearbySearch(_location))
                 {
-                    _barai.AddRange(FindBars(ms).ToList());
+                    _barList.AddRange(FindBars(ms).ToList());
                 }
             }
 
             path = "https://maps.googleapis.com/maps/api/staticmap?center=" + latlng + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + latlng;
             int count = 'A';
-            foreach (Bar baras in _barai)
+            foreach (Bar baras in _barList)
             {
                 path = path + "&markers=color:blue%7Clabel:" + (char)count + "%7C" + baras.Coordinates;
                 if (_ieskoti == true)
@@ -253,7 +253,7 @@ namespace Alus
                     return;
                 }
 
-                var baras = _barai.ElementAt(listBox1.SelectedIndex);
+                var baras = _barList.ElementAt(listBox1.SelectedIndex);
 
                 string path = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + _location + "&destinations=" + baras.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
 
