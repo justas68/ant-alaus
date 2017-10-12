@@ -14,4 +14,6 @@ Panaudojant abiejų linijų informaciją ir pritaikant savo matematikos žinias,
 # Emgu instaliacija
 
 Download the zip file from https://kent.dl.sourceforge.net/project/emgucv/emgucv/3.2/libemgucv-windesktop-3.2.0.2682.zip
+Unzip the zip file in the root directory (ant-alaus) and then rename libemgucv-windesktop-3.2.0.2682 to libemgucv.
+The same goes for newer versions or older versions (the part after -windesktop-3.2.0.2682).
 Copy the .dll files bin x64/x86 based on your computer architecture and paste the files into your projects debug folder.
