@@ -45,6 +45,16 @@ namespace Alus
             this.pictureBox1.MouseWheel += pictureBox1_MouseWheel;
         }
 
+        private byte[] NearbySearch(Location location)
+        {
+            string path = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + location + "&rankby=distance&type=bar&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
+
+            using (WebClient wc = new WebClient())
+            {
+                return wc.DownloadData(path);
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             _count = 'A';
@@ -60,19 +70,17 @@ namespace Alus
                 listBox1.Items.Add("* - Jūsų buvimo vieta ");
                 _barai = new List<Bar>();
             }
-            string latlng = lat.ToString().Replace(",", ".") + "," + lon.ToString().Replace(",", ".");
-            string latlng2 = lat2.ToString().Replace(",", ".") + "," + lon2.ToString().Replace(",", ".");
+            string latlng = _location.ToString();
+
             if (_ieskoti == true)
             {
-                path = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latlng + "&rankby=distance&type=bar&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
-                using (WebClient wc = new WebClient())
+                using (var ms = new MemoryStream(NearbySearch(_location)))
                 {
-                    wc.DownloadFile(path, "lol.txt");
+                    _barai.AddRange(FindBars(ms).ToList());
                 }
-                FindBars();
             }
 
-            path = "https://maps.googleapis.com/maps/api/staticmap?center=" + latlng + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + latlng2;
+            path = "https://maps.googleapis.com/maps/api/staticmap?center=" + latlng + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + latlng;
             foreach (Bar baras in _barai)
             {
                 path = path + "&markers=color:blue%7Clabel:" + _count + "%7C" + baras.Coordinates;
@@ -122,13 +130,12 @@ namespace Alus
             (new MainForm()).Show();
             this.Close();
         }
-        private void FindBars()
+
+        private IEnumerable<Bar> FindBars(Stream stream)
         {
             String lat;
             String lon;
-            const Int32 BufferSize = 128;
-            using (var fileStream = File.OpenRead("lol.txt"))
-            using (var reader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
+            using (var reader = new StreamReader(stream))
             {
                 int i = 0;
                 string st;
@@ -164,7 +171,7 @@ namespace Alus
                         break;
                     }
                     st = st.Replace("   ", "").Replace("  ", "").Replace("\"", "").Replace("\\", "").Replace(":", "").Replace(",", "").Replace("name", "");
-                    _barai.Add(new Bar(st, lat + "," + lon));
+                    yield return new Bar(st, lat + "," + lon);
                 }
             }
         }

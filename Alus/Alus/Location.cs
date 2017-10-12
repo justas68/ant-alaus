@@ -54,5 +54,10 @@ namespace Alus
                 return Latitude == 0.0d && Longtitude == 0.0d;
             }
         }
+
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.InvariantCulture, $"{Latitude},{Longtitude}");
+        }
     }
 }
