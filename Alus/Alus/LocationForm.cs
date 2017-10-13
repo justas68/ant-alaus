@@ -59,19 +59,19 @@ namespace Alus
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _location = Alus.Location.FindLocation(3, defaultLocation);
-
-            lat = lat2 = _location.Latitude;
-            lon = lon2 = _location.Longtitude;
-
-            String path;
+            string latlng;
+            string path;
             if (_ieskoti == true)
             {
+                _location = Alus.Location.FindLocation(20, defaultLocation);
+                lat = lat2 = _location.Latitude;
+                lon = lon2 = _location.Longtitude;
+
                 listBox1.Items.Add("* - Your location");
                 _barList = new List<Bar>();
             }
-            string latlng = _location.ToString();
-
+            latlng = _location.ToString();
+            string latlng2 = new Location(lat, lon).ToString();
             if (_ieskoti == true)
             {
                 using (var ms = NearbySearch(_location))
@@ -80,7 +80,7 @@ namespace Alus
                 }
             }
 
-            path = "https://maps.googleapis.com/maps/api/staticmap?center=" + latlng + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + latlng;
+            path = "https://maps.googleapis.com/maps/api/staticmap?center=" + latlng2 + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + latlng;
             int count = 'A';
             foreach (Bar baras in _barList)
             {
@@ -145,7 +145,7 @@ namespace Alus
 
         private void Form3_KeyDown(object sender, KeyEventArgs e)
         {
-            if (ModifierKeys.HasFlag(Keys.Control))
+           if (ModifierKeys.HasFlag(Keys.Control))
             {
                 _ctrl = true;
                 return;
@@ -245,8 +245,7 @@ namespace Alus
                     return;
                 }
 
-                var bar = _barList.ElementAt(listBox1.SelectedIndex);
-
+                var bar = _barList.ElementAt(listBox1.SelectedIndex - 1);
                 var element = GetDistanceElement(_location, bar);
 
                 MessageBox.Show("Distance: " + element.Distance.Text + Environment.NewLine + "Duration: " + element.Duration.Text);
