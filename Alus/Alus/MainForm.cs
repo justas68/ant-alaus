@@ -12,6 +12,7 @@ namespace Alus
 {
     public partial class MainForm : Form
     {
+        EvaluationForm brv = new EvaluationForm();
         public MainForm()
         {
             InitializeComponent();
@@ -19,7 +20,6 @@ namespace Alus
 
         private void button1_Click(object sender, EventArgs e)
         {
-            EvaluationForm brv = new EvaluationForm();
             brv.Show();
             this.Hide();
         }
@@ -39,6 +39,12 @@ namespace Alus
         private void button4_Click(object sender, EventArgs e)
         {
             System.Environment.Exit(1);
+        }
+
+        private void suggestions_Click(object sender, EventArgs e)
+        {
+            (new Feedback()).Show();
+            this.Hide();
         }
     }
 }
