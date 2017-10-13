@@ -58,7 +58,7 @@ namespace Alus
 
         public override string ToString()
         {
-            return string.Format(CultureInfo.InvariantCulture, $"{Latitude},{Longtitude}");
+            return string.Format($"{Latitude.ToString(CultureInfo.InvariantCulture)},{Longtitude.ToString(CultureInfo.InvariantCulture)}");
         }
     }
 }
