@@ -28,13 +28,10 @@ namespace Alus
             }
         }
 
-        /// <summary>
-        /// Taken from http://haacked.com/archive/2007/08/21/i-knew-how-to-validate-an-email-address-until-i.aspx
-        /// </summary>
-        /// <returns></returns>
         private static Regex CreateValidEmailRegex()
         {
-            string validEmailPattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|" //https://stackoverflow.com/questions/1365407/c-sharp-code-to-validate-email-address
+            // https://stackoverflow.com/questions/1365407/c-sharp-code-to-validate-email-address
+            string validEmailPattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|" 
                 + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)"
                 + @"@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
 
