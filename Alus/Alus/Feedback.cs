@@ -13,7 +13,7 @@ namespace Alus
 {
     public partial class Feedback : Form
     {
-        static Regex ValidEmailRegex = CreateValidEmailRegex();
+        private static Regex ValidEmailRegex = CreateValidEmailRegex();
 
         public Feedback()
         {

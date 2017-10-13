@@ -18,6 +18,8 @@ namespace Alus
         List<String> _bars = new List<String>();
         List<String> _ranks = new List<String>();
 
+        private static string resourceName = "BarEvaluation.txt";
+
         public EvaluationForm()
         {
             InitializeComponent();
@@ -36,7 +38,7 @@ namespace Alus
         private void RedrawBarList()
         {
 
-            var resourceName = "BarEvaluation.txt";
+            
 
             using (StreamReader reader = new StreamReader(resourceName))
             {
@@ -58,16 +60,15 @@ namespace Alus
 
         public bool EvaluationCheck(int evaluation)
         {
-
             return (evaluation <= 10 && evaluation >= 1);
         }
 
         private void evaluate_button_Click(object sender, EventArgs e)
         {
-            string path = "BarEvaluation.txt";
-            if (File.Exists(path))
+            
+            if (File.Exists(resourceName))
             {
-                using (TextWriter sw = new StreamWriter(path, true))
+                using (TextWriter sw = new StreamWriter(resourceName, true))
                 {
                     if (EvaluationCheck(trackBar1.Value))
                     {
