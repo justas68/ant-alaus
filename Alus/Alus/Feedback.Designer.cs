@@ -50,7 +50,6 @@
             this.email_textBox.Name = "email_textBox";
             this.email_textBox.Size = new System.Drawing.Size(203, 22);
             this.email_textBox.TabIndex = 1;
-            
             // 
             // feedback_textBox
             // 
@@ -59,7 +58,6 @@
             this.feedback_textBox.Name = "feedback_textBox";
             this.feedback_textBox.Size = new System.Drawing.Size(564, 206);
             this.feedback_textBox.TabIndex = 2;
-            
             // 
             // feedback_comboBox
             // 
