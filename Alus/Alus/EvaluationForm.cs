@@ -18,6 +18,8 @@ namespace Alus
         List<String> _bars = new List<String>();
         List<String> _ranks = new List<String>();
 
+        private static string resourceName = "BarEvaluation.txt";
+
         public EvaluationForm()
         {
             InitializeComponent();
@@ -33,19 +35,17 @@ namespace Alus
             RedrawBarList();
         }
 
-        private void RedrawBarList() {
-            
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "Alus.BarEvaluation.txt";
+        private void RedrawBarList()
+        {
 
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamReader reader = new StreamReader(stream))
+            
+
+            using (StreamReader reader = new StreamReader(resourceName))
             {
                 string st;
                 st = reader.ReadLine();
                 while ((st = reader.ReadLine()) != null)
                 {
-   
                     var values = st.Split(',');
                     _bars.Add(values[0]);
                     _ranks.Add(values[1]);
@@ -58,16 +58,17 @@ namespace Alus
             }
         }
 
-        public bool EvaluationCheck(int evaluation) {
-
-            return (evaluation <= 10 && evaluation >= 1) ;
+        public bool EvaluationCheck(int evaluation)
+        {
+            return (evaluation <= 10 && evaluation >= 1);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void evaluate_button_Click(object sender, EventArgs e)
         {
-            String path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "\\BaruVertinimai.txt";
-            if (File.Exists(path)) {
-                using (TextWriter sw = new StreamWriter(path, true))
+            
+            if (File.Exists(resourceName))
+            {
+                using (TextWriter sw = new StreamWriter(resourceName, true))
                 {
                     if (EvaluationCheck(trackBar1.Value))
                     {
@@ -76,7 +77,10 @@ namespace Alus
                         _ranks.Add(trackBar1.Value.ToString());
                         listBox1.Items.Add(textBox2.Text);
                     }
-                    else MessageBox.Show("Bad evaluation input");
+                    else 
+                    {
+                        MessageBox.Show("Bad evaluation input");
+                    }
                 }
             }
         }
@@ -84,7 +88,7 @@ namespace Alus
         private void button2_Click(object sender, EventArgs e)
         {
             (new MainForm()).Show();
-            this.Close();
+            this.Hide();
         }
     }
 }
