@@ -59,7 +59,7 @@ namespace Alus
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string latlng;
+            string centerLocation;
             string path;
             if (_ieskoti == true)
             {
@@ -70,8 +70,8 @@ namespace Alus
                 listBox1.Items.Add("* - Your location");
                 _barList = new List<Bar>();
             }
-            latlng = _location.ToString();
-            string latlng2 = new Location(lat, lon).ToString();
+            centerLocation = _location.ToString();
+            string currentLocation = new Location(lat, lon).ToString();
             if (_ieskoti == true)
             {
                 using (var ms = NearbySearch(_location))
@@ -80,7 +80,7 @@ namespace Alus
                 }
             }
 
-            path = "https://maps.googleapis.com/maps/api/staticmap?center=" + latlng2 + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + latlng;
+            path = "https://maps.googleapis.com/maps/api/staticmap?center=" + centerLocation + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + currentLocation;
             int count = 'A';
             foreach (Bar baras in _barList)
             {
@@ -145,7 +145,7 @@ namespace Alus
 
         private void Form3_KeyDown(object sender, KeyEventArgs e)
         {
-           if (ModifierKeys.HasFlag(Keys.Control))
+            if (ModifierKeys.HasFlag(Keys.Control))
             {
                 _ctrl = true;
                 return;
