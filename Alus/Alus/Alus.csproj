@@ -127,7 +127,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Baras.cs" />
+    <Compile Include="Bar.cs" />
     <Compile Include="Calculator.cs" />
     <Compile Include="EvaluationForm.cs">
       <SubType>Form</SubType>
@@ -135,6 +135,8 @@
     <Compile Include="EvaluationForm.Designer.cs">
       <DependentUpon>EvaluationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GoogleApi\DistanceMatrixObjects.cs" />
+    <Compile Include="GoogleApi\NearbyRequestObjects.cs" />
     <Compile Include="ImageRecognitionForm.cs">
       <SubType>Form</SubType>
     </Compile>
