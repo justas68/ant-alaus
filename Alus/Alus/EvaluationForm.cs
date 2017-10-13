@@ -15,8 +15,6 @@ namespace Alus
 {
     public partial class EvaluationForm : Form
     {
-        //testing git
-
         List<String> _bars = new List<String>();
         List<String> _ranks = new List<String>();
 

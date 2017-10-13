@@ -136,7 +136,6 @@
             this.MinimumSize = new System.Drawing.Size(1061, 728);
             this.Name = "ImageRecognitionForm";
             this.Text = "ALUS";
-            this.Load += new System.EventHandler(this.ImageRecognitionForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
