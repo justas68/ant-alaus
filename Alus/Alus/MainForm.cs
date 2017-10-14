@@ -44,6 +44,13 @@ namespace Alus
         private void suggestions_Click(object sender, EventArgs e)
         {
             (new Feedback()).Show();
+
+            this.Hide();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            (new StatisticalTable()).Show();
             this.Hide();
         }
     }
