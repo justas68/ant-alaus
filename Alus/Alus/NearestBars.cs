@@ -26,8 +26,6 @@ namespace Alus
         public List<Bar> Location()
         {
             _location = Alus.Location.FindLocation(3, defaultLocation);
-            lat = lat2 = _location.Latitude;
-            lon = lon2 = _location.Longtitude;
             if (_ieskoti == true)
             {
                 _barList = new List<Bar>();

@@ -23,12 +23,14 @@ namespace Alus
         private bool _isDown = false;
         private double _cordChange1 = 0;
         private double _cordChange2 = 0;
+        public bool _ieskoti = true;
         private List<Bar> _barList;
         private int _zoom = 12;
         private bool _ctrl = false;
         private NearestBars nearestBars = new NearestBars();
-        private double lat;
-        private double lon;
+        IEnumerable<Location> directions = null;
+        public double lat;
+        public double lon;
 
         public LocationForm()
         {
@@ -38,24 +40,33 @@ namespace Alus
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _barList = nearestBars.Location();
-            string centerLocation;
+            if (_ieskoti == true)
+            {
+                _barList = nearestBars.Location();
+                lat = nearestBars._location.Latitude;
+                lon = nearestBars._location.Longtitude;
+                listBox1.Items.Add("* - Your location");
+            }
+
+            
             string path;
-            centerLocation = nearestBars._location.ToString();
-            string currentLocation = new Location(lat, lon).ToString();
+            string centerLocation = new Location(lat, lon).ToString();
+            string currentLocation = nearestBars._location.ToString();
             path = "https://maps.googleapis.com/maps/api/staticmap?center=" + centerLocation + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + currentLocation;
             int count = 'A';
-            if (_barList != null)
-            {
-                listBox1.Items.Add("* - Your location");
-                foreach (Bar baras in _barList)
+                if (_barList != null)
                 {
-                    path = path + "&markers=color:blue%7Clabel:" + (char)count + "%7C" + baras.Coordinates;
-                    listBox1.Items.Add((char)count + " - " + baras.Name);
+                    foreach (Bar baras in _barList)
+                    {
+                        path = path + "&markers=color:blue%7Clabel:" + (char)count + "%7C" + baras.Coordinates;
+                    if (_ieskoti == true)
+                    {
+                        listBox1.Items.Add((char)count + " - " + baras.Name);
+                    }
                     count++;
                 }
             }
-
+            _ieskoti = false;
             path = path + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU"; // API key
 
             pictureBox1.Image = Image.FromStream(nearestBars.GetStreamFromUrl(path));
@@ -194,7 +205,6 @@ namespace Alus
 
                 var bar = _barList.ElementAt(listBox1.SelectedIndex - 1);
                 var element = GetDistanceElement(nearestBars._location, bar);
-
                 MessageBox.Show("Distance: " + element.Distance.Text + Environment.NewLine + "Duration: " + element.Duration.Text);
             }
         }
