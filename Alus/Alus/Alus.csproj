@@ -135,11 +135,12 @@
     <Compile Include="EvaluationForm.Designer.cs">
       <DependentUpon>EvaluationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Feedback.cs">
+    <Compile Include="FeedbackClass.cs" />
+    <Compile Include="FeedbackForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Feedback.Designer.cs">
-      <DependentUpon>Feedback.cs</DependentUpon>
+    <Compile Include="FeedbackForm.Designer.cs">
+      <DependentUpon>FeedbackForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GoogleApi\DistanceMatrixObjects.cs" />
     <Compile Include="GoogleApi\NearbyRequestObjects.cs" />
@@ -196,8 +197,8 @@
     <EmbeddedResource Include="StatisticalTable.resx">
       <DependentUpon>StatisticalTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Feedback.resx">
-      <DependentUpon>Feedback.cs</DependentUpon>
+   <EmbeddedResource Include="FeedbackForm.resx">
+      <DependentUpon>FeedbackForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

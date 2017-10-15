@@ -43,8 +43,7 @@ namespace Alus
 
         private void suggestions_Click(object sender, EventArgs e)
         {
-            (new Feedback()).Show();
-
+            (new FeedbackForm()).Show();
             this.Hide();
         }
 
