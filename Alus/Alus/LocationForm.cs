@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Emgu.CV;
+using Emgu.CV.Structure;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,8 +14,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Alus.GoogleApi;
-using Newtonsoft.Json;
 
 namespace Alus
 {
@@ -23,78 +23,78 @@ namespace Alus
         private bool _isDown = false;
         private double _cordChange1 = 0;
         private double _cordChange2 = 0;
-        private List<Bar> _barList;
+        private List<Baras> _barai;
         private Location _location = new Alus.Location();
+        private Image<Bgr, byte> _image;
         private int _zoom = 12;
+        private char _count = 'A';
         private bool _ieskoti = true;
         private bool _ctrl = false;
-
-        private double lat;
-        private double lon;
-        private double lat2;
-        private double lon2;
-
-        // use coordinates of faculty campus as default location
-        private static Location defaultLocation = new Alus.Location(54.729714d, 25.263445d);
-
+        Double lat;
+        Double lon;
+        Double lat2;
+        Double lon2;
         public LocationForm()
         {
             InitializeComponent();
             this.pictureBox1.MouseWheel += pictureBox1_MouseWheel;
         }
 
-        private Stream GetStreamFromUrl(string url)
-        {
-            using (WebClient wc = new WebClient())
-            {
-                return new MemoryStream(wc.DownloadData(url));
-            }
-        }
-
-        private Stream NearbySearch(Location location)
-        {
-            string path = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + location + "&rankby=distance&type=bar&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
-            return GetStreamFromUrl(path);
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            _location = Alus.Location.FindLocation(3, defaultLocation);
-
-            lat = lat2 = _location.Latitude;
-            lon = lon2 = _location.Longtitude;
-
+            _count = 'A';
+            if (_ieskoti == true)
+            {
+                _location.FindLocation();
+                lat = _location.Lat;
+                lon = _location.Lon;
+                lat2 = _location.Lat;
+                lon2 = _location.Lon;
+            }
+            while (lat.ToString() == "NaN")
+            {
+                _location.FindLocation();
+                lat = _location.Lat;
+                lon = _location.Lon;
+                lat2 = _location.Lat;
+                lon2 = _location.Lon;
+            }
             String path;
             if (_ieskoti == true)
             {
-                listBox1.Items.Add("* - Your location");
-                _barList = new List<Bar>();
+                listBox1.Items.Add("* - Jūsų buvimo vieta ");
+                _barai = new List<Baras>();
             }
-            string latlng = _location.ToString();
-
+            string latlng = lat.ToString().Replace(",", ".") + "," + lon.ToString().Replace(",", ".");
+            string latlng2 = lat2.ToString().Replace(",", ".") + "," + lon2.ToString().Replace(",", ".");
             if (_ieskoti == true)
             {
-                using (var ms = NearbySearch(_location))
+                path = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latlng + "&rankby=distance&type=bar&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
+                using (WebClient wc = new WebClient())
                 {
-                    _barList.AddRange(FindBars(ms).ToList());
+                    wc.DownloadFile(path, "lol.txt");
                 }
+                FindBars();
             }
-
-            path = "https://maps.googleapis.com/maps/api/staticmap?center=" + latlng + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + latlng;
-            int count = 'A';
-            foreach (Bar baras in _barList)
+            path = "https://maps.googleapis.com/maps/api/staticmap?center=" + latlng + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + latlng2;
+            foreach (Baras baras in _barai)
             {
-                path = path + "&markers=color:blue%7Clabel:" + (char)count + "%7C" + baras.Coordinates;
+                path = path + "&markers=color:blue%7Clabel:" + _count + "%7C" + baras.getCords();
                 if (_ieskoti == true)
                 {
-                    listBox1.Items.Add((char)count + " - " + baras.Name);
+                    listBox1.Items.Add(_count.ToString() + " - " + baras.getPav());
                 }
-                count++;
+                _count++;
             }
 
             path = path + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU"; // API key
 
-            pictureBox1.Image = Image.FromStream(GetStreamFromUrl(path));
+            using (WebClient wc = new WebClient())
+            {
+                wc.DownloadFile(path, "lol.png");
+                _image = new Image<Bgr, byte>("lol.png");
+                pictureBox1.Image = _image.Bitmap;
+            }
             _ieskoti = false;
         }
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
@@ -126,19 +126,49 @@ namespace Alus
             (new MainForm()).Show();
             this.Close();
         }
-
-        private IEnumerable<Bar> FindBars(Stream stream)
+        private void FindBars()
         {
-            using (var reader = new JsonTextReader(new StreamReader(stream)))
+            String lat;
+            String lon;
+            const Int32 BufferSize = 128;
+            using (var fileStream = File.OpenRead("lol.txt"))
+            using (var reader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
             {
-                var serializer = new JsonSerializer();
-                var response = serializer.Deserialize<NearbyRequestResponse>(reader);
-                if (response.Status == "OK")
+                int i = 0;
+                string st;
+                st = reader.ReadLine();
+                while ((st = reader.ReadLine()) != null)
                 {
-                    foreach (var result in response.Results)
+                    while (!(st.Contains("location")))
                     {
-                        yield return new Bar(result.Name, result.Geometry.Location.ToString());
+                        st = reader.ReadLine();
+                        if (st == null)
+                        {
+                            break;
+                        }
                     }
+                    if (st == null)
+                    {
+                        break;
+                    }
+                    lat = reader.ReadLine();
+                    lat = Regex.Replace(lat, "[^0-9.]", "");
+                    lon = reader.ReadLine();
+                    lon = Regex.Replace(lon, "[^0-9.]", "");
+                    while (!(st.Contains("name")))
+                    {
+                        st = reader.ReadLine();
+                        if (st == null)
+                        {
+                            break;
+                        }
+                    }
+                    if (st == null)
+                    {
+                        break;
+                    }
+                    st = st.Replace("   ", "").Replace("  ", "").Replace("\"", "").Replace("\\", "").Replace(":", "").Replace(",", "").Replace("name", "");
+                    _barai.Add(new Baras(st, lat + "," + lon));
                 }
             }
         }
@@ -216,40 +246,77 @@ namespace Alus
 
         }
 
-        private Alus.GoogleApi.Element GetDistanceElement(Location origin, Bar destinationBar)
-        {
-            string url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + origin + "&destinations=" + destinationBar.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
-
-            using (var reader = new JsonTextReader(new StreamReader(GetStreamFromUrl(url))))
-            {
-                var serializer = new JsonSerializer();
-                var response = serializer.Deserialize<DistanceMatrixRequest>(reader);
-                if (response.Status == "OK")
-                {
-                    return response.Rows[0].Elements[0];
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem != null)
             {
 
-                if (listBox1.SelectedIndex == 0)
+                String item = listBox1.SelectedItem.ToString();
+                if (item == "* - Jūsų buvimo vieta ")
                 {
                     return;
                 }
+                Baras baras = _barai.ElementAt(item[0] - 65);
+                string latlng = lat.ToString().Replace(",", ".") + "," + lon.ToString().Replace(",", ".");
+                String path = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + latlng + "&destinations=" + baras.getCords() + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
+                using (WebClient wc = new WebClient())
+                {
+                    wc.DownloadFile(path, "destiny.txt");
+                }
+                String matVienetai = "unknown";
+                const Int32 BufferSize = 128;
+                using (var fileStream = File.OpenRead("destiny.txt"))
+                using (var reader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
+                {
+                    int i = 0;
+                    string st;
+                    st = reader.ReadLine();
+                    while ((st = reader.ReadLine()) != null)
+                    {
+                        while (!(st.Contains("distance")))
+                        {
+                            st = reader.ReadLine();
+                            if (st == null)
+                            {
+                                break;
+                            }
+                        }
+                        if (st == null)
+                        {
+                            break;
+                        }
+                        String distance = reader.ReadLine();
+                        if (distance.Contains("mi"))
+                        {
+                            distance = Regex.Replace(distance, "[^0-9.]", "");
+                            double temp = Math.Round(double.Parse(distance, CultureInfo.InvariantCulture) * 1.609344, 2);
+                            distance = temp.ToString();
+                            matVienetai = "km";
+                        }
+                        else if (distance.Contains("ft")){
+                            distance = Regex.Replace(distance, "[^0-9.]", "");
+                            double temp = Math.Round(double.Parse(distance, CultureInfo.InvariantCulture) * 0.3048, 2);
+                            distance = temp.ToString();
+                            matVienetai = "metrai";
+                        }
+                        while (!(st.Contains("duration")))
+                        {
+                            st = reader.ReadLine();
+                            if (st == null)
+                            {
+                                break;
+                            }
+                        }
+                        if (st == null)
+                        {
+                            break;
+                        }
+                        String duration = reader.ReadLine();
+                        duration = Regex.Replace(duration, "[^0-9.]", "");
+                        MessageBox.Show("Atstumas: " + distance + matVienetai + Environment.NewLine + "Uztruks: " + duration + "min");
+                    }
 
-                var bar = _barList.ElementAt(listBox1.SelectedIndex);
-
-                var element = GetDistanceElement(_location, bar);
-
-                MessageBox.Show("Distance: " + element.Distance.Text + Environment.NewLine + "Duration: " + element.Duration.Text);
+                }
             }
         }
 
