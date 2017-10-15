@@ -1,64 +1,61 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Device.Location;
-using System.Globalization;
-using Newtonsoft.Json;
 
 namespace Alus
 {
-    public class Location
+    class Location
     {
+        GeoCoordinateWatcher _watcher;
+        private double _lat;
+        private double _lon;
         public Location()
         {
-        }
-
-        public Location(double latitude, double longtitude)
-        {
-            Latitude = latitude;
-            Longtitude = longtitude;
-        }
-
-        private static GeoCoordinateWatcher _watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
-
-        public static Location FindLocation(int tries = 1, Location defaultLocation = null)
-        {
-            for (int i = 0; i < tries; i++) {
-                if (_watcher.TryStart(false, TimeSpan.FromSeconds(3)))
-                {
-                    if (_watcher.Position.Location.IsUnknown)
-                    {
-                        continue;
-                    }
-                    return new Location(
-                        _watcher.Position.Location.Latitude,
-                        _watcher.Position.Location.Longitude
-                    );
-                }
-            }
-            if (defaultLocation != null)
+            _watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
+            if (_watcher.TryStart(false, TimeSpan.FromSeconds(3)))
             {
-                return defaultLocation;
+                _lat = _watcher.Position.Location.Latitude;
+                _lon = _watcher.Position.Location.Longitude;
             }
-            return new Location();
+            else
+            {
+                _lat = 0;
+                _lon = 0;
+            }
         }
+        public void FindLocation()
+        {
+            if (_watcher.TryStart(false, TimeSpan.FromSeconds(3)))
+            {
+                _lat = _watcher.Position.Location.Latitude;
+                _lon = _watcher.Position.Location.Longitude;
+            }
+            else
+            {
+                _lat = 0;
+                _lon = 0;
+            }
 
-        [JsonProperty("lat")]
-        public double Latitude { get; private set; }
-
-        [JsonProperty("lng")]
-        public double Longtitude { get; private set; }
-
-        [JsonIgnore]
-        public bool IsZero
+        }
+        public double Lat
         {
             get
             {
-                return Latitude == 0.0d && Longtitude == 0.0d;
+                return this._lat;
+            }
+        }
+        public double Lon
+        {
+            get
+            {
+                return this._lon;
             }
         }
 
-        public override string ToString()
-        {
-            return string.Format(CultureInfo.InvariantCulture, $"{Latitude},{Longtitude}");
-        }
+
     }
 }
