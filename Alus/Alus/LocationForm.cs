@@ -28,7 +28,6 @@ namespace Alus
         private int _zoom = 12;
         private bool _ctrl = false;
         private NearestBars nearestBars = new NearestBars();
-        IEnumerable<Location> directions = null;
         public double lat;
         public double lon;
 
@@ -48,7 +47,6 @@ namespace Alus
                 listBox1.Items.Add("* - Your location");
             }
 
-            
             string path;
             string centerLocation = new Location(lat, lon).ToString();
             string currentLocation = nearestBars._location.ToString();
@@ -68,7 +66,7 @@ namespace Alus
             }
             _ieskoti = false;
             path = path + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU"; // API key
-
+            
             pictureBox1.Image = Image.FromStream(nearestBars.GetStreamFromUrl(path));
         }
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
@@ -171,9 +169,8 @@ namespace Alus
                 timer1.Stop();
                 _isDown = false;
             }
-
         }
-
+        
         private Alus.GoogleApi.Element GetDistanceElement(Location origin, Bar destinationBar)
         {
             string url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + origin + "&destinations=" + destinationBar.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
@@ -197,7 +194,6 @@ namespace Alus
         {
             if (listBox1.SelectedItem != null)
             {
-
                 if (listBox1.SelectedIndex == 0)
                 {
                     return;
@@ -215,7 +211,6 @@ namespace Alus
             {
                 listBox1_DoubleClick(null, null);
             }
-
             e.SuppressKeyPress = true;
         }
     }
