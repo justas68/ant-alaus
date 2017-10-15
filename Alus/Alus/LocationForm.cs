@@ -23,12 +23,14 @@ namespace Alus
         private bool _isDown = false;
         private double _cordChange1 = 0;
         private double _cordChange2 = 0;
+        public bool _ieskoti = true;
         private List<Bar> _barList;
         private int _zoom = 12;
         private bool _ctrl = false;
         private NearestBars nearestBars = new NearestBars();
-        private double lat;
-        private double lon;
+        IEnumerable<Location> directions = null;
+        public double lat;
+        public double lon;
 
         public LocationForm()
         {
@@ -38,24 +40,42 @@ namespace Alus
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _barList = nearestBars.Location();
-            string centerLocation;
+            if (_ieskoti == true)
+            {
+                _barList = nearestBars.Location();
+                lat = nearestBars._location.Latitude;
+                lon = nearestBars._location.Longtitude;
+                listBox1.Items.Add("* - Your location");
+            }
+
+
             string path;
-            centerLocation = nearestBars._location.ToString();
-            string currentLocation = new Location(lat, lon).ToString();
+            string centerLocation = new Location(lat, lon).ToString();
+            string currentLocation = nearestBars._location.ToString();
             path = "https://maps.googleapis.com/maps/api/staticmap?center=" + centerLocation + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + currentLocation;
             int count = 'A';
             if (_barList != null)
             {
-                listBox1.Items.Add("* - Your location");
                 foreach (Bar baras in _barList)
                 {
                     path = path + "&markers=color:blue%7Clabel:" + (char)count + "%7C" + baras.Coordinates;
-                    listBox1.Items.Add((char)count + " - " + baras.Name);
+                    if (_ieskoti == true)
+                    {
+                        listBox1.Items.Add((char)count + " - " + baras.Name);
+                    }
                     count++;
                 }
             }
-
+            _ieskoti = false;
+            if (directions != null)
+            {
+                path = path + "&path=color:0x0000ff80|weight:3";
+                foreach (Location loc in directions)
+                {
+                    path = path + "|" + loc;
+                }
+                path = path + "+&sensor=true";
+            }
             path = path + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU"; // API key
 
             pictureBox1.Image = Image.FromStream(nearestBars.GetStreamFromUrl(path));
@@ -184,18 +204,37 @@ namespace Alus
 
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
+
             if (listBox1.SelectedItem != null)
             {
 
                 if (listBox1.SelectedIndex == 0)
                 {
+                    directions = null;
+                    button1.PerformClick();
                     return;
                 }
 
                 var bar = _barList.ElementAt(listBox1.SelectedIndex - 1);
                 var element = GetDistanceElement(nearestBars._location, bar);
-
+                directions = Decode(GetRoute(nearestBars._location, bar).overview_polyline.points);
                 MessageBox.Show("Distance: " + element.Distance.Text + Environment.NewLine + "Duration: " + element.Duration.Text);
+                button1.PerformClick();
+            }
+        }
+        private GoogleApi.Route GetRoute(Location origin, Bar destinationBar)
+        {
+            string url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + origin + "&destination=" + destinationBar.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
+
+            using (var reader = new JsonTextReader(new StreamReader(nearestBars.GetStreamFromUrl(url))))
+            {
+                var serializer = new JsonSerializer();
+                var response = serializer.Deserialize<GoogleApi.DirectionsRequestResponse>(reader);
+                if (response.Status == "OK")
+                {
+                    return response.Routes[response.Routes.Count() - 1];
+                }
+                return null;
             }
         }
 
@@ -207,6 +246,54 @@ namespace Alus
             }
 
             e.SuppressKeyPress = true;
+        }
+
+        private IEnumerable<Location> Decode(string polylineString)
+        {
+            if (string.IsNullOrEmpty(polylineString))
+                throw new ArgumentNullException(nameof(polylineString));
+
+            var polylineChars = polylineString.ToCharArray();
+            var index = 0;
+
+            var currentLat = 0;
+            var currentLng = 0;
+
+            while (index < polylineChars.Length)
+            {
+                // Next lat
+                var sum = 0;
+                var shifter = 0;
+                int nextFiveBits;
+                do
+                {
+                    nextFiveBits = polylineChars[index++] - 63;
+                    sum |= (nextFiveBits & 31) << shifter;
+                    shifter += 5;
+                } while (nextFiveBits >= 32 && index < polylineChars.Length);
+
+                if (index >= polylineChars.Length)
+                    break;
+
+                currentLat += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
+
+                // Next lng
+                sum = 0;
+                shifter = 0;
+                do
+                {
+                    nextFiveBits = polylineChars[index++] - 63;
+                    sum |= (nextFiveBits & 31) << shifter;
+                    shifter += 5;
+                } while (nextFiveBits >= 32 && index < polylineChars.Length);
+
+                if (index >= polylineChars.Length && nextFiveBits >= 32)
+                    break;
+
+                currentLng += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
+
+                yield return new Location(Convert.ToDouble(currentLat) / 1E5, Convert.ToDouble(currentLng) / 1E5);
+            }
         }
     }
 }
