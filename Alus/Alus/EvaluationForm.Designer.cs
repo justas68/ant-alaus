@@ -32,13 +32,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.evaluate_button = new System.Windows.Forms.Button();
+            this.evaluateButton = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
+            this.changeEvaluationButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
@@ -75,16 +76,16 @@
             this.textBox1.Size = new System.Drawing.Size(265, 143);
             this.textBox1.TabIndex = 3;
             // 
-            // evaluate_button
+            // evaluateButton
             // 
-            this.evaluate_button.Location = new System.Drawing.Point(525, 289);
-            this.evaluate_button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.evaluate_button.Name = "evaluate_button";
-            this.evaluate_button.Size = new System.Drawing.Size(133, 28);
-            this.evaluate_button.TabIndex = 4;
-            this.evaluate_button.Text = "Evaluate";
-            this.evaluate_button.UseVisualStyleBackColor = true;
-            this.evaluate_button.Click += new System.EventHandler(this.evaluate_button_Click);
+            this.evaluateButton.Location = new System.Drawing.Point(525, 289);
+            this.evaluateButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.evaluateButton.Name = "evaluateButton";
+            this.evaluateButton.Size = new System.Drawing.Size(133, 28);
+            this.evaluateButton.TabIndex = 4;
+            this.evaluateButton.Text = "Evaluate";
+            this.evaluateButton.UseVisualStyleBackColor = true;
+            this.evaluateButton.Click += new System.EventHandler(this.evaluateButton_Click);
             // 
             // textBox2
             // 
@@ -103,6 +104,7 @@
             this.trackBar1.Size = new System.Drawing.Size(265, 56);
             this.trackBar1.TabIndex = 6;
             this.trackBar1.Value = 1;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // label3
             // 
@@ -135,17 +137,28 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // changeEvaluationButton
+            // 
+            this.changeEvaluationButton.Location = new System.Drawing.Point(485, 322);
+            this.changeEvaluationButton.Name = "changeEvaluationButton";
+            this.changeEvaluationButton.Size = new System.Drawing.Size(172, 29);
+            this.changeEvaluationButton.TabIndex = 12;
+            this.changeEvaluationButton.Text = "Change evaluation";
+            this.changeEvaluationButton.UseVisualStyleBackColor = true;
+            this.changeEvaluationButton.Click += new System.EventHandler(this.changeEvaluationButton_Click);
+            // 
             // EvaluationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(672, 687);
+            this.Controls.Add(this.changeEvaluationButton);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.evaluate_button);
+            this.Controls.Add(this.evaluateButton);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.label1);
@@ -166,12 +179,13 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button evaluate_button;
+        private System.Windows.Forms.Button evaluateButton;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button changeEvaluationButton;
     }
 }

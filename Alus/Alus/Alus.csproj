@@ -129,6 +129,7 @@
   <ItemGroup>
     <Compile Include="Bar.cs" />
     <Compile Include="Calculator.cs" />
+    <Compile Include="EvaluationClass.cs" />
     <Compile Include="EvaluationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -228,7 +229,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BarEvaluation.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

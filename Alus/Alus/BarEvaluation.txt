@@ -6,4 +6,3 @@ Snekutis,6
 Liverpool,5
 loooool,2
 Sneka,6
-,6
