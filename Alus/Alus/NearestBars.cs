@@ -35,8 +35,10 @@ namespace Alus
 
             using (var ms = NearbySearch(_location))
             {
-                return FindBars(ms).ToList();
+                barList.AddRange(FindBars(ms).ToList());
             }
+
+            return barList;
         }
 
         public IEnumerable<Bar> FindBars(Stream stream)
