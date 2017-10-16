@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Alus
 {
-    static class ListExtensions
+    public static class ListExtensions
     {
         public static bool InRange<T>(this List<T> list, int x)
         {
-            return Enumerable.Range(0, list.Count()).Contains(x);
+            return (x >= 0 && x < list.Count());
         }
     }
 }
