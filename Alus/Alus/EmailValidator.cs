@@ -2,14 +2,9 @@
 
 namespace Alus
 {
-    class FeedbackClass
+    public class EmailValidator : IValidator
     {
         private static Regex validEmailRegex = CreateValidEmailRegex();
-
-        public FeedbackClass()
-        {
-
-        }
 
         private static Regex CreateValidEmailRegex()
         {
@@ -21,7 +16,7 @@ namespace Alus
             return new Regex(validEmailPattern, RegexOptions.IgnoreCase);
         }
 
-        public bool EmailIsValid(string emailAddress)
+        public bool Validate(string emailAddress)
         {
             return validEmailRegex.IsMatch(emailAddress); ;
         }

@@ -137,7 +137,7 @@
     <Compile Include="EvaluationForm.Designer.cs">
       <DependentUpon>EvaluationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FeedbackClass.cs" />
+    <Compile Include="EmailValidator.cs" />
     <Compile Include="FeedbackForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,6 +153,7 @@
     <Compile Include="ImageRecognitionForm.Designer.cs">
       <DependentUpon>ImageRecognitionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="IValidator.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

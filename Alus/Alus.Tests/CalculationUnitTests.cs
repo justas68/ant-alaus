@@ -1,18 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Alus;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 
 namespace Alus.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class CalculationUnitTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void PercentageIsAnswer50()
         {
             //arrange
@@ -29,7 +24,7 @@ namespace Alus.Tests
 
             Assert.AreEqual(50, d);
         }
-        [TestMethod()]
+        [TestMethod]
         public void DoesItSort()
         {
             //arrange
@@ -46,7 +41,7 @@ namespace Alus.Tests
 
             Assert.AreEqual(Math.Round((2.0/3.0)*100, 5), Math.Round(d, 5));
         }
-        [TestMethod()]
+        [TestMethod]
         public void AreLinesParallel()
         {
             //arrange
