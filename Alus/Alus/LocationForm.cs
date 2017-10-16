@@ -43,6 +43,8 @@ namespace Alus
             if (_firstRun == true)
             {
                 _barList = nearestBars.FindBars();
+                latitude = nearestBars.Location.Latitude;
+                longitude = nearestBars.Location.Longtitude;
                 listBox1.Items.Add("* - Your location");
             }
             string path;
