@@ -32,7 +32,7 @@ namespace Alus
 
         private void StaticticalTable_Load(object sender, EventArgs e)
         {
-            foreach (Bar baras in nearestBars.Location())
+            foreach (Bar baras in nearestBars.FindBars())
             {
                 int rowIndex = this.dataGridView1.Rows.Add();
                 var row = this.dataGridView1.Rows[rowIndex];

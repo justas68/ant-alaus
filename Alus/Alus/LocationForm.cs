@@ -42,14 +42,12 @@ namespace Alus
         {
             if (_firstRun == true)
             {
-                _barList = nearestBars.Location();
-                latitude = nearestBars._location.Latitude;
-                longitude = nearestBars._location.Longtitude;
+                _barList = nearestBars.FindBars();
                 listBox1.Items.Add("* - Your location");
             }
             string path;
             string centerLocation = new Location(latitude, longitude).ToString();
-            string currentLocation = nearestBars._location.ToString();
+            string currentLocation = nearestBars.Location.ToString();
             path = "https://maps.googleapis.com/maps/api/staticmap?center=" + centerLocation + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + currentLocation;
             int count = 'A';
             if (_barList != null)
@@ -208,8 +206,8 @@ namespace Alus
                     return;
                 }
                 var bar = _barList.ElementAt(listBox1.SelectedIndex - 1);
-                var element = GetDistanceElement(nearestBars._location, bar);
-                directions = Decode(GetRoute(nearestBars._location, bar).overview_polyline.points);
+                var element = GetDistanceElement(nearestBars.Location, bar);
+                directions = Decode(GetRoute(nearestBars.Location, bar).overview_polyline.points);
                 MessageBox.Show("Distance: " + element.Distance.Text + Environment.NewLine + "Duration: " + element.Duration.Text);
                 button1.PerformClick();
             }

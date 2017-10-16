@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="CalculationUnitTests.cs" />
     <Compile Include="EmailValidatorTest.cs" />
+    <Compile Include="ListExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

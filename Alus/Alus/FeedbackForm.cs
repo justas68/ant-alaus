@@ -5,22 +5,40 @@ namespace Alus
 {
     public partial class FeedbackForm : Form
     {
-        EmailValidator feedback = new EmailValidator();
+        EmailValidator validator = new EmailValidator();
 
         public FeedbackForm()
         {
             InitializeComponent();
+
+            foreach (var feedbackType in EnumUtil.GetValues<FeedbackType>())
+            {
+                feedbackComboBox.Items.Add(feedbackType);
+            }
+
+            // preselected general
+            feedbackComboBox.SelectedIndex = 0;
         }
 
         private void send_button_Click(object sender, EventArgs e)
         {
-            if (feedback.Validate(emailTextBox.Text))
+            var email = emailTextBox.Text;
+            if (validator.Validate(email))
             {
+                var feedback = new Feedback()
+                {
+                    EMail = emailTextBox.Text,
+                    Text = feedbackTextBox.Text,
+                    Type = (FeedbackType)Enum.Parse(typeof(FeedbackType), feedbackComboBox.Text)
+                };
+
+                FeedbackFileSender.Instance.Send(feedback);
+
                 MessageBox.Show("Feedback sent. Thank you");
             }
             else
             {
-                MessageBox.Show("Invalid email adress");
+                MessageBox.Show("Invalid email address");
             }
         }
 

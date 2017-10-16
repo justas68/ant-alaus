@@ -12,35 +12,31 @@ namespace Alus
 {
     class NearestBars
     {
-        public double lat;
-        public double lon;
-        public double lat2;
-        public double lon2;
-        public bool _ieskoti = true;
-        public Location _location = new Alus.Location();
-        public List<Bar> _barList;
+        private Location _location;
+
+        public Location Location
+        {
+            get {
+                return _location;
+            }
+        }
 
         // use coordinates of faculty campus as default location
         public static Location defaultLocation = new Alus.Location(54.729714d, 25.263445d);
 
-        public List<Bar> Location()
+        public List<Bar> FindBars()
         {
-            _location = Alus.Location.FindLocation(3, defaultLocation);
-            if (_ieskoti == true)
+            if (_location == null)
             {
-                _barList = new List<Bar>();
+                _location = Alus.Location.FindLocation(3, defaultLocation);
             }
-            string latlng = _location.ToString();
 
-            if (_ieskoti == true)
+            var barList = new List<Bar>();
+
+            using (var ms = NearbySearch(_location))
             {
-                using (var ms = NearbySearch(_location))
-                {
-                    _barList.AddRange(FindBars(ms).ToList());
-                }
+                return FindBars(ms).ToList();
             }
-            _ieskoti = false;
-            return _barList;          
         }
 
         public IEnumerable<Bar> FindBars(Stream stream)
