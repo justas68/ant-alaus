@@ -9,10 +9,10 @@ namespace Alus.GoogleApi
         public string GeocoderStatus { get; set; }
 
         [JsonProperty("place_id")]
-        public string place_id { get; set; }
+        public string PlaceId { get; set; }
 
         [JsonProperty("types")]
-        public IList<string> types { get; set; }
+        public IList<string> Types { get; set; }
     }
 
     public class Bounds
@@ -29,26 +29,26 @@ namespace Alus.GoogleApi
     {
 
         [JsonProperty("points")]
-        public string points { get; set; }
+        public string Points { get; set; }
     }
 
     public class Step
     {
 
         [JsonProperty("distance")]
-        public ValueElement distance { get; set; }
+        public ValueElement Distance { get; set; }
 
         [JsonProperty("duration")]
-        public ValueElement duration { get; set; }
+        public ValueElement Duration { get; set; }
 
         [JsonProperty("end_location")]
         public Location EndLocation { get; set; }
 
         [JsonProperty("html_instructions")]
-        public string html_instructions { get; set; }
+        public string HtmlInstructions { get; set; }
 
         [JsonProperty("polyline")]
-        public Polyline polyline { get; set; }
+        public Polyline Polyline { get; set; }
 
         [JsonProperty("start_location")]
         public Location StartLocation { get; set; }
@@ -64,61 +64,61 @@ namespace Alus.GoogleApi
     {
 
         [JsonProperty("distance")]
-        public ValueElement distance { get; set; }
+        public ValueElement Distance { get; set; }
 
         [JsonProperty("duration")]
-        public ValueElement duration { get; set; }
+        public ValueElement Duration { get; set; }
 
         [JsonProperty("end_address")]
-        public string end_address { get; set; }
+        public string EndAddress { get; set; }
 
         [JsonProperty("end_location")]
-        public Location end_location { get; set; }
+        public Location EndLocation { get; set; }
 
         [JsonProperty("start_address")]
-        public string start_address { get; set; }
+        public string StartAddress { get; set; }
 
         [JsonProperty("start_location")]
-        public Location start_location { get; set; }
+        public Location StartLocation { get; set; }
 
         [JsonProperty("steps")]
-        public IList<Step> steps { get; set; }
+        public IList<Step> Steps { get; set; }
 
         [JsonProperty("traffic_speed_entry")]
-        public IList<object> traffic_speed_entry { get; set; }
+        public IList<object> TrafficSpeedEntry { get; set; }
 
         [JsonProperty("via_waypoint")]
-        public IList<object> via_waypoint { get; set; }
+        public IList<object> ViaWaypoint { get; set; }
     }
 
     public class OverviewPolyline
     {
         [JsonProperty("points")]
-        public string points { get; set; }
+        public string Points { get; set; }
     }
 
     public class Route
     {
         [JsonProperty("bounds")]
-        public Bounds bounds { get; set; }
+        public Bounds Bounds { get; set; }
 
         [JsonProperty("copyrights")]
-        public string copyrights { get; set; }
+        public string Copyrights { get; set; }
 
         [JsonProperty("legs")]
-        public IList<Leg> legs { get; set; }
+        public IList<Leg> Legs { get; set; }
 
         [JsonProperty("overview_polyline")]
-        public OverviewPolyline overview_polyline { get; set; }
+        public OverviewPolyline OverviewPolyline { get; set; }
 
         [JsonProperty("summary")]
-        public string summary { get; set; }
+        public string Summary { get; set; }
 
         [JsonProperty("warnings")]
-        public IList<object> warnings { get; set; }
+        public IList<object> Warnings { get; set; }
 
         [JsonProperty("waypoint_order")]
-        public IList<object> waypoint_order { get; set; }
+        public IList<object> WaypointOrder { get; set; }
     }
 
     public class DirectionsRequestResponse

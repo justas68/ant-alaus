@@ -209,7 +209,7 @@ namespace Alus
                 }
                 var bar = _barList.ElementAt(listBox1.SelectedIndex - 1);
                 var element = GetDistanceElement(nearestBars.Location, bar);
-                directions = Decode(GetRoute(nearestBars.Location, bar).overview_polyline.points);
+                directions = Decode(GetRoute(nearestBars.Location, bar).OverviewPolyline.Points);
                 MessageBox.Show("Distance: " + element.Distance.Text + Environment.NewLine + "Duration: " + element.Duration.Text);
                 button1.PerformClick();
             }
