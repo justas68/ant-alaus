@@ -1,6 +1,6 @@
 ﻿namespace Alus
 {
-    partial class StatisticalTable
+    partial class StatisticalTableForm
     {
         /// <summary>
         /// Required designer variable.
@@ -35,6 +35,7 @@
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,7 +61,8 @@
             this.Column2,
             this.Column4,
             this.Column3,
-            this.Column5});
+            this.Column5,
+            this.Column6});
             this.dataGridView1.Location = new System.Drawing.Point(8, 37);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(539, 298);
@@ -96,14 +98,20 @@
             this.Column5.Name = "Column5";
             this.Column5.Width = 80;
             // 
-            // StatisticalTable
+            // Column6
+            // 
+            this.Column6.HeaderText = "Your evaluation";
+            this.Column6.Name = "Column6";
+            this.Column6.Width = 50;
+            // 
+            // StatisticalTableForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(554, 343);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button1);
-            this.Name = "StatisticalTable";
+            this.Name = "StatisticalTableForm";
             this.Text = "StaticticalTable";
             this.Load += new System.EventHandler(this.StaticticalTable_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -120,5 +128,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
     }
 }
