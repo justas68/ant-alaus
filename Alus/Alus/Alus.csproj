@@ -144,6 +144,7 @@
     <Compile Include="FeedbackForm.designer.cs">
       <DependentUpon>FeedbackForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GoogleApi\RouteObjects.cs" />
     <Compile Include="GoogleApi\DistanceMatrixObjects.cs" />
     <Compile Include="GoogleApi\NearbyRequestObjects.cs" />
     <Compile Include="ImageRecognitionForm.cs">
@@ -200,9 +201,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="FeedbackForm.resx">
+      <DependentUpon>FeedbackForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StatisticalTableForm.resx">
       <DependentUpon>StatisticalTableForm.cs</DependentUpon>
-    </EmbeddedResource>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
