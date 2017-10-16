@@ -1,4 +1,4 @@
-﻿using Alus.GoogleApi;
+using Alus.GoogleApi;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace Alus
         {
             if (_location == null)
             {
-                _location = Alus.Location.FindLocation(3, defaultLocation);
+                _location = Alus.Location.FindLocation(defaultLocation: defaultLocation);
             }
 
             var barList = new List<Bar>();
