@@ -26,7 +26,7 @@ namespace Alus
             {
                 InitializeComponent();
         }
-
+        private double proc;
         private void button1_Click(object sender, EventArgs e)
         {
             using (var open = new FolderBrowserDialog())
@@ -163,7 +163,7 @@ namespace Alus
                 return;
             }
             Calculator calc = new Calculator();
-            double proc = calc.Percentage(p1, p2);
+            proc = calc.Percentage(p1, p2);
             if (proc == 0)
             {
                 MessageBox.Show("Tokios formos bokalo pripylimo lygio apskaičiuoti negalime");
@@ -180,6 +180,12 @@ namespace Alus
         {
             this.Close();
             (new MainForm()).Show();
+        }
+
+        private void addBar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            (new EvaluationForm(proc)).Show();
         }
     }
 }

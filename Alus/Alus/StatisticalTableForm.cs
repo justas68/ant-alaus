@@ -38,9 +38,9 @@ namespace Alus
                 var row = this.dataGridView1.Rows[rowIndex];
                 row.Cells[1].Value = baras.Name;
                 row.Cells[2].Value = baras.Address;
-                if (baras.Rating != 0)
+                if (baras.OnlineRating != 0)
                 {
-                    row.Cells[3].Value = baras.Rating;
+                    row.Cells[3].Value = baras.OnlineRating;
                 }
                 else
                 {
@@ -48,7 +48,7 @@ namespace Alus
                 }
                 try
                 {
-                    if (baras.Hour.IsOpenNow == true)
+                    if (nearestBars.FindBarWorkingTime(baras.PlaceId) == true)
                     {
                         row.Cells[4].Value = "OPEN";
                     }

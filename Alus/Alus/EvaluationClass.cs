@@ -10,14 +10,16 @@ namespace Alus
 {
     class EvaluationClass
     {
-        public List<String> _bars = new List<String>();
-        public List<String> _ranks = new List<String>();
-
+        public NearestBars nearestBars = new NearestBars();
+        public List<Bar> nearestBarList;
+        public List<Bar> barList = new List<Bar>();
+        private int index ;
         private static string resourceName = "BarEvaluation.txt";
 
         public EvaluationClass()
         {
             ReadEvaluationFile();
+            nearestBarList = nearestBars.Location();
         }
 
         private void ReadEvaluationFile()
@@ -27,47 +29,76 @@ namespace Alus
                 string st = fileReader.ReadLine();
                 while ((st = fileReader.ReadLine()) != null)
                 {
-                    var stringValues = st.Split(',');
-                    _bars.Add(stringValues[0]);
-                    _ranks.Add(stringValues[1]);
+                    var stringValues = st.Split(';');
+                    barList.Add(new Bar(stringValues[0], stringValues[1], Convert.ToDouble(stringValues[2]), stringValues[3], stringValues[4], stringValues[5]));
                 }
             }
         }
 
-        public bool SelectedItemCheck(ListBox listBox)
+        public bool SelectedItemCheck(ListBox listBox, TextBox textBox, bool choice)
         {
-            return listBox.SelectedIndex < _ranks.Count && listBox.SelectedIndex > -1;
+            index = listBox.SelectedIndex;
+            if (choice)
+            {
+                textBox.Text = nearestBarList.ElementAt(listBox.SelectedIndex).Name;
+                return listBox.SelectedIndex < nearestBarList.Count && listBox.SelectedIndex > -1;
+            }
+            else
+            {
+                textBox.Text = barList.ElementAt(listBox.SelectedIndex).Name;
+                return listBox.SelectedIndex < barList.Count && listBox.SelectedIndex > -1;
+            }
         }
 
-        public void RedrawList(ListBox listBox)
+        public void RedrawList(ListBox listBox, bool choice)
         {
-            for (int i = 0; i < _bars.Count(); i++)
+            if (choice)
             {
-                listBox.Items.Add(_bars.ElementAt(i));
+                foreach (Bar bar in nearestBarList)
+                {
+                    listBox.Items.Add(bar.Name);
+                }
+            }
+            else
+            {
+                foreach (Bar bar in barList)
+                {
+                    listBox.Items.Add(bar.Name);
+                }
             }
         }
 
         public void EvaluationButtonSet(TextBox textBox, ListBox listBox, TrackBar trackBar)
         {
             bool inList = false;
-            foreach (var barList in _bars)
+            foreach (Bar bar in barList)
             {
-                if (barList == textBox.Text)
+                if (bar.PlaceId == nearestBarList.ElementAt(index).PlaceId)
                 {
                     inList = true;
+                    MessageBox.Show("Such a bar is already written");
                 }
             }
 
             if (File.Exists(resourceName) && inList == false)
             {
-                using (TextWriter streamWriter = new StreamWriter(resourceName, true))
+                using (var streamWriter = new StreamWriter(resourceName, true))
                 {
                     if (EvaluationCheck(trackBar.Value))
                     {
-                        streamWriter.WriteLine(textBox.Text.ToString() + "," + trackBar.Value.ToString());
-                        _bars.Add(textBox.Text);
-                        _ranks.Add(trackBar.Value.ToString());
-                        listBox.Items.Add(textBox.Text);
+                        try
+                        {
+                            Bar bar = nearestBarList.ElementAt(index);
+                            streamWriter.WriteLine(bar.Name + ";" + bar.Coordinates + ";" + bar.OnlineRating + ";" + bar.Address + ";" + bar.PlaceId + ";" + trackBar.Value.ToString());
+                            bar.Evaluation = trackBar.Value.ToString();
+                            barList.Add(bar);
+                            listBox.Items.Add(textBox.Text);
+
+                        }
+                        catch(Exception)
+                        {
+                            MessageBox.Show(" Please reenter the information.");
+                        }
                     }
                     else
                     {
@@ -84,14 +115,15 @@ namespace Alus
 
         public void ChangeEvaluation(TextBox textBox, ListBox listBox, TrackBar trackBar)
         {
-            _ranks[listBox.SelectedIndex] = "" + trackBar.Value;
+            index = listBox.SelectedIndex;
+            barList.ElementAt(index).Evaluation = "" + trackBar.Value.ToString();
             if (File.Exists(resourceName))
             {
                 using (TextWriter streamWriter = new StreamWriter(resourceName, false))
                 {
-                    for (int i = 0; i < _ranks.Count; i++)
+                    foreach(Bar bar in barList)
                     {
-                        streamWriter.WriteLine(_bars[i] + "," + _ranks[i]);
+                        streamWriter.WriteLine(bar.Name + ";" + bar.Coordinates + ";" + bar.OnlineRating + ";" + bar.Address + ";" + bar.PlaceId + ";" + trackBar.Value.ToString());
                     }
                 }
             }

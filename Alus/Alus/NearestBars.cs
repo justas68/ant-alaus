@@ -54,11 +54,25 @@ namespace Alus
                     foreach (var result in response.Results)
                     {
                         
-                        yield return new Bar(result.Name, result.Geometry.Location.ToString(), result.Rating, result.Vicinity, result.OpeningHours);
+                        yield return new Bar(result.Name, result.Geometry.Location.ToString(), result.Rating, result.Vicinity, result.PlaceId, null);
                     }
                 }
             }
         }
+
+        public String GetStringFromUrl(string url)
+        {
+            return new WebClient().DownloadString(url);
+        }
+
+        public bool FindBarWorkingTime(String placeID)
+        {
+            string path = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeID + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
+            string barJson = GetStringFromUrl(path);
+            dynamic bar = JsonConvert.DeserializeObject(barJson);
+            return bar.result.opening_hours.open_now;
+        }
+
         public Stream NearbySearch(Location location)
         {
             string path = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + location + "&rankby=distance&type=bar&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";

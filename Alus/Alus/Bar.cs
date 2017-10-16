@@ -8,19 +8,21 @@ namespace Alus
         {
         }
 
-        public Bar(string name, string coordinates, double rating, string address, GoogleApi.OpeningHours hour)
+        public Bar(string name, string coordinates, double onlineRating, string address, string placeId, string evaluation)
         {
             Name = name;
             Coordinates = coordinates;
-            Rating = rating;
+            OnlineRating = onlineRating;
             Address = address;
-            Hour = hour;
+            PlaceId = placeId;
+            Evaluation = evaluation;
         }
 
         public string Name { get; private set; }
         public string Coordinates { get; private set; }
-        public double Rating { get; private set; }
+        public double OnlineRating { get; private set; }
         public string Address { get; private set; }
-        public GoogleApi.OpeningHours Hour { get; private set; }
+        public string PlaceId { get; private set; }
+        public string Evaluation { get; set; }
     }
 }

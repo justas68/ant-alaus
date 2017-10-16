@@ -15,20 +15,37 @@ namespace Alus
 {
     public partial class EvaluationForm : Form
     {
-        EvaluationClass evac;
-
+        private EvaluationClass evac;
+        private bool _newBar;
+        private double percentages;
         public EvaluationForm()
         {
             InitializeComponent();
             evac = new EvaluationClass();
+            _newBar = false;
+        }
+
+        public EvaluationForm(double percentages)
+        {
+            InitializeComponent();
+            _newBar = true;
+            evac = new EvaluationClass();
+            this.percentages = percentages;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (evac.SelectedItemCheck(listBox1))
+            if (evac.SelectedItemCheck(listBox1, textBox2, _newBar))
             {
                 Console.Write(listBox1.SelectedIndex);
-                textBox1.Text = (evac._ranks.ElementAt(listBox1.SelectedIndex));
+                if (!_newBar)
+                {
+                    textBox1.Text = evac.barList.ElementAt(listBox1.SelectedIndex).Evaluation;
+                }
+                else
+                {
+                    textBox1.Text = null;
+                }
             }
             else
             {
@@ -38,7 +55,7 @@ namespace Alus
 
         private void EvaluationForm_Load(object sender, EventArgs e)
         {
-            evac.RedrawList(listBox1);
+            evac.RedrawList(listBox1, _newBar);
         }
 
         private void evaluateButton_Click(object sender, EventArgs e)
