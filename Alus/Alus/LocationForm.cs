@@ -23,12 +23,13 @@ namespace Alus
         private bool _isDown = false;
         private double _cordChange1 = 0;
         private double _cordChange2 = 0;
+        private bool _ieskoti = true;
         private List<Bar> _barList;
         private int _zoom = 12;
         private bool _ctrl = false;
         private NearestBars nearestBars = new NearestBars();
-        private double lat;
-        private double lon;
+        private double _lat;
+        private double _lon;
 
         public LocationForm()
         {
@@ -38,26 +39,33 @@ namespace Alus
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _barList = nearestBars.Location();
-            string centerLocation;
+            if (_ieskoti == true)
+            {
+                _barList = nearestBars.Location();
+                _lat = nearestBars._location.Latitude;
+                _lon = nearestBars._location.Longtitude;
+                listBox1.Items.Add("* - Your location");
+            }
+
             string path;
-            centerLocation = nearestBars._location.ToString();
-            string currentLocation = new Location(lat, lon).ToString();
+            string centerLocation = new Location(_lat, _lon).ToString();
+            string currentLocation = nearestBars._location.ToString();
             path = "https://maps.googleapis.com/maps/api/staticmap?center=" + centerLocation + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + currentLocation;
             int count = 'A';
-            if (_barList != null)
-            {
-                listBox1.Items.Add("* - Your location");
-                foreach (Bar baras in _barList)
+                if (_barList != null)
                 {
-                    path = path + "&markers=color:blue%7Clabel:" + (char)count + "%7C" + baras.Coordinates;
-                    listBox1.Items.Add((char)count + " - " + baras.Name);
+                    foreach (Bar baras in _barList)
+                    {
+                        path = path + "&markers=color:blue%7Clabel:" + (char)count + "%7C" + baras.Coordinates;
+                    if (_ieskoti == true)
+                    {
+                        listBox1.Items.Add((char)count + " - " + baras.Name);
+                    }
                     count++;
                 }
             }
-
+            _ieskoti = false;
             path = path + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU"; // API key
-
             pictureBox1.Image = Image.FromStream(nearestBars.GetStreamFromUrl(path));
         }
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
@@ -143,8 +151,8 @@ namespace Alus
             {
                 return;
             }
-            lat += _cordChange1;
-            lon += _cordChange2;
+            _lat += _cordChange1;
+            _lon += _cordChange2;
             button1.PerformClick();
         }
 
@@ -160,9 +168,7 @@ namespace Alus
                 timer1.Stop();
                 _isDown = false;
             }
-
-        }
-
+        }     
         private Alus.GoogleApi.Element GetDistanceElement(Location origin, Bar destinationBar)
         {
             string url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + origin + "&destinations=" + destinationBar.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
@@ -186,7 +192,6 @@ namespace Alus
         {
             if (listBox1.SelectedItem != null)
             {
-
                 if (listBox1.SelectedIndex == 0)
                 {
                     return;
@@ -194,7 +199,6 @@ namespace Alus
 
                 var bar = _barList.ElementAt(listBox1.SelectedIndex - 1);
                 var element = GetDistanceElement(nearestBars._location, bar);
-
                 MessageBox.Show("Distance: " + element.Distance.Text + Environment.NewLine + "Duration: " + element.Duration.Text);
             }
         }
@@ -205,7 +209,6 @@ namespace Alus
             {
                 listBox1_DoubleClick(null, null);
             }
-
             e.SuppressKeyPress = true;
         }
     }
