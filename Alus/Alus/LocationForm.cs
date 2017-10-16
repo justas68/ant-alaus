@@ -23,13 +23,13 @@ namespace Alus
         private bool _isDown = false;
         private double _cordChange1 = 0;
         private double _cordChange2 = 0;
-        public bool _ieskoti = true;
+        private bool _ieskoti = true;
         private List<Bar> _barList;
         private int _zoom = 12;
         private bool _ctrl = false;
         private NearestBars nearestBars = new NearestBars();
-        public double lat;
-        public double lon;
+        private double _lat;
+        private double _lon;
 
         public LocationForm()
         {
@@ -42,13 +42,13 @@ namespace Alus
             if (_ieskoti == true)
             {
                 _barList = nearestBars.Location();
-                lat = nearestBars._location.Latitude;
-                lon = nearestBars._location.Longtitude;
+                _lat = nearestBars._location.Latitude;
+                _lon = nearestBars._location.Longtitude;
                 listBox1.Items.Add("* - Your location");
             }
 
             string path;
-            string centerLocation = new Location(lat, lon).ToString();
+            string centerLocation = new Location(_lat, _lon).ToString();
             string currentLocation = nearestBars._location.ToString();
             path = "https://maps.googleapis.com/maps/api/staticmap?center=" + centerLocation + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + currentLocation;
             int count = 'A';
@@ -66,7 +66,6 @@ namespace Alus
             }
             _ieskoti = false;
             path = path + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU"; // API key
-            
             pictureBox1.Image = Image.FromStream(nearestBars.GetStreamFromUrl(path));
         }
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
@@ -152,8 +151,8 @@ namespace Alus
             {
                 return;
             }
-            lat += _cordChange1;
-            lon += _cordChange2;
+            _lat += _cordChange1;
+            _lon += _cordChange2;
             button1.PerformClick();
         }
 
@@ -169,8 +168,7 @@ namespace Alus
                 timer1.Stop();
                 _isDown = false;
             }
-        }
-        
+        }     
         private Alus.GoogleApi.Element GetDistanceElement(Location origin, Bar destinationBar)
         {
             string url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + origin + "&destinations=" + destinationBar.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
