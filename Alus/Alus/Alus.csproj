@@ -130,6 +130,7 @@
     <Compile Include="Bar.cs" />
     <Compile Include="BarEvaluationReader.cs" />
     <Compile Include="Calculator.cs" />
+    <Compile Include="EnumUtil.cs" />
     <Compile Include="EvaluationClass.cs" />
     <Compile Include="EvaluationForm.cs">
       <SubType>Form</SubType>
@@ -138,15 +139,19 @@
       <DependentUpon>EvaluationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="EmailValidator.cs" />
+    <Compile Include="Feedback.cs" />
+    <Compile Include="FeedbackFileSender.cs" />
     <Compile Include="FeedbackForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FeedbackForm.designer.cs">
       <DependentUpon>FeedbackForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FeedbackType.cs" />
     <Compile Include="GoogleApi\RouteObjects.cs" />
     <Compile Include="GoogleApi\DistanceMatrixObjects.cs" />
     <Compile Include="GoogleApi\NearbyRequestObjects.cs" />
+    <Compile Include="IFeedbackSender.cs" />
     <Compile Include="ImageRecognitionForm.cs">
       <SubType>Form</SubType>
     </Compile>
