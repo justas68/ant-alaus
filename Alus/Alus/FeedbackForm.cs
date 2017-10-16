@@ -5,7 +5,7 @@ namespace Alus
 {
     public partial class FeedbackForm : Form
     {
-        FeedbackClass feedback = new FeedbackClass();
+        EmailValidator feedback = new EmailValidator();
 
         public FeedbackForm()
         {
@@ -14,7 +14,7 @@ namespace Alus
 
         private void send_button_Click(object sender, EventArgs e)
         {
-            if (feedback.EmailIsValid(emailTextBox.Text) == true)
+            if (feedback.Validate(emailTextBox.Text))
             {
                 MessageBox.Show("Feedback sent. Thank you");
             }
