@@ -49,7 +49,7 @@ namespace Alus
 
         private void button6_Click(object sender, EventArgs e)
         {
-            (new StatisticalTable()).Show();
+            (new StatisticalTableForm()).Show();
             this.Hide();
         }
     }

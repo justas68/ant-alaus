@@ -14,10 +14,12 @@ using System.Windows.Forms;
 
 namespace Alus
 {
-    public partial class StatisticalTable : Form
+    public partial class StatisticalTableForm : Form
     {
         private NearestBars nearestBars = new NearestBars();
-        public StatisticalTable()
+        private BarEvaluationReader reader = new BarEvaluationReader();
+
+        public StatisticalTableForm()
         {
             InitializeComponent();
         }
@@ -59,6 +61,13 @@ namespace Alus
                 {
                     row.Cells[4].Value = "No work time";
                 }
+            }
+            foreach (VisitedBars baras in reader.ReadFile())
+            {
+                int rowIndex = this.dataGridView1.Rows.Add();
+                var row = this.dataGridView1.Rows[rowIndex];
+                row.Cells[1].Value = baras.Name;
+                row.Cells[5].Value = baras.Rating;
             }
             Numbering();
         }
