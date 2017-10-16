@@ -251,7 +251,9 @@ namespace Alus
         private IEnumerable<Location> Decode(string polylineString)
         {
             if (string.IsNullOrEmpty(polylineString))
+            {
                 throw new ArgumentNullException(nameof(polylineString));
+            }
 
             var polylineChars = polylineString.ToCharArray();
             var index = 0;
@@ -273,7 +275,9 @@ namespace Alus
                 } while (nextFiveBits >= 32 && index < polylineChars.Length);
 
                 if (index >= polylineChars.Length)
+                {
                     break;
+                }
 
                 currentLat += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
 
@@ -287,9 +291,10 @@ namespace Alus
                     shifter += 5;
                 } while (nextFiveBits >= 32 && index < polylineChars.Length);
 
-                if (index >= polylineChars.Length && nextFiveBits >= 32)
+                if (index >= polylineChars.Length && nextFiveBits >= 32) 
+                {
                     break;
-
+                }
                 currentLng += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
 
                 yield return new Location(Convert.ToDouble(currentLat) / 1E5, Convert.ToDouble(currentLng) / 1E5);
