@@ -19,7 +19,7 @@ namespace Alus
         public EvaluationClass()
         {
             ReadEvaluationFile();
-            nearestBarList = nearestBars.Location();
+            nearestBarList = nearestBars.FindBars();
         }
 
         private void ReadEvaluationFile()
@@ -30,7 +30,13 @@ namespace Alus
                 while ((st = fileReader.ReadLine()) != null)
                 {
                     var stringValues = st.Split(';');
-                    barList.Add(new Bar(stringValues[0], stringValues[1], Convert.ToDouble(stringValues[2]), stringValues[3], stringValues[4], stringValues[5]));
+                    try {
+                        barList.Add(new Bar(stringValues[0], stringValues[1], Convert.ToDouble(stringValues[2]), stringValues[3], stringValues[4], stringValues[5]));
+                    }
+                    catch
+                    {
+                        // ill fix my shitty code
+                    }
                 }
             }
         }
