@@ -201,9 +201,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="FeedbackForm.resx">
-      <DependentUpon>FeedbackForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="StatisticalTableForm.resx">
       <DependentUpon>StatisticalTableForm.cs</DependentUpon>
     </EmbeddedResource>
