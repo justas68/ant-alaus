@@ -5,11 +5,9 @@ using Newtonsoft.Json;
 
 namespace Alus
 {
-    public class Location
+    public struct Location
     {
-        public Location()
-        {
-        }
+        public static readonly Location Zero = default(Location);
 
         public Location(double latitude, double longtitude)
         {
@@ -19,7 +17,7 @@ namespace Alus
 
         private static GeoCoordinateWatcher _watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
 
-        public static Location FindLocation(int tries = 3, Location defaultLocation = null)
+        public static Location FindLocation(int tries = 3, Location defaultLocation = default(Location))
         {
             for (int i = 0; i < tries; i++) {
                 if (_watcher.TryStart(false, TimeSpan.FromSeconds(3)))
@@ -34,11 +32,8 @@ namespace Alus
                     );
                 }
             }
-            if (defaultLocation != null)
-            {
-                return defaultLocation;
-            }
-            return new Location();
+
+            return defaultLocation;
         }
 
         [JsonProperty("lat")]
