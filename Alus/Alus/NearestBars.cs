@@ -26,7 +26,7 @@ namespace Alus
 
         public List<Bar> FindBars()
         {
-            if (_location == null)
+            if (_location.IsZero)
             {
                 _location = Alus.Location.FindLocation(defaultLocation: defaultLocation);
             }
