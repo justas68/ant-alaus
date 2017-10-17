@@ -69,6 +69,7 @@
             // feedbackComboBox
             // 
             this.feedbackComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.feedbackComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.feedbackComboBox.FormattingEnabled = true;
             this.feedbackComboBox.Location = new System.Drawing.Point(278, 21);
             this.feedbackComboBox.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);

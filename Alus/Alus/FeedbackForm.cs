@@ -13,7 +13,8 @@ namespace Alus
 
             foreach (var feedbackType in EnumUtil.GetValues<FeedbackType>())
             {
-                feedbackComboBox.Items.Add(feedbackType);
+                // type widening: from enum to string
+                feedbackComboBox.Items.Add(feedbackType.ToString());
             }
 
             // preselected general
@@ -22,24 +23,30 @@ namespace Alus
 
         private void send_button_Click(object sender, EventArgs e)
         {
-            var email = emailTextBox.Text;
-            if (validator.Validate(email))
+            var feedback = new Feedback()
             {
-                var feedback = new Feedback()
-                {
-                    EMail = emailTextBox.Text,
-                    Text = feedbackTextBox.Text,
-                    Type = (FeedbackType)Enum.Parse(typeof(FeedbackType), feedbackComboBox.Text)
-                };
+                EMail = emailTextBox.Text,
+                Text = feedbackTextBox.Text,
+                // type narrowing, from string to enum
+                Type = (FeedbackType)Enum.Parse(typeof(FeedbackType), feedbackComboBox.Text)
+            };
 
-                FeedbackFileSender.Instance.Send(feedback);
-
-                MessageBox.Show("Feedback sent. Thank you");
-            }
-            else
+            if (!validator.Validate(feedback.EMail))
             {
                 MessageBox.Show("Invalid email address");
+                return;
             }
+
+            if (feedback.Text.Length < 10)
+            {
+                MessageBox.Show("The feedback should contain at least 10 symbols");
+                return;
+            }
+
+
+            FeedbackFileSender.Instance.Send(feedback);
+
+            MessageBox.Show("Feedback sent. Thank you");
         }
 
         private void suggestionExitButton_Click(object sender, EventArgs e)
