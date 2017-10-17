@@ -63,5 +63,33 @@ namespace Alus
                 Longtitude == other.Longtitude
             );
         }
+
+        public double this[int index]
+        {
+            get
+            {
+                if (index < 0 && index > 2)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(index));
+                }
+                return index == 0 ? Latitude : Longtitude;
+            }
+            set
+            {
+                if (index < 0 && index > 2)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(index));
+                }
+
+                if (index == 0)
+                {
+                    Latitude = value;
+                }
+                else
+                {
+                    Longtitude = value;
+                }
+            }
+        }
     }
 }
