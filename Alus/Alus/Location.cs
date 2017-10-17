@@ -5,11 +5,9 @@ using Newtonsoft.Json;
 
 namespace Alus
 {
-    public class Location
+    public struct Location : IEquatable<Location>
     {
-        public Location()
-        {
-        }
+        public static readonly Location Zero = default(Location);
 
         public Location(double latitude, double longtitude)
         {
@@ -19,7 +17,7 @@ namespace Alus
 
         private static GeoCoordinateWatcher _watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
 
-        public static Location FindLocation(int tries = 1, Location defaultLocation = null)
+        public static Location FindLocation(int tries = 3, Location defaultLocation = default(Location))
         {
             for (int i = 0; i < tries; i++) {
                 if (_watcher.TryStart(false, TimeSpan.FromSeconds(3)))
@@ -34,11 +32,8 @@ namespace Alus
                     );
                 }
             }
-            if (defaultLocation != null)
-            {
-                return defaultLocation;
-            }
-            return new Location();
+
+            return defaultLocation;
         }
 
         [JsonProperty("lat")]
@@ -59,6 +54,42 @@ namespace Alus
         public override string ToString()
         {
             return string.Format($"{Latitude.ToString(CultureInfo.InvariantCulture)},{Longtitude.ToString(CultureInfo.InvariantCulture)}");
+        }
+
+        public bool Equals(Location other)
+        {
+            return (
+                Latitude == other.Latitude &&
+                Longtitude == other.Longtitude
+            );
+        }
+
+        public double this[int index]
+        {
+            get
+            {
+                if (index < 0 && index > 2)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(index));
+                }
+                return index == 0 ? Latitude : Longtitude;
+            }
+            set
+            {
+                if (index < 0 && index > 2)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(index));
+                }
+
+                if (index == 0)
+                {
+                    Latitude = value;
+                }
+                else
+                {
+                    Longtitude = value;
+                }
+            }
         }
     }
 }

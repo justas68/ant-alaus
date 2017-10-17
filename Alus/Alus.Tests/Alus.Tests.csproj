@@ -7,8 +7,8 @@
     <ProjectGuid>{F82E9CDB-6147-4E31-B586-630CDD73DCA7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlusTests</RootNamespace>
-    <AssemblyName>AlusTests</AssemblyName>
+    <RootNamespace>Alus.Tests</RootNamespace>
+    <AssemblyName>Alus.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -29,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -58,6 +59,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CalculationUnitTests.cs" />
+    <Compile Include="EmailValidatorTest.cs" />
+    <Compile Include="ListExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

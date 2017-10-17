@@ -15,80 +15,68 @@ namespace Alus
 {
     public partial class EvaluationForm : Form
     {
-        List<String> _bars = new List<String>();
-        List<String> _ranks = new List<String>();
-
-        private static string resourceName = "BarEvaluation.txt";
-
+        private EvaluationClass evac;
+        private bool _newBar;
+        private double percentages;
         public EvaluationForm()
         {
             InitializeComponent();
+            evac = new EvaluationClass();
+            _newBar = false;
+        }
+
+        public EvaluationForm(double percentages)
+        {
+            InitializeComponent();
+            _newBar = true;
+            evac = new EvaluationClass();
+            this.percentages = percentages;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            textBox1.Text = (_ranks.ElementAt(listBox1.SelectedIndex));
+            if (evac.SelectedItemCheck(listBox1, textBox2, _newBar))
+            {
+                Console.Write(listBox1.SelectedIndex);
+                if (!_newBar)
+                {
+                    textBox1.Text = evac.barList.ElementAt(listBox1.SelectedIndex).Evaluation;
+                }
+                else
+                {
+                    textBox1.Text = null;
+                }
+            }
+            else
+            {
+                MessageBox.Show("No bar here");
+            }
         }
 
         private void EvaluationForm_Load(object sender, EventArgs e)
         {
-            RedrawBarList();
+            evac.RedrawList(listBox1, _newBar);
         }
 
-        private void RedrawBarList()
+        private void evaluateButton_Click(object sender, EventArgs e)
         {
-
-            
-
-            using (StreamReader reader = new StreamReader(resourceName))
-            {
-                string st;
-                st = reader.ReadLine();
-                while ((st = reader.ReadLine()) != null)
-                {
-                    var values = st.Split(',');
-                    _bars.Add(values[0]);
-                    _ranks.Add(values[1]);
-                }
-            }
-
-            for (int i = 0; i < _bars.Count(); i++)
-            {
-                listBox1.Items.Add(_bars.ElementAt(i));
-            }
-        }
-
-        public bool EvaluationCheck(int evaluation)
-        {
-            return (evaluation <= 10 && evaluation >= 1);
-        }
-
-        private void evaluate_button_Click(object sender, EventArgs e)
-        {
-            
-            if (File.Exists(resourceName))
-            {
-                using (TextWriter sw = new StreamWriter(resourceName, true))
-                {
-                    if (EvaluationCheck(trackBar1.Value))
-                    {
-                        sw.WriteLine(textBox2.Text.ToString() + "," + trackBar1.Value.ToString());
-                        _bars.Add(textBox2.Text);
-                        _ranks.Add(trackBar1.Value.ToString());
-                        listBox1.Items.Add(textBox2.Text);
-                    }
-                    else 
-                    {
-                        MessageBox.Show("Bad evaluation input");
-                    }
-                }
-            }
+            evac.EvaluationButtonSet(textBox2, listBox1, trackBar1);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             (new MainForm()).Show();
             this.Hide();
+        }
+
+        private void changeEvaluationButton_Click(object sender, EventArgs e)
+        {
+            evac.ChangeEvaluation(textBox2, listBox1, trackBar1);
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            textBox1.Text = "" + trackBar1.Value;
         }
     }
 }

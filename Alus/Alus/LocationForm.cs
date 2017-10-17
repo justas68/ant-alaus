@@ -23,19 +23,14 @@ namespace Alus
         private bool _isDown = false;
         private double _cordChange1 = 0;
         private double _cordChange2 = 0;
+        private bool _firstRun = true;
         private List<Bar> _barList;
-        private Location _location = new Alus.Location();
         private int _zoom = 12;
-        private bool _ieskoti = true;
         private bool _ctrl = false;
-
-        private double lat;
-        private double lon;
-        private double lat2;
-        private double lon2;
-
-        // use coordinates of faculty campus as default location
-        private static Location defaultLocation = new Alus.Location(54.729714d, 25.263445d);
+        private NearestBars nearestBars = new NearestBars();
+        IEnumerable<Location> directions = null;
+        private double latitude;
+        private double longitude;
 
         public LocationForm()
         {
@@ -43,59 +38,44 @@ namespace Alus
             this.pictureBox1.MouseWheel += pictureBox1_MouseWheel;
         }
 
-        private Stream GetStreamFromUrl(string url)
-        {
-            using (WebClient wc = new WebClient())
-            {
-                return new MemoryStream(wc.DownloadData(url));
-            }
-        }
-
-        private Stream NearbySearch(Location location)
-        {
-            string path = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + location + "&rankby=distance&type=bar&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
-            return GetStreamFromUrl(path);
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            string centerLocation;
-            string path;
-            if (_ieskoti == true)
+            if (_firstRun == true)
             {
-                _location = Alus.Location.FindLocation(20, defaultLocation);
-                lat = lat2 = _location.Latitude;
-                lon = lon2 = _location.Longtitude;
-
+                _barList = nearestBars.FindBars();
+                latitude = nearestBars.Location.Latitude;
+                longitude = nearestBars.Location.Longtitude;
                 listBox1.Items.Add("* - Your location");
-                _barList = new List<Bar>();
             }
-            centerLocation = _location.ToString();
-            string currentLocation = new Location(lat, lon).ToString();
-            if (_ieskoti == true)
-            {
-                using (var ms = NearbySearch(_location))
-                {
-                    _barList.AddRange(FindBars(ms).ToList());
-                }
-            }
-
+            string path;
+            string centerLocation = new Location(latitude, longitude).ToString();
+            string currentLocation = nearestBars.Location.ToString();
             path = "https://maps.googleapis.com/maps/api/staticmap?center=" + centerLocation + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + currentLocation;
             int count = 'A';
-            foreach (Bar baras in _barList)
+            if (_barList != null)
             {
-                path = path + "&markers=color:blue%7Clabel:" + (char)count + "%7C" + baras.Coordinates;
-                if (_ieskoti == true)
+                foreach (Bar baras in _barList)
                 {
-                    listBox1.Items.Add((char)count + " - " + baras.Name);
+                    path = path + "&markers=color:blue%7Clabel:" + (char)count + "%7C" + baras.Coordinates;
+                    if (_firstRun == true)
+                    {
+                        listBox1.Items.Add((char)count + " - " + baras.Name);
+                    }
+                    count++;
                 }
-                count++;
             }
-
+            _firstRun = false;
+            if (directions != null)
+            {
+                path = path + "&path=color:0x0000ff80|weight:3";
+                foreach (Location loc in directions)
+                {
+                    path = path + "|" + loc;
+                }
+                path = path + "+&sensor=true";
+            }
             path = path + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU"; // API key
-
-            pictureBox1.Image = Image.FromStream(GetStreamFromUrl(path));
-            _ieskoti = false;
+            pictureBox1.Image = Image.FromStream(nearestBars.GetStreamFromUrl(path));
         }
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
         {
@@ -127,22 +107,6 @@ namespace Alus
             this.Close();
         }
 
-        private IEnumerable<Bar> FindBars(Stream stream)
-        {
-            using (var reader = new JsonTextReader(new StreamReader(stream)))
-            {
-                var serializer = new JsonSerializer();
-                var response = serializer.Deserialize<NearbyRequestResponse>(reader);
-                if (response.Status == "OK")
-                {
-                    foreach (var result in response.Results)
-                    {
-                        yield return new Bar(result.Name, result.Geometry.Location.ToString());
-                    }
-                }
-            }
-        }
-
         private void Form3_KeyDown(object sender, KeyEventArgs e)
         {
             if (ModifierKeys.HasFlag(Keys.Control))
@@ -150,7 +114,6 @@ namespace Alus
                 _ctrl = true;
                 return;
             }
-
             if (e.KeyCode == Keys.W)
             {
                 _isDown = true;
@@ -181,6 +144,7 @@ namespace Alus
             }
 
         }
+
         private Timer timer1;
         public void InitTimer()
         {
@@ -196,8 +160,8 @@ namespace Alus
             {
                 return;
             }
-            lat += _cordChange1;
-            lon += _cordChange2;
+            latitude += _cordChange1;
+            longitude += _cordChange2;
             button1.PerformClick();
         }
 
@@ -213,14 +177,12 @@ namespace Alus
                 timer1.Stop();
                 _isDown = false;
             }
-
         }
 
         private Alus.GoogleApi.Element GetDistanceElement(Location origin, Bar destinationBar)
         {
             string url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + origin + "&destinations=" + destinationBar.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
-
-            using (var reader = new JsonTextReader(new StreamReader(GetStreamFromUrl(url))))
+            using (var reader = new JsonTextReader(new StreamReader(nearestBars.GetStreamFromUrl(url))))
             {
                 var serializer = new JsonSerializer();
                 var response = serializer.Deserialize<DistanceMatrixRequest>(reader);
@@ -239,16 +201,32 @@ namespace Alus
         {
             if (listBox1.SelectedItem != null)
             {
-
                 if (listBox1.SelectedIndex == 0)
                 {
+                    directions = null;
+                    button1.PerformClick();
                     return;
                 }
-
                 var bar = _barList.ElementAt(listBox1.SelectedIndex - 1);
-                var element = GetDistanceElement(_location, bar);
-
+                var element = GetDistanceElement(nearestBars.Location, bar);
+                directions = Decode(GetRoute(nearestBars.Location, bar).OverviewPolyline.Points);
                 MessageBox.Show("Distance: " + element.Distance.Text + Environment.NewLine + "Duration: " + element.Duration.Text);
+                button1.PerformClick();
+            }
+        }
+
+        private GoogleApi.Route GetRoute(Location origin, Bar destinationBar)
+        {
+            string url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + origin + "&destination=" + destinationBar.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
+            using (var reader = new JsonTextReader(new StreamReader(nearestBars.GetStreamFromUrl(url))))
+            {
+                var serializer = new JsonSerializer();
+                var response = serializer.Deserialize<GoogleApi.DirectionsRequestResponse>(reader);
+                if (response.Status == "OK")
+                {
+                    return response.Routes[response.Routes.Count() - 1];
+                }
+                return null;
             }
         }
 
@@ -258,8 +236,54 @@ namespace Alus
             {
                 listBox1_DoubleClick(null, null);
             }
-
             e.SuppressKeyPress = true;
+        }
+
+        private IEnumerable<Location> Decode(string polylineString)
+        {
+            if (string.IsNullOrEmpty(polylineString))
+            {
+                throw new ArgumentNullException(nameof(polylineString));
+            }
+            var polylineChars = polylineString.ToCharArray();
+            var index = 0;
+            var currentLat = 0;
+            var currentLng = 0;
+            while (index < polylineChars.Length)
+            {
+                // Next lat
+                var sum = 0;
+                var shifter = 0;
+                int nextFiveBits;
+                do
+                {
+                    nextFiveBits = polylineChars[index++] - 63;
+                    sum |= (nextFiveBits & 31) << shifter;
+                    shifter += 5;
+                } while (nextFiveBits >= 32 && index < polylineChars.Length);
+
+                if (index >= polylineChars.Length)
+                {
+                    break;
+                }
+                currentLat += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
+                // Next lng
+                sum = 0;
+                shifter = 0;
+                do
+                {
+                    nextFiveBits = polylineChars[index++] - 63;
+                    sum |= (nextFiveBits & 31) << shifter;
+                    shifter += 5;
+                } while (nextFiveBits >= 32 && index < polylineChars.Length);
+
+                if (index >= polylineChars.Length && nextFiveBits >= 32) 
+                {
+                    break;
+                }
+                currentLng += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
+                yield return new Location(Convert.ToDouble(currentLat) / 1E5, Convert.ToDouble(currentLng) / 1E5);
+            }
         }
     }
 }
