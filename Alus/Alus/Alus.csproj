@@ -159,6 +159,8 @@
       <DependentUpon>ImageRecognitionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="IValidator.cs" />
+    <Compile Include="LocationDistanceComparer.cs" />
+    <Compile Include="LocationExtensions.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +184,7 @@
     <Compile Include="StatisticalTableForm.Designer.cs">
       <DependentUpon>StatisticalTableForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UnitOfLength.cs" />
     <Compile Include="VisitedBars.cs" />
     <EmbeddedResource Include="EvaluationForm.resx">
       <DependentUpon>EvaluationForm.cs</DependentUpon>
