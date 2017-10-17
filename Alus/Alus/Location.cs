@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Alus
 {
-    public struct Location
+    public struct Location : IEquatable<Location>
     {
         public static readonly Location Zero = default(Location);
 
@@ -54,6 +54,14 @@ namespace Alus
         public override string ToString()
         {
             return string.Format($"{Latitude.ToString(CultureInfo.InvariantCulture)},{Longtitude.ToString(CultureInfo.InvariantCulture)}");
+        }
+
+        public bool Equals(Location other)
+        {
+            return (
+                Latitude == other.Latitude &&
+                Longtitude == other.Longtitude
+            );
         }
     }
 }
