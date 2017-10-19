@@ -1,2 +1,2 @@
-Fabų Lariokas;54.7245621,25.2497045;5;S. Stanevičiaus gatvė 42A, Vilnius;ChIJg4mJd2mR3UYRxtpbhexnvtQ;6
-HPN "Group";54.7269775,25.2542678;0;S. Stanevičiaus gatvė, Vilnius;ChIJdxjPXmqR3UYRA7T2BYvm5cU;1
+alaus klonele;54.723297,25.295194;0;Verkių gatvė 45, Vilnius;ChIJV3-o2sqW3UYRwhOBGODNxoM;6;39,98;1
+Seklyčia Euro Pub;54.714036,25.273515;2,9;Ozo gatvė 18, Vilnius;ChIJu_3s-02R3UYR5USnM2gF7Ps;5;68,3;1
