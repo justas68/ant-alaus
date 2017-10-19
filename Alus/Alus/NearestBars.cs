@@ -51,8 +51,7 @@ namespace Alus
                 {
                     foreach (var result in response.Results)
                     {
-                        
-                        yield return new Bar(result.Name, result.Geometry.Location.ToString(), result.Rating, result.Vicinity, result.PlaceId, null);
+                        yield return new Bar(result.Name, result.Geometry.Location.ToString(), result.Rating, result.Vicinity, result.PlaceId, null, 0, 0);
                     }
                 }
             }

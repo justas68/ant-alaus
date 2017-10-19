@@ -23,7 +23,7 @@ namespace Alus
                     var stringValues = st.Split(';');
                     try
                     {
-                        _barList.Add(new Bar(stringValues[0], stringValues[1], Convert.ToDouble(stringValues[2]), stringValues[3], stringValues[4], stringValues[5]));
+                        _barList.Add(new Bar(stringValues[0], stringValues[1], Convert.ToDouble(stringValues[2]), stringValues[3], stringValues[4], stringValues[5], Convert.ToDouble(stringValues[6]), Convert.ToInt32(stringValues[7])));
                     }
                     catch(IOException)
                     {
@@ -42,7 +42,7 @@ namespace Alus
                 {
                     try
                     {
-                        streamWriter.WriteLine(bar.Name + ";" + bar.Coordinates + ";" + bar.OnlineRating + ";" + bar.Address + ";" + bar.PlaceId + ";" + bar.Evaluation);
+                        streamWriter.WriteLine(bar.Name + ";" + bar.Coordinates + ";" + bar.OnlineRating + ";" + bar.Address + ";" + bar.PlaceId + ";" + bar.Evaluation + ";" + bar.Percentage + ";" + bar.BeersBought);
                         _barList.Add(bar);
                     }
                     catch (Exception)
@@ -60,7 +60,7 @@ namespace Alus
                 {
                     foreach (Bar bar in barList)
                     {
-                        streamWriter.WriteLine(bar.Name + ";" + bar.Coordinates + ";" + bar.OnlineRating + ";" + bar.Address + ";" + bar.PlaceId + ";" + bar.Evaluation);
+                        streamWriter.WriteLine(bar.Name + ";" + bar.Coordinates + ";" + bar.OnlineRating + ";" + bar.Address + ";" + bar.PlaceId + ";" + bar.Evaluation + ";" + bar.Percentage + ";" + bar.BeersBought);
                     }
                 }
             }

@@ -98,6 +98,8 @@ namespace Alus
                 {
                     Bar bar = _nearestBarList.ElementAt(listBox1.SelectedIndex);
                     bar.Evaluation = trackBar1.Value.ToString();
+                    bar.Percentage = (bar.BeersBought * bar.Percentage + Math.Round(_percentages, 2)) / (bar.BeersBought + 1);
+                    bar.BeersBought++;
                     _readerWriter.WriteLineToFile(bar);
                     _barList.Add(bar);
                     listBox1.Items.Add(textBox2.Text);

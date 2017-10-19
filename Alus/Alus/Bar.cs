@@ -8,7 +8,7 @@ namespace Alus
         {
         }
 
-        public Bar(string name, string coordinates, double onlineRating, string address, string placeId, string evaluation)
+        public Bar(string name, string coordinates, double onlineRating, string address, string placeId, string evaluation, double percentage, int beersBought)
         {
             Name = name;
             Coordinates = coordinates;
@@ -16,6 +16,8 @@ namespace Alus
             Address = address;
             PlaceId = placeId;
             Evaluation = evaluation;
+            Percentage = percentage;
+            BeersBought = beersBought;
         }
 
         public string Name { get; private set; }
@@ -24,5 +26,7 @@ namespace Alus
         public string Address { get; private set; }
         public string PlaceId { get; private set; }
         public string Evaluation { get; set; }
+        public double Percentage { get; set; }
+        public int BeersBought { get; set; }
     }
 }

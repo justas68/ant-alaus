@@ -22,6 +22,7 @@ namespace Alus
         Image<Bgr, byte> img;
         int point = 0; // pasako, į kurį image žiūriu programa
         List<String> list;
+        public static double percetage;
         public ImageRecognitionForm()
         {
             InitializeComponent();
@@ -173,6 +174,7 @@ namespace Alus
                 pictureBox1.Invalidate();
                 return;
             }
+            percetage = Math.Round(proc, 2);
             MessageBox.Show("Filled up : " + Math.Round(proc, 2).ToString() + "%");
         }
 
@@ -184,6 +186,10 @@ namespace Alus
 
         private void addBar_Click(object sender, EventArgs e)
         {
+            if (proc == 0)
+            {
+                MessageBox.Show("First determine how much beer was poured in!");
+            }
             this.Close();
             (new EvaluationForm(proc)).Show();
         }

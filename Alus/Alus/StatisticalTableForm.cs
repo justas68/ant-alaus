@@ -80,7 +80,16 @@ namespace Alus
                 {
                     row.Cells[5].Value = "-";
                 }
+                if (bar.Percentage == 0)
+                {
+                    row.Cells[6].Value = "-";
+                }
+                else
+                {
+                    row.Cells[6].Value = Math.Round(bar.Percentage, 2) + "%";
+                }
             }
         }
+
     }
 }
