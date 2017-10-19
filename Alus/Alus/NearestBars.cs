@@ -62,12 +62,22 @@ namespace Alus
             return new WebClient().DownloadString(url);
         }
 
-        public bool FindBarWorkingTime(String placeID)
+        public GoogleApi.OpeningHour FindBarWorkingTime(String placeID)
         {
-            string path = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeID + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
-            string barJson = GetStringFromUrl(path);
-            dynamic bar = JsonConvert.DeserializeObject(barJson);
-            return bar.result.opening_hours.open_now;
+            string url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeID + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
+            using (var reader = new JsonTextReader(new StreamReader(GetStreamFromUrl(url))))
+            {
+                var serializer = new JsonSerializer();
+                var response = serializer.Deserialize<BarRequest>(reader);
+                if (response.Status == "OK")
+                {
+                   return response.Results.OpeningHour;
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
 
         public Stream NearbySearch(Location location)
