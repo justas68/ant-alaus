@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Alus
 {
-    class NearestBars
+    public class NearestBars
     {
         private Location _location;
 

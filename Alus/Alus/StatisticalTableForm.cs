@@ -17,7 +17,7 @@ namespace Alus
     public partial class StatisticalTableForm : Form
     {
         private NearestBars nearestBars = new NearestBars();
-        private BarEvaluationReader reader = new BarEvaluationReader();
+        private ReadAndWriteFromFile reader = new ReadAndWriteFromFile();
 
         public StatisticalTableForm()
         {
@@ -32,43 +32,8 @@ namespace Alus
 
         private void StaticticalTable_Load(object sender, EventArgs e)
         {
-            foreach (Bar baras in nearestBars.FindBars())
-            {
-                int rowIndex = this.dataGridView1.Rows.Add();
-                var row = this.dataGridView1.Rows[rowIndex];
-                row.Cells[1].Value = baras.Name;
-                row.Cells[2].Value = baras.Address;
-                if (baras.OnlineRating != 0)
-                {
-                    row.Cells[3].Value = baras.OnlineRating;
-                }
-                else
-                {
-                    row.Cells[3].Value = "-";
-                }
-                try
-                {
-                    if (nearestBars.FindBarWorkingTime(baras.PlaceId) == true)
-                    {
-                        row.Cells[4].Value = "OPEN";
-                    }
-                    else
-                    {
-                        row.Cells[4].Value = "CLOSED";
-                    }
-                }
-                catch (Exception)
-                {
-                    row.Cells[4].Value = "No work time";
-                }
-            }
-            foreach (VisitedBars baras in reader.ReadFile())
-            {
-                int rowIndex = this.dataGridView1.Rows.Add();
-                var row = this.dataGridView1.Rows[rowIndex];
-                row.Cells[1].Value = baras.Name;
-                row.Cells[5].Value = baras.Rating;
-            }
+            AddToTable(nearestBars.FindBars());
+            AddToTable(reader.ReadFile());
             Numbering();
         }
 
@@ -81,6 +46,41 @@ namespace Alus
                 rownum += 1;
             }
             dataGridView1.AllowUserToAddRows = false;
+        }
+
+        private void AddToTable(List<Bar> barList)
+        {
+            foreach (Bar bar in barList)
+            {
+                int rowIndex = this.dataGridView1.Rows.Add();
+                var row = this.dataGridView1.Rows[rowIndex];
+                row.Cells[1].Value = bar.Name;
+                row.Cells[2].Value = bar.Address;
+                row.Cells[3].Value = bar.OnlineRating;
+                try
+                {
+                    if (nearestBars.FindBarWorkingTime(bar.PlaceId) == true)
+                    {
+                        row.Cells[4].Value = "OPEN";
+                    }
+                    else
+                    {
+                        row.Cells[4].Value = "CLOSED";
+                    }
+                }
+                catch (Exception)
+                {
+                    row.Cells[4].Value = "No work time";
+                }
+                if (bar.Evaluation != null)
+                {
+                    row.Cells[5].Value = bar.Evaluation;
+                }
+                else
+                {
+                    row.Cells[5].Value = "-";
+                }
+            }
         }
     }
 }
