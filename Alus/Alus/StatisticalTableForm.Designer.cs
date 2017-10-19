@@ -42,7 +42,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(472, 8);
+            this.button1.Location = new System.Drawing.Point(515, 8);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -65,7 +65,7 @@
             this.Column6});
             this.dataGridView1.Location = new System.Drawing.Point(8, 37);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(539, 298);
+            this.dataGridView1.Size = new System.Drawing.Size(582, 313);
             this.dataGridView1.TabIndex = 1;
             // 
             // Column1
@@ -102,13 +102,13 @@
             // 
             this.Column6.HeaderText = "Your evaluation";
             this.Column6.Name = "Column6";
-            this.Column6.Width = 50;
+            this.Column6.Width = 60;
             // 
             // StatisticalTableForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(554, 343);
+            this.ClientSize = new System.Drawing.Size(597, 358);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button1);
             this.Name = "StatisticalTableForm";
