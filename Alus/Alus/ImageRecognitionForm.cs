@@ -15,7 +15,6 @@ namespace Alus
 {
     public partial class ImageRecognitionForm : Form
     {
-        Location location = new Alus.Location();
         Point[] p1 = new Point[3];  //liniju pirmas taskas
         Point[] p2 = new Point[3];  //liniju antras taskas
         int eilCount = 0; // pasako, kiek liniju uzbrezta
@@ -174,7 +173,7 @@ namespace Alus
                 pictureBox1.Invalidate();
                 return;
             }
-            percetage = Math.Round(proc, 2);
+            percentage = Math.Round(proc, 2);
             MessageBox.Show("Filled up : " + Math.Round(proc, 2).ToString() + "%");
         }
 
