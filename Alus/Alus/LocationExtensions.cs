@@ -17,7 +17,7 @@ namespace Alus
 
             var baseRad = Math.PI * baseLocation.Latitude / 180;
             var targetRad = Math.PI * targetLocation.Latitude / 180;
-            var theta = baseLocation.Longtitude - targetLocation.Longtitude;
+            var theta = baseLocation.Longitude - targetLocation.Longitude;
             var thetaRad = Math.PI * theta / 180;
 
             double dist =
