@@ -22,7 +22,7 @@ namespace Alus
         Image<Bgr, byte> img;
         int point = 0; // pasako, į kurį image žiūriu programa
         List<String> list;
-        public static double percetage;
+        public static double percentage;
         public ImageRecognitionForm()
         {
             InitializeComponent();
