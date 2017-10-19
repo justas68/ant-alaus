@@ -59,7 +59,7 @@ namespace Alus
                 row.Cells[3].Value = bar.OnlineRating;
                 try
                 {
-                    if (nearestBars.FindBarWorkingTime(bar.PlaceId) == true)
+                    if (nearestBars.FindBarWorkingTime(bar.PlaceId).IsOpenNow == true)
                     {
                         row.Cells[4].Value = "OPEN";
                     }
