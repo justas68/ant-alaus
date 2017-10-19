@@ -9,6 +9,13 @@ namespace Alus
     {
         public static readonly Location Zero = default(Location);
 
+        public Location(string str)
+        {
+            var coordinates = str.Split(',');
+            Latitude = double.Parse(coordinates[0]);
+            Longtitude = double.Parse(coordinates[1]);
+        }
+
         public Location(double latitude, double longtitude)
         {
             Latitude = latitude;
@@ -90,6 +97,11 @@ namespace Alus
                     Longtitude = value;
                 }
             }
+        }
+
+        public Location Move(double latitudeOffset, double longtitudeOffset)
+        {
+            return new Location(Latitude + latitudeOffset, Longtitude + longtitudeOffset);
         }
     }
 }
