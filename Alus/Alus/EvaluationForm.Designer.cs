@@ -40,6 +40,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.changeEvaluationButton = new System.Windows.Forms.Button();
+            this.deleteBar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
@@ -76,7 +77,7 @@
             // evaluateButton
             // 
             this.evaluateButton.Location = new System.Drawing.Point(394, 235);
-            this.evaluateButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.evaluateButton.Margin = new System.Windows.Forms.Padding(2);
             this.evaluateButton.Name = "evaluateButton";
             this.evaluateButton.Size = new System.Drawing.Size(100, 23);
             this.evaluateButton.TabIndex = 4;
@@ -87,7 +88,7 @@
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(294, 160);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(200, 20);
             this.textBox2.TabIndex = 5;
@@ -95,7 +96,7 @@
             // trackBar1
             // 
             this.trackBar1.Location = new System.Drawing.Point(297, 186);
-            this.trackBar1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.trackBar1.Margin = new System.Windows.Forms.Padding(2);
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(199, 45);
@@ -138,7 +139,7 @@
             // changeEvaluationButton
             // 
             this.changeEvaluationButton.Location = new System.Drawing.Point(364, 262);
-            this.changeEvaluationButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.changeEvaluationButton.Margin = new System.Windows.Forms.Padding(2);
             this.changeEvaluationButton.Name = "changeEvaluationButton";
             this.changeEvaluationButton.Size = new System.Drawing.Size(129, 24);
             this.changeEvaluationButton.TabIndex = 12;
@@ -146,11 +147,22 @@
             this.changeEvaluationButton.UseVisualStyleBackColor = true;
             this.changeEvaluationButton.Click += new System.EventHandler(this.changeEvaluationButton_Click);
             // 
+            // deleteBar
+            // 
+            this.deleteBar.Location = new System.Drawing.Point(364, 292);
+            this.deleteBar.Name = "deleteBar";
+            this.deleteBar.Size = new System.Drawing.Size(128, 23);
+            this.deleteBar.TabIndex = 13;
+            this.deleteBar.Text = "Delete bar";
+            this.deleteBar.UseVisualStyleBackColor = true;
+            this.deleteBar.Click += new System.EventHandler(this.deleteBar_Click);
+            // 
             // EvaluationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(504, 558);
+            this.Controls.Add(this.deleteBar);
             this.Controls.Add(this.changeEvaluationButton);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label4);
@@ -185,5 +197,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button changeEvaluationButton;
+        private System.Windows.Forms.Button deleteBar;
     }
 }

@@ -21,10 +21,10 @@ namespace Alus
         int eilCount = 0; // pasako, kiek liniju uzbrezta
         Image<Bgr, byte> img;
         int point = 0; // pasako, į kurį image žiūriu programa
-        List<String> sarasas;
-            public ImageRecognitionForm()
-            {
-                InitializeComponent();
+        List<String> list;
+        public ImageRecognitionForm()
+        {
+            InitializeComponent();
         }
         private double proc;
         private void button1_Click(object sender, EventArgs e)
@@ -39,16 +39,16 @@ namespace Alus
                 }
 
                 string[] files = Directory.GetFiles(open.SelectedPath);
-                sarasas = new List<string>(files);
-                sarasas = sarasas.Where(path => path.ToLower().EndsWith(".jpg")).ToList();
-                if (sarasas.Count() == 0)
+                list = new List<string>(files);
+                list = list.Where(path => path.ToLower().EndsWith(".jpg")).ToList();
+                if (list.Count() == 0)
                 {
-                    sarasas = null;
+                    list = null;
                     {
                         return;
                     }
                 }
-                img = new Image<Bgr, byte>(sarasas.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
+                img = new Image<Bgr, byte>(list.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
                 pictureBox1.Image = img.Bitmap;
             }
         }
@@ -61,7 +61,7 @@ namespace Alus
 
         private void Back_Click(object sender, EventArgs e)
         {
-            if (sarasas == null)
+            if (list == null)
             {
                 return;
             }
@@ -70,18 +70,18 @@ namespace Alus
             p1 = new Point[3];
             p2 = new Point[3];
             pictureBox1.Invalidate();
-            if (!sarasas.InRange(point))
+            if (!list.InRange(point))
             {
-                point = sarasas.Count() - 1;
+                point = list.Count() - 1;
             }
 
-            img = new Image<Bgr, byte>(sarasas.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
+            img = new Image<Bgr, byte>(list.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
             pictureBox1.Image = img.Bitmap;
         }
 
         private void Next_Click(object sender, EventArgs e)
         { 
-            if (sarasas == null)
+            if (list == null)
             {
                 return;
             }
@@ -90,12 +90,12 @@ namespace Alus
             p1 = new Point[3];
             p2 = new Point[3];
             pictureBox1.Invalidate();
-            if (!sarasas.InRange(point))
+            if (!list.InRange(point))
             {
                 point = 0;
             }
 
-            img = new Image<Bgr, byte>(sarasas.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
+            img = new Image<Bgr, byte>(list.ElementAt(point)).Resize(760, 500, Emgu.CV.CvEnum.Inter.Linear, true);
 
             pictureBox1.Image = img.Bitmap;
         }
@@ -159,21 +159,21 @@ namespace Alus
         {
             if (eilCount != 3)
             {
-                MessageBox.Show("Pirma pažimėkite linijas, kurios žymi bokalo viršų, pripilimo lygį ir apačią");
+                MessageBox.Show("Firstly, set lines, which mark glass top, fill level and bottom");
                 return;
             }
             Calculator calc = new Calculator();
             proc = calc.Percentage(p1, p2);
             if (proc == 0)
             {
-                MessageBox.Show("Tokios formos bokalo pripylimo lygio apskaičiuoti negalime");
+                MessageBox.Show("This shape of glass is not allowed");
                 eilCount = 0;
                 p1 = new Point[3];
                 p2 = new Point[3];
                 pictureBox1.Invalidate();
                 return;
             }
-            MessageBox.Show("Pripilta : " + Math.Round(proc, 2).ToString() + "%");
+            MessageBox.Show("Filled up : " + Math.Round(proc, 2).ToString() + "%");
         }
 
         private void button3_Click(object sender, EventArgs e)

@@ -2,7 +2,7 @@
 
 namespace Alus
 {
-    class Bar
+    public class Bar
     {
         public Bar()
         {

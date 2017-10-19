@@ -128,10 +128,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bar.cs" />
-    <Compile Include="BarEvaluationReader.cs" />
+    <Compile Include="ReadAndWriteFromFile.cs" />
     <Compile Include="Calculator.cs" />
     <Compile Include="EnumUtil.cs" />
-    <Compile Include="EvaluationClass.cs" />
     <Compile Include="EvaluationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -185,7 +184,6 @@
       <DependentUpon>StatisticalTableForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UnitOfLength.cs" />
-    <Compile Include="VisitedBars.cs" />
     <EmbeddedResource Include="EvaluationForm.resx">
       <DependentUpon>EvaluationForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -240,9 +238,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BarEvaluation.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <Content Include="BarList.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
