@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Windows;
 using System.Windows.Forms;
 
 namespace Alus
 {
-
     public partial class LocationForm : Form
     {
+        private readonly double _diretionWeight = 0.004;
+
         private bool _isDown = false;
-        private double _cordChange1 = 0;
-        private double _cordChange2 = 0;
         private bool _firstRun = true;
         private List<Bar> _barList;
         private int _zoom = 12;
         private bool _ctrl = false;
+        Location _centerLocation;
+        Vector2d _direction;
         private NearestBars nearestBars = new NearestBars();
         IEnumerable<Location> directions = null;
-        private double latitude;
-        private double longitude;
 
         public LocationForm()
         {
@@ -38,6 +38,7 @@ namespace Alus
             if (_firstRun == true)
             {
                 _barList = nearestBars.FindBars();
+                _centerLocation = nearestBars.Location;
                 listBox1.Items.Add("* - Your location");
                 int i = 0;
                 foreach (var bar in _barList)
@@ -51,7 +52,7 @@ namespace Alus
             var mapRequest = new MapRequest()
             {
                 Size = new Size(400, 400),
-                Center = nearestBars.Location.Move(latitude, longitude),
+                Center = _centerLocation,
                 Zoom = _zoom
             };
 
@@ -105,29 +106,26 @@ namespace Alus
             if (e.KeyCode == Keys.W)
             {
                 _isDown = true;
-                _cordChange1 = 0.004;
-                _cordChange2 = 0;
+                _direction = Vector2d.UnitX;
                 InitTimer();
             }
             if (e.KeyCode == Keys.S)
             {
                 _isDown = true;
-                _cordChange1 = -0.004;
-                _cordChange2 = 0;
+                _direction = -Vector2d.UnitX;
                 InitTimer();
             }
             if (e.KeyCode == Keys.D)
             {
                 _isDown = true;
-                _cordChange1 = 0;
-                _cordChange2 = 0.004;
+
+                _direction = Vector2d.UnitY;
                 InitTimer();
             }
             if (e.KeyCode == Keys.A)
             {
                 _isDown = true;
-                _cordChange1 = 0;
-                _cordChange2 = -0.004;
+                _direction = -Vector2d.UnitY;
                 InitTimer();
             }
 
@@ -148,8 +146,7 @@ namespace Alus
             {
                 return;
             }
-            latitude += _cordChange1;
-            longitude += _cordChange2;
+            _centerLocation += (_diretionWeight * _direction);
             button1.PerformClick();
         }
 

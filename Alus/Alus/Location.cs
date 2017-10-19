@@ -99,9 +99,9 @@ namespace Alus
             }
         }
 
-        public Location Move(double latitudeOffset, double longtitudeOffset)
+        public static Location operator+(Location location, Vector2d vector)
         {
-            return new Location(Latitude + latitudeOffset, Longitude + longtitudeOffset);
+            return new Location(location.Latitude + vector.X, location.Longitude + vector.Y);
         }
     }
 }

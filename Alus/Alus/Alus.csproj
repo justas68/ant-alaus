@@ -185,6 +185,7 @@
       <DependentUpon>StatisticalTableForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UnitOfLength.cs" />
+    <Compile Include="Vector2d.cs" />
     <EmbeddedResource Include="EvaluationForm.resx">
       <DependentUpon>EvaluationForm.cs</DependentUpon>
     </EmbeddedResource>
