@@ -100,7 +100,7 @@ namespace Alus
             string size = $"{request.Size.Width}x{request.Size.Height}";
             string path = $"https://maps.googleapis.com/maps/api/staticmap?key={key}&center={request.Center}&zoom={request.Zoom}&size={size}";
 
-            var markers = labels.Select(label => $"markers=color:{label.Color.Name.ToLower()}%7Clabel:{label.Name}%7C{label.Location}");
+            var markers = labels.Select(label => $"markers=color:{HexConverter(label.Color)}%7Clabel:{label.Name}%7C{label.Location}");
 
             path = path + "&" + string.Join("&", markers);
 
@@ -111,6 +111,11 @@ namespace Alus
             }
 
             return GetStreamFromUrl(path);
+        }
+
+        private static string HexConverter(Color c)
+        {
+            return "0x" + c.R.ToString("x2") + c.G.ToString("x2") + c.B.ToString("x2");
         }
 
         public Alus.GoogleApi.Element GetDistanceElement(Location origin, Location destination)

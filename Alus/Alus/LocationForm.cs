@@ -57,13 +57,19 @@ namespace Alus
             };
 
             var labels = _barList
-                .Select((bar, index) => new Label() { Color = Color.Blue, Name = LetterAt(index).ToString() , Location = new Location(bar.Coordinates) })
+                .Select((bar, index) => new Label() { Color = RandomColor(), Name = LetterAt(index).ToString() , Location = new Location(bar.Coordinates) })
                 .Concat(new[] { new Label() { Color = Color.Red, Location = nearestBars.Location, Name = "*" } });
 
             using (var stream = nearestBars.GetMap(mapRequest, labels, directions))
             {
                 pictureBox1.Image = Image.FromStream(stream);
             }
+        }
+
+        static Random random = new Random();
+        private static Color RandomColor()
+        {
+            return Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
         }
 
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
