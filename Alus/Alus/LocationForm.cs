@@ -51,7 +51,7 @@ namespace Alus
 
             var mapRequest = new MapRequest()
             {
-                Size = new Size(400, 400),
+                Size = pictureBox1.Size,
                 Center = _centerLocation,
                 Zoom = _zoom
             };
