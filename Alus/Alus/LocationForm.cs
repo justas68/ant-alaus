@@ -1,36 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
-using Alus.GoogleApi;
-using Newtonsoft.Json;
 
 namespace Alus
 {
-
     public partial class LocationForm : Form
     {
+        private readonly double _diretionWeight = 0.004;
+
         private bool _isDown = false;
-        private double _cordChange1 = 0;
-        private double _cordChange2 = 0;
         private bool _firstRun = true;
         private List<Bar> _barList;
         private int _zoom = 12;
         private bool _ctrl = false;
+        Location _centerLocation;
+        Vector2d _direction;
         private NearestBars nearestBars = new NearestBars();
         IEnumerable<Location> directions = null;
-        private double latitude;
-        private double longitude;
 
         public LocationForm()
         {
@@ -38,45 +28,44 @@ namespace Alus
             this.pictureBox1.MouseWheel += pictureBox1_MouseWheel;
         }
 
+        private char LetterAt(int index, char start = 'A')
+        {
+            return (char)((int)start + index);
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             if (_firstRun == true)
             {
                 _barList = nearestBars.FindBars();
-                latitude = nearestBars.Location.Latitude;
-                longitude = nearestBars.Location.Longtitude;
+                _centerLocation = nearestBars.Location;
                 listBox1.Items.Add("* - Your location");
-            }
-            string path;
-            string centerLocation = new Location(latitude, longitude).ToString();
-            string currentLocation = nearestBars.Location.ToString();
-            path = "https://maps.googleapis.com/maps/api/staticmap?center=" + centerLocation + "&zoom=" + _zoom.ToString() + "&size=400x400&markers=color:blue%7Clabel:*%7C" + currentLocation;
-            int count = 'A';
-            if (_barList != null)
-            {
-                foreach (Bar baras in _barList)
+                int i = 0;
+                foreach (var bar in _barList)
                 {
-                    path = path + "&markers=color:blue%7Clabel:" + (char)count + "%7C" + baras.Coordinates;
-                    if (_firstRun == true)
-                    {
-                        listBox1.Items.Add((char)count + " - " + baras.Name);
-                    }
-                    count++;
+                    listBox1.Items.Add($"{LetterAt(i)} - {bar.Name}");
+                    i++;
                 }
+                _firstRun = false;
             }
-            _firstRun = false;
-            if (directions != null)
+
+            var mapRequest = new MapRequest()
             {
-                path = path + "&path=color:0x0000ff80|weight:3";
-                foreach (Location loc in directions)
-                {
-                    path = path + "|" + loc;
-                }
-                path = path + "+&sensor=true";
+                Size = new Size(400, 400),
+                Center = _centerLocation,
+                Zoom = _zoom
+            };
+
+            var labels = _barList
+                .Select((bar, index) => new Label() { Color = Color.Blue, Name = LetterAt(index).ToString() , Location = new Location(bar.Coordinates) })
+                .Concat(new[] { new Label() { Color = Color.Red, Location = nearestBars.Location, Name = "*" } });
+
+            using (var stream = nearestBars.GetMap(mapRequest, labels, directions))
+            {
+                pictureBox1.Image = Image.FromStream(stream);
             }
-            path = path + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU"; // API key
-            pictureBox1.Image = Image.FromStream(nearestBars.GetStreamFromUrl(path));
         }
+
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
         {
             if (_ctrl)
@@ -117,29 +106,26 @@ namespace Alus
             if (e.KeyCode == Keys.W)
             {
                 _isDown = true;
-                _cordChange1 = 0.004;
-                _cordChange2 = 0;
+                _direction = Vector2d.UnitX;
                 InitTimer();
             }
             if (e.KeyCode == Keys.S)
             {
                 _isDown = true;
-                _cordChange1 = -0.004;
-                _cordChange2 = 0;
+                _direction = -Vector2d.UnitX;
                 InitTimer();
             }
             if (e.KeyCode == Keys.D)
             {
                 _isDown = true;
-                _cordChange1 = 0;
-                _cordChange2 = 0.004;
+
+                _direction = Vector2d.UnitY;
                 InitTimer();
             }
             if (e.KeyCode == Keys.A)
             {
                 _isDown = true;
-                _cordChange1 = 0;
-                _cordChange2 = -0.004;
+                _direction = -Vector2d.UnitY;
                 InitTimer();
             }
 
@@ -160,8 +146,7 @@ namespace Alus
             {
                 return;
             }
-            latitude += _cordChange1;
-            longitude += _cordChange2;
+            _centerLocation += (_diretionWeight * _direction);
             button1.PerformClick();
         }
 
@@ -179,24 +164,6 @@ namespace Alus
             }
         }
 
-        private Alus.GoogleApi.Element GetDistanceElement(Location origin, Bar destinationBar)
-        {
-            string url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + origin + "&destinations=" + destinationBar.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
-            using (var reader = new JsonTextReader(new StreamReader(nearestBars.GetStreamFromUrl(url))))
-            {
-                var serializer = new JsonSerializer();
-                var response = serializer.Deserialize<DistanceMatrixRequest>(reader);
-                if (response.Status == "OK")
-                {
-                    return response.Rows[0].Elements[0];
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem != null)
@@ -208,25 +175,14 @@ namespace Alus
                     return;
                 }
                 var bar = _barList.ElementAt(listBox1.SelectedIndex - 1);
-                var element = GetDistanceElement(nearestBars.Location, bar);
-                directions = Decode(GetRoute(nearestBars.Location, bar).OverviewPolyline.Points);
+
+                var origin = nearestBars.Location;
+                var destination = new Alus.Location(bar.Coordinates);
+                var element = nearestBars.GetDistanceElement(origin, destination);
+                directions = nearestBars.GetDirections(origin, destination);
+
                 MessageBox.Show("Distance: " + element.Distance.Text + Environment.NewLine + "Duration: " + element.Duration.Text);
                 button1.PerformClick();
-            }
-        }
-
-        private GoogleApi.Route GetRoute(Location origin, Bar destinationBar)
-        {
-            string url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + origin + "&destination=" + destinationBar.Coordinates + "&key=AIzaSyCttVX1wln7i0nbsgnIcr9vfmYUO94oS8g";
-            using (var reader = new JsonTextReader(new StreamReader(nearestBars.GetStreamFromUrl(url))))
-            {
-                var serializer = new JsonSerializer();
-                var response = serializer.Deserialize<GoogleApi.DirectionsRequestResponse>(reader);
-                if (response.Status == "OK")
-                {
-                    return response.Routes[response.Routes.Count() - 1];
-                }
-                return null;
             }
         }
 
@@ -237,53 +193,6 @@ namespace Alus
                 listBox1_DoubleClick(null, null);
             }
             e.SuppressKeyPress = true;
-        }
-
-        private IEnumerable<Location> Decode(string polylineString)
-        {
-            if (string.IsNullOrEmpty(polylineString))
-            {
-                throw new ArgumentNullException(nameof(polylineString));
-            }
-            var polylineChars = polylineString.ToCharArray();
-            var index = 0;
-            var currentLat = 0;
-            var currentLng = 0;
-            while (index < polylineChars.Length)
-            {
-                // Next lat
-                var sum = 0;
-                var shifter = 0;
-                int nextFiveBits;
-                do
-                {
-                    nextFiveBits = polylineChars[index++] - 63;
-                    sum |= (nextFiveBits & 31) << shifter;
-                    shifter += 5;
-                } while (nextFiveBits >= 32 && index < polylineChars.Length);
-
-                if (index >= polylineChars.Length)
-                {
-                    break;
-                }
-                currentLat += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
-                // Next lng
-                sum = 0;
-                shifter = 0;
-                do
-                {
-                    nextFiveBits = polylineChars[index++] - 63;
-                    sum |= (nextFiveBits & 31) << shifter;
-                    shifter += 5;
-                } while (nextFiveBits >= 32 && index < polylineChars.Length);
-
-                if (index >= polylineChars.Length && nextFiveBits >= 32) 
-                {
-                    break;
-                }
-                currentLng += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
-                yield return new Location(Convert.ToDouble(currentLat) / 1E5, Convert.ToDouble(currentLng) / 1E5);
-            }
         }
     }
 }

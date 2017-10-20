@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Alus
 {
     public class NearestBars
     {
+        private static string key = "AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
+
         private Location _location;
 
         public Location Location
@@ -64,8 +65,8 @@ namespace Alus
 
         public GoogleApi.OpeningHour FindBarWorkingTime(String placeID)
         {
-            string url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeID + "&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
-            using (var reader = new JsonTextReader(new StreamReader(GetStreamFromUrl(url))))
+            string path = $"https://maps.googleapis.com/maps/api/place/details/json?placeid={placeID}&key={key}";
+            using (var reader = new JsonTextReader(new StreamReader(GetStreamFromUrl(path))))
             {
                 var serializer = new JsonSerializer();
                 var response = serializer.Deserialize<BarRequest>(reader);
@@ -82,7 +83,7 @@ namespace Alus
 
         public Stream NearbySearch(Location location)
         {
-            string path = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + location + "&rankby=distance&type=bar&key=AIzaSyARqcyQXKX0gz1NG4ulXlDdnqDCNS_bJrU";
+            string path = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location}&rankby=distance&type=bar&key={key}";
             return GetStreamFromUrl(path);
         }
 
@@ -93,5 +94,125 @@ namespace Alus
                 return new MemoryStream(wc.DownloadData(url));
             }
         }
+
+        public Stream GetMap(MapRequest request, IEnumerable<Label> labels, IEnumerable<Location> directions = null)
+        {
+            string size = $"{request.Size.Width}x{request.Size.Height}";
+            string path = $"https://maps.googleapis.com/maps/api/staticmap?key={key}&center={request.Center}&zoom={request.Zoom}&size={size}";
+
+            var markers = labels.Select(label => $"markers=color:{label.Color.Name.ToLower()}%7Clabel:{label.Name}%7C{label.Location}");
+
+            path = path + "&" + string.Join("&", markers);
+
+            if (directions != null)
+            {
+                path = path + "&path=color:0x0000ff80|weight:3|" + string.Join("|", directions.Select(l => l.ToString()));
+                path = path + "+&sensor=true";
+            }
+
+            return GetStreamFromUrl(path);
+        }
+
+        public Alus.GoogleApi.Element GetDistanceElement(Location origin, Location destination)
+        {
+            string url = $"https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins={origin}&destinations={destination}&key={key}";
+            using (var reader = new JsonTextReader(new StreamReader(GetStreamFromUrl(url))))
+            {
+                var serializer = new JsonSerializer();
+                var response = serializer.Deserialize<DistanceMatrixRequest>(reader);
+                if (response.Status == "OK")
+                {
+                    return response.Rows[0].Elements[0];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        private GoogleApi.Route GetRoute(Location origin, Location destination)
+        {
+            string url = $"https://maps.googleapis.com/maps/api/directions/json?origin={origin}&destination={destination}&key={key}";
+            using (var reader = new JsonTextReader(new StreamReader(GetStreamFromUrl(url))))
+            {
+                var serializer = new JsonSerializer();
+                var response = serializer.Deserialize<GoogleApi.DirectionsRequestResponse>(reader);
+                if (response.Status == "OK")
+                {
+                    return response.Routes[response.Routes.Count() - 1];
+                }
+                return null;
+            }
+        }
+
+        public IEnumerable<Location> GetDirections(Location origin, Location destination)
+        {
+            var element = GetDistanceElement(origin, destination);
+            return Decode(GetRoute(origin, destination).OverviewPolyline.Points);
+        }
+
+        private IEnumerable<Location> Decode(string polylineString)
+        {
+            if (string.IsNullOrEmpty(polylineString))
+            {
+                throw new ArgumentNullException(nameof(polylineString));
+            }
+
+            var polylineChars = polylineString.ToCharArray();
+            var index = 0;
+            var currentLat = 0;
+            var currentLng = 0;
+            while (index < polylineChars.Length)
+            {
+                // Next lat
+                var sum = 0;
+                var shifter = 0;
+                int nextFiveBits;
+                do
+                {
+                    nextFiveBits = polylineChars[index++] - 63;
+                    sum |= (nextFiveBits & 31) << shifter;
+                    shifter += 5;
+                } while (nextFiveBits >= 32 && index < polylineChars.Length);
+
+                if (index >= polylineChars.Length)
+                {
+                    break;
+                }
+                currentLat += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
+                // Next lng
+                sum = 0;
+                shifter = 0;
+                do
+                {
+                    nextFiveBits = polylineChars[index++] - 63;
+                    sum |= (nextFiveBits & 31) << shifter;
+                    shifter += 5;
+                } while (nextFiveBits >= 32 && index < polylineChars.Length);
+
+                if (index >= polylineChars.Length && nextFiveBits >= 32)
+                {
+                    break;
+                }
+                currentLng += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
+                yield return new Location(Convert.ToDouble(currentLat) / 1E5, Convert.ToDouble(currentLng) / 1E5);
+            }
+        }
+    }
+
+    public class MapRequest
+    {
+        public Location Center { get; set; }
+        public int Zoom { get; set; }
+        public Size Size { get; set; }
+
+    }
+
+    public class Label
+    {
+        public string Name { get; set; }
+        public Color Color { get; set; }
+        public Location Location { get; set; }
     }
 }

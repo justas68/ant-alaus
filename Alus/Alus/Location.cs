@@ -9,10 +9,17 @@ namespace Alus
     {
         public static readonly Location Zero = default(Location);
 
+        public Location(string str)
+        {
+            var coordinates = str.Split(',');
+            Latitude = double.Parse(coordinates[0]);
+            Longitude = double.Parse(coordinates[1]);
+        }
+
         public Location(double latitude, double longtitude)
         {
             Latitude = latitude;
-            Longtitude = longtitude;
+            Longitude = longtitude;
         }
 
         private static GeoCoordinateWatcher _watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
@@ -40,27 +47,27 @@ namespace Alus
         public double Latitude { get; private set; }
 
         [JsonProperty("lng")]
-        public double Longtitude { get; private set; }
+        public double Longitude { get; private set; }
 
         [JsonIgnore]
         public bool IsZero
         {
             get
             {
-                return Latitude == 0.0d && Longtitude == 0.0d;
+                return Latitude == 0.0d && Longitude == 0.0d;
             }
         }
 
         public override string ToString()
         {
-            return string.Format($"{Latitude.ToString(CultureInfo.InvariantCulture)},{Longtitude.ToString(CultureInfo.InvariantCulture)}");
+            return string.Format($"{Latitude.ToString(CultureInfo.InvariantCulture)},{Longitude.ToString(CultureInfo.InvariantCulture)}");
         }
 
         public bool Equals(Location other)
         {
             return (
                 Latitude == other.Latitude &&
-                Longtitude == other.Longtitude
+                Longitude == other.Longitude
             );
         }
 
@@ -72,7 +79,7 @@ namespace Alus
                 {
                     throw new ArgumentOutOfRangeException(nameof(index));
                 }
-                return index == 0 ? Latitude : Longtitude;
+                return index == 0 ? Latitude : Longitude;
             }
             set
             {
@@ -87,9 +94,14 @@ namespace Alus
                 }
                 else
                 {
-                    Longtitude = value;
+                    Longitude = value;
                 }
             }
+        }
+
+        public static Location operator+(Location location, Vector2d vector)
+        {
+            return new Location(location.Latitude + vector.X, location.Longitude + vector.Y);
         }
     }
 }
