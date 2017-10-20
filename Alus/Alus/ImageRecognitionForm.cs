@@ -33,11 +33,13 @@ namespace Alus
             {
                 DialogResult result = open.ShowDialog();
 
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(open.SelectedPath))
+                if (result != DialogResult.OK || string.IsNullOrWhiteSpace(open.SelectedPath))
                 {
-                    point = 0;
+                    // if something is wrong, just stop
+                    return;
                 }
 
+                point = 0;
                 string[] files = Directory.GetFiles(open.SelectedPath);
                 list = new List<string>(files);
                 list = list.Where(path => path.ToLower().EndsWith(".jpg")).ToList();
