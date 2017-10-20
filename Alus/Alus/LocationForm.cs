@@ -57,7 +57,7 @@ namespace Alus
             };
 
             var labels = _barList
-                .Select((bar, index) => new Label() { Color = RandomColor(), Name = LetterAt(index).ToString() , Location = new Location(bar.Coordinates) })
+                .Select((bar, index) => new Label() { Color = RandomColor(bar.PlaceId), Name = LetterAt(index).ToString() , Location = new Location(bar.Coordinates) })
                 .Concat(new[] { new Label() { Color = Color.Red, Location = nearestBars.Location, Name = "*" } });
 
             using (var stream = nearestBars.GetMap(mapRequest, labels, directions))
@@ -66,10 +66,17 @@ namespace Alus
             }
         }
 
-        static Random random = new Random();
-        private static Color RandomColor()
+        private static Random random = new Random();
+        private static Dictionary<string, Color> colors = new Dictionary<string, Color>();
+        private static Color RandomColor(string placeId)
         {
-            return Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
+            if (!colors.TryGetValue(placeId, out Color color))
+            {
+                var col = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
+                colors[placeId] = col;
+                return col;
+            }
+            return color;
         }
 
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
