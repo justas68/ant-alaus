@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 
 namespace Alus
 {
@@ -23,7 +20,7 @@ namespace Alus
                     var stringValues = st.Split(';');
                     try
                     {
-                        _barList.Add(new Bar(stringValues[0], stringValues[1], Convert.ToDouble(stringValues[2]), stringValues[3], stringValues[4], stringValues[5], Convert.ToDouble(stringValues[6]), Convert.ToInt32(stringValues[7])));
+                        _barList.Add(new Bar(stringValues[0], stringValues[1], double.Parse(stringValues[2], CultureInfo.InvariantCulture), stringValues[3], stringValues[4], stringValues[5], double.Parse(stringValues[6], CultureInfo.InvariantCulture), Convert.ToInt32(stringValues[7])));
                     }
                     catch(IOException)
                     {
@@ -42,7 +39,7 @@ namespace Alus
                 {
                     try
                     {
-                        streamWriter.WriteLine(bar.Name + ";" + bar.Coordinates + ";" + bar.OnlineRating + ";" + bar.Address + ";" + bar.PlaceId + ";" + bar.Evaluation + ";" + bar.Percentage + ";" + bar.BeersBought);
+                        streamWriter.WriteLine(bar.Name + ";" + bar.Coordinates + ";" + bar.OnlineRating.ToString(CultureInfo.InvariantCulture) + ";" + bar.Address + ";" + bar.PlaceId + ";" + bar.Evaluation + ";" + bar.Percentage.ToString(CultureInfo.InvariantCulture) + ";" + bar.BeersBought);
                         _barList.Add(bar);
                     }
                     catch (Exception)

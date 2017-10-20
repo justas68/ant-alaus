@@ -32,8 +32,26 @@ namespace Alus
 
         private void StaticticalTable_Load(object sender, EventArgs e)
         {
-            AddToTable(nearestBars.FindBars());
-            AddToTable(reader.ReadFile());
+            var evaluations = reader.ReadFile();
+
+            var newBarList = nearestBars.FindBars().Select(bar =>
+            {
+                var secondBar = evaluations.Where(b => b.PlaceId == bar.PlaceId).FirstOrDefault();
+
+                return new Bar(
+                    bar.Name,
+                    bar.Coordinates,
+                    bar.OnlineRating,
+                    bar.Address,
+                    bar.PlaceId,
+                    secondBar?.Evaluation,
+                    (secondBar == null ? 0.0 : secondBar.Percentage),
+                    bar.BeersBought
+                );
+            });
+
+            AddToTable(newBarList.ToList());
+
             Numbering();
         }
 
