@@ -11,7 +11,16 @@ namespace Alus.Tests
         public void ReadWriteToFile()
         {
             Alus.ReadAndWriteFromFile readwrite = new Alus.ReadAndWriteFromFile();
-            Bar bar = new Bar("Fabai","54.734658,25.2540789",4.4,"Ateities gatvė 21","ChIJwZrwhxOR3UYRVOQRS3PA5PI","6");
+            Bar bar = new Bar(
+              "Fabai",
+              "54.734658,25.2540789",
+              4.4,
+              "Ateities gatvė 21",
+              "ChIJwZrwhxOR3UYRVOQRS3PA5PI",
+              "6",
+              50,
+              5
+            );
             readwrite.WriteLineToFile(bar);
             List<Bar> barList;
             barList = readwrite.ReadFile();
