@@ -51,7 +51,9 @@ namespace Alus
                 Console.Write(listBox1.SelectedIndex);
                 if (!_newBar)
                 {
-                    textBox1.Text = _barList.ElementAt(listBox1.SelectedIndex).Evaluation;
+                    var bar = _barList.ElementAt(listBox1.SelectedIndex);
+                    trackBar1.Value = int.Parse(bar.Evaluation);
+                    textBox1.Text = bar.Evaluation;
                 }
                 else
                 {
