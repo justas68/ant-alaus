@@ -190,8 +190,11 @@ namespace Alus
             {
                 MessageBox.Show("First determine how much beer was poured in!");
             }
-            this.Close();
-            (new EvaluationForm(proc)).Show();
+            else
+            {
+                this.Close();
+                (new EvaluationForm(proc)).Show();
+            }
         }
     }
 }

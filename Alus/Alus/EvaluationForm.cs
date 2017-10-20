@@ -20,6 +20,7 @@ namespace Alus
             _barList = _readerWriter.ReadFile();
             _nearestBarList = _nearestBars.FindBars();
             evaluateButton.Visible = false;
+            notThisBar.Visible = false;
         }
 
         public EvaluationForm(double percentages)
@@ -67,10 +68,8 @@ namespace Alus
         {
             if (_newBar)
             {
-                foreach (Bar bar in _nearestBarList)
-                {
-                    listBox1.Items.Add(bar.Name);
-                }
+                listBox1.Items.Add(_nearestBarList.ElementAt(0).Name);
+                textBox2.Text = _nearestBarList.ElementAt(0).Name;
             }
             else
             {
@@ -156,6 +155,18 @@ namespace Alus
             textBox2.Text = null;
             listBox1.Items.Clear();
             EvaluationForm_Load(sender, e);
+        }
+
+        private void notThisBar_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+            textBox1.Text = null;
+            textBox2.Text = null;
+            foreach (Bar bar in _nearestBarList.Skip(1))
+            {
+                listBox1.Items.Add(bar.Name);
+            }
+            notThisBar.Visible = false;
         }
     }
 }

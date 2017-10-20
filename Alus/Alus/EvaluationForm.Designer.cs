@@ -41,6 +41,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.changeEvaluationButton = new System.Windows.Forms.Button();
             this.deleteBar = new System.Windows.Forms.Button();
+            this.notThisBar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
@@ -157,11 +158,22 @@
             this.deleteBar.UseVisualStyleBackColor = true;
             this.deleteBar.Click += new System.EventHandler(this.deleteBar_Click);
             // 
+            // notThisBar
+            //
+            this.notThisBar.Location = new System.Drawing.Point(285, 235);
+            this.notThisBar.Name = "notThisBar";
+            this.notThisBar.Size = new System.Drawing.Size(100, 23);
+            this.notThisBar.TabIndex = 14;
+            this.notThisBar.Text = "I\'m not in this bar";
+            this.notThisBar.UseVisualStyleBackColor = true;
+            this.notThisBar.Click += new System.EventHandler(this.notThisBar_Click);
+            //
             // EvaluationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(504, 558);
+            this.Controls.Add(this.notThisBar);
             this.Controls.Add(this.deleteBar);
             this.Controls.Add(this.changeEvaluationButton);
             this.Controls.Add(this.button2);
@@ -198,5 +210,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button changeEvaluationButton;
         private System.Windows.Forms.Button deleteBar;
+        private System.Windows.Forms.Button notThisBar;
     }
 }
