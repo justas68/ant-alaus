@@ -113,6 +113,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Device" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -128,6 +130,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bar.cs" />
+    <Compile Include="Connected Services\Service1Works\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="GoogleApi\BarObjects.cs" />
     <Compile Include="ReadAndWriteFromFile.cs" />
     <Compile Include="Calculator.cs" />
@@ -213,6 +220,10 @@
     <EmbeddedResource Include="StatisticalTableForm.resx">
       <DependentUpon>StatisticalTableForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Connected Services\Service1Works\Service1.wsdl" />
+    <None Include="Connected Services\Service1Works\Service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -241,6 +252,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BarList.txt" />
+    <None Include="Connected Services\Service1Works\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\Service1Works\configuration.svcinfo" />
+    <None Include="Connected Services\Service1Works\configuration91.svcinfo" />
+    <None Include="Connected Services\Service1Works\Service1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\Service1Works\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
