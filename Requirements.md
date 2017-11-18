@@ -25,3 +25,7 @@
  9. [ ] concurrent programming (threading or async/await (for your own written classes); common resource usage between threads).
 10. [ ] Config file usage (both - app and user).
 12. [ ] Dependency Injection.
+
+## Unofficial
+1. [ ] Implement web service(s) so functionality could be seperated from UI
+2. [ ] Deepen the functionality of application while being creative.
