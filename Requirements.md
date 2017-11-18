@@ -1,5 +1,4 @@
-First
-=====
+# First
 1.  [x] Creating and using your own [class](https://github.com/ant-alaus/ant-alaus/tree/master/Alus/Alus), [struct](https://github.com/ant-alaus/ant-alaus/blob/master/Alus/Alus/Location.cs) and [enum](https://github.com/ant-alaus/ant-alaus/blob/master/Alus/Alus/FeedbackType.cs) (with flag(s), preferably).
 2.  [x] Property ([standard](https://github.com/ant-alaus/ant-alaus/blob/master/Alus/Alus/NearestBars.cs#L15-L22), [indexed](https://github.com/ant-alaus/ant-alaus/blob/8fda61260054d17653d5a18da0e12302ebe61149/Alus/Alus/Location.cs#L67-L93), [auto-implemented](https://github.com/ant-alaus/ant-alaus/blob/master/Alus/Alus/Location.cs#L39-L43)) usage in [struct](https://github.com/ant-alaus/ant-alaus/blob/master/Alus/Alus/Location.cs#L39-L43) and class.
 3.  [x] [Named and optional argument usage](https://github.com/ant-alaus/ant-alaus/blob/master/Alus/Alus/NearestBars.cs#L31).
@@ -14,8 +13,7 @@ First
 
 [1]: https://docs.microsoft.com/en-us/dotnet/visual-basic/programming-guide/language-features/data-types/widening-and-narrowing-conversions
 
-Second
-======
+# Second
  1. [ ] Lazy initialization.
  2. [ ] Generics (in delegates, events and methods)
  3. [ ] Delegates.
