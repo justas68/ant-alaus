@@ -13,3 +13,17 @@ First
 11. [x] Implementing some of the standard .NET interfaces (IEnumerable, IComparable, [IComparer](https://github.com/ant-alaus/ant-alaus/blob/e6d8eb6829c40279e5122888c5ccf6e25f43a3f5/Alus/Alus/LocationDistanceComparer.cs), [IEquatable](https://github.com/ant-alaus/ant-alaus/blob/e6d8eb6829c40279e5122888c5ccf6e25f43a3f5/Alus/Alus/Location.cs#L8), IEnumerator, etc.)
 
 [1]: https://docs.microsoft.com/en-us/dotnet/visual-basic/programming-guide/language-features/data-types/widening-and-narrowing-conversions
+
+Second
+======
+ 1. [ ] Lazy initialization.
+ 2. [ ] Generics (in delegates, events and methods)
+ 3. [ ] Delegates.
+ 4. [ ] Events and their usage: standard and custom.
+ 5. [ ] Exceptions and dealing with them in a meaningfull way.
+ 6. [ ] Variation and covariation usage (at least demonstration).
+ 7. [ ] Anonymous methods.
+ 8. [ ] Lambda expressions.
+ 9. [ ] concurrent programming (threading or async/await (for your own written classes); common resource usage between threads).
+10. [ ] Config file usage (both - app and user).
+12. [ ] Dependency Injection.
