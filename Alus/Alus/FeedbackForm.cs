@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Alus.Core.Models;
 
 namespace Alus
 {
@@ -44,7 +45,7 @@ namespace Alus
             }
 
 
-            FeedbackFileSender.Instance.Send(feedback);
+            FeedbackFileSender.Instance.SendAsync(feedback).Wait();
 
             MessageBox.Show("Feedback sent. Thank you");
         }

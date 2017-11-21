@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Alus</RootNamespace>
     <AssemblyName>Alus</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <PublishUrl>publish\</PublishUrl>
@@ -28,6 +28,8 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+    <_HasReferenceToSystemRuntime>true</_HasReferenceToSystemRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -104,12 +106,7 @@
     <Reference Include="Emgu.CV.World">
       <HintPath>..\..\libemgucv\bin\Emgu.CV.World.dll</HintPath>
     </Reference>
-    <Reference Include="GoogleApi, Version=3.2.4.0, Culture=neutral, PublicKeyToken=781851e053b06e74, processorArchitecture=MSIL">
-      <HintPath>..\packages\GoogleApi.3.2.5\lib\net45\GoogleApi.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
+    <Reference Include="Newtonsoft.Json" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Device" />
@@ -146,7 +143,6 @@
       <DependentUpon>EvaluationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="EmailValidator.cs" />
-    <Compile Include="Feedback.cs" />
     <Compile Include="FeedbackFileSender.cs" />
     <Compile Include="FeedbackForm.cs">
       <SubType>Form</SubType>
@@ -154,11 +150,9 @@
     <Compile Include="FeedbackForm.designer.cs">
       <DependentUpon>FeedbackForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FeedbackType.cs" />
     <Compile Include="GoogleApi\RouteObjects.cs" />
     <Compile Include="GoogleApi\DistanceMatrixObjects.cs" />
     <Compile Include="GoogleApi\NearbyRequestObjects.cs" />
-    <Compile Include="IFeedbackSender.cs" />
     <Compile Include="ImageRecognitionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -216,6 +210,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="StatisticalTableForm.resx">
       <DependentUpon>StatisticalTableForm.cs</DependentUpon>
@@ -265,6 +260,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\Service1Works\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Alus.Core\Alus.Core.csproj">
+      <Project>{d719574f-55a8-43e7-bf12-89ffb29ce494}</Project>
+      <Name>Alus.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Alus.Core.Models;
 
 namespace Alus
 {
@@ -24,9 +25,9 @@ namespace Alus
             Filename = filename;
         }
 
-        public void Send(Feedback feedback)
+        public Task SendAsync(Feedback feedback)
         {
-            File.AppendAllText(Filename, JsonConvert.SerializeObject(feedback) + "\n");
+            return Task.Run(() => File.AppendAllText(Filename, JsonConvert.SerializeObject(feedback) + "\n"));
         }
     }
 }
