@@ -132,6 +132,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="FeedbackSender.cs" />
     <Compile Include="GoogleApi\BarObjects.cs" />
     <Compile Include="ReadAndWriteFromFile.cs" />
     <Compile Include="Calculator.cs" />
@@ -262,6 +263,10 @@
     <WCFMetadataStorage Include="Connected Services\Service1Works\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Alus.Client\Alus.Client.csproj">
+      <Project>{ada2788c-7eb5-47b0-84f2-8b420b77356b}</Project>
+      <Name>Alus.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Alus.Core\Alus.Core.csproj">
       <Project>{d719574f-55a8-43e7-bf12-89ffb29ce494}</Project>
       <Name>Alus.Core</Name>

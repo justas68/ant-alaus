@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Alus.Core.Models;
 
@@ -12,6 +13,8 @@ namespace Alus
         {
             InitializeComponent();
 
+            sendButton.Click += async (s, e) => await send_button_Click(s, e);
+
             foreach (var feedbackType in EnumUtil.GetValues<FeedbackType>())
             {
                 // type widening: from enum to string
@@ -22,7 +25,7 @@ namespace Alus
             feedbackComboBox.SelectedIndex = 0;
         }
 
-        private void send_button_Click(object sender, EventArgs e)
+        private async Task send_button_Click(object sender, EventArgs e)
         {
             var feedback = new Feedback()
             {
@@ -45,7 +48,7 @@ namespace Alus
             }
 
 
-            FeedbackFileSender.Instance.SendAsync(feedback).Wait();
+            await FeedbackFileSender.Instance.SendAsync(feedback);
 
             MessageBox.Show("Feedback sent. Thank you");
         }
