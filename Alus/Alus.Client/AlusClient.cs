@@ -1,9 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Alus.Core.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -11,7 +12,17 @@ namespace Alus.Client
 {
     public class AlusClient
     {
-        private RestClient _client = new RestClient("http://localhost:50680");
+        public static IConfigurationRoot Configuration { get; }
+
+        static AlusClient()
+        {
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            Configuration = new ConfigurationBuilder()
+                .AddXmlFile("appsettings.xml")
+                .Build();
+        }
+
+        private RestClient _client = new RestClient(Configuration["host"]);
         private Lazy<JsonSerializer> _serializer = new Lazy<JsonSerializer>();
 
         private readonly string api = "api/feedback";

@@ -10,7 +10,7 @@ namespace Alus.Console
     {
         static void Main(string[] args)
         {
-            MainAsync(args).Wait();
+            MainAsync(args).GetAwaiter().GetResult();
         }
 
         static async Task MainAsync(string[] args)
