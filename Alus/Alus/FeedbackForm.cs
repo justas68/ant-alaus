@@ -47,10 +47,16 @@ namespace Alus
                 return;
             }
 
+            try
+            {
+                await FeedbackSender.Instance.SendAsync(feedback);
+                MessageBox.Show("Feedback sent. Thank you");
+            }
+            catch (ArgumentNullException ex) when (ex.Message == "Buffer cannot be null.")
+            {
+                MessageBox.Show("There was an error while sending your feedback");
 
-            await FeedbackFileSender.Instance.SendAsync(feedback);
-
-            MessageBox.Show("Feedback sent. Thank you");
+            }
         }
 
         private void suggestionExitButton_Click(object sender, EventArgs e)
