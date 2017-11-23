@@ -14,6 +14,7 @@ namespace Alus
             InitializeComponent();
             _container = new UnityContainer();
             _container.RegisterType<IEmailValidator, EmailValidator>();
+            _container.RegisterType<IColorPicker, ColorPicker>();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -30,7 +31,7 @@ namespace Alus
 
         private void button3_Click(object sender, EventArgs e)
         {
-            (new LocationForm()).Show();
+            _container.Resolve<LocationForm>().Show();
              this.Hide();
         }
 

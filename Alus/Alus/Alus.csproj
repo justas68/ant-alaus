@@ -189,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bar.cs" />
+    <Compile Include="ColorPicker.cs" />
     <Compile Include="Connected Services\Service1Works\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

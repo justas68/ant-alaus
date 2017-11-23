@@ -10,6 +10,7 @@ namespace Alus
 {
     public partial class LocationForm : Form
     {
+        private readonly IColorPicker _colorPicker;
         private readonly double _diretionWeight = 0.004;
 
         private bool _isDown = false;
@@ -22,9 +23,10 @@ namespace Alus
         private NearestBars nearestBars = new NearestBars();
         IEnumerable<Location> directions = null;
 
-        public LocationForm()
+        public LocationForm(IColorPicker colorPicker)
         {
             InitializeComponent();
+            _colorPicker = colorPicker;
             this.pictureBox1.MouseWheel += pictureBox1_MouseWheel;
         }
 
@@ -57,26 +59,13 @@ namespace Alus
             };
 
             var labels = _barList
-                .Select((bar, index) => new Label() { Color = RandomColor(bar.PlaceId), Name = LetterAt(index).ToString() , Location = new Location(bar.Coordinates) })
+                .Select((bar, index) => new Label() { Color = _colorPicker.GetColor(bar.PlaceId), Name = LetterAt(index).ToString() , Location = new Location(bar.Coordinates) })
                 .Concat(new[] { new Label() { Color = Color.Red, Location = nearestBars.Location, Name = "*" } });
 
             using (var stream = nearestBars.GetMap(mapRequest, labels, directions))
             {
                 pictureBox1.Image = Image.FromStream(stream);
             }
-        }
-
-        private static Random random = new Random();
-        private static Dictionary<string, Color> colors = new Dictionary<string, Color>();
-        private static Color RandomColor(string placeId)
-        {
-            if (!colors.TryGetValue(placeId, out Color color))
-            {
-                var col = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
-                colors[placeId] = col;
-                return col;
-            }
-            return color;
         }
 
         private void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
