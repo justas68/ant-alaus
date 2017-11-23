@@ -189,6 +189,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bar.cs" />
+    <Compile Include="ChildForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ColorPicker.cs" />
     <Compile Include="Connected Services\Service1Works\Reference.cs">
       <AutoGen>True</AutoGen>

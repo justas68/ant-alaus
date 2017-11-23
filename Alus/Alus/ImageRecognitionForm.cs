@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Alus
 {
-    public partial class ImageRecognitionForm : Form
+    public partial class ImageRecognitionForm : ChildForm
     {
         Point[] p1 = new Point[3];  //liniju pirmas taskas
         Point[] p2 = new Point[3];  //liniju antras taskas

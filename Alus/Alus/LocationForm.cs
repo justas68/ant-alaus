@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Windows;
 using System.Windows.Forms;
 
 namespace Alus
 {
-    public partial class LocationForm : Form
+    public partial class LocationForm : ChildForm
     {
         private readonly IColorPicker _colorPicker;
         private readonly double _diretionWeight = 0.004;

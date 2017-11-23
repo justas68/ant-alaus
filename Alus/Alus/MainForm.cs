@@ -6,8 +6,18 @@ using Unity;
 
 namespace Alus
 {
-    public partial class MainForm : Form
+    public partial class MainForm : ChildForm
     {
+        private static readonly Lazy<MainForm> instance = new Lazy<MainForm>(() => new MainForm());
+
+        public static MainForm Instance
+        {
+            get
+            {
+                return instance.Value;
+            }
+        }
+
         private readonly EvaluationForm brv = new EvaluationForm();
         private readonly IUnityContainer _container;
 
@@ -23,19 +33,19 @@ namespace Alus
         private void button1_Click(object sender, EventArgs e)
         {
             brv.Show();
-            this.Hide();
+            Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             (new ImageRecognitionForm()).Show();
-            this.Hide();
+            Hide();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             _container.Resolve<LocationForm>().Show();
-             this.Hide();
+             Hide();
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -46,13 +56,13 @@ namespace Alus
         private void suggestions_Click(object sender, EventArgs e)
         {
             _container.Resolve<FeedbackForm>().Show();
-            this.Hide();
+            Hide();
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
             (new StatisticalTableForm()).Show();
-            this.Hide();
+            Hide();
         }
     }
 }

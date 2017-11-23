@@ -5,7 +5,7 @@ using Alus.Core.Models;
 
 namespace Alus
 {
-    public partial class FeedbackForm : Form
+    public partial class FeedbackForm : ChildForm
     {
         private readonly IFeedbackSender _feedbackSender;
         private readonly IEmailValidator _emailValidator;
@@ -69,8 +69,7 @@ namespace Alus
 
         private void suggestionExitButton_Click(object sender, EventArgs e)
         {
-            (new MainForm()).Show();
-            this.Hide();
+            Close();
         }
     }
 }

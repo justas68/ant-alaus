@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace Alus
 {
-    public partial class StatisticalTableForm : Form
+    public partial class StatisticalTableForm : ChildForm
     {
         private NearestBars nearestBars = new NearestBars();
         private ReadAndWriteFromFile reader = new ReadAndWriteFromFile();

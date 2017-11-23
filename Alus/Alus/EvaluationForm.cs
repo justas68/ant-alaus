@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 namespace Alus
 {
-    public partial class EvaluationForm : Form
+    public partial class EvaluationForm : ChildForm
     {
         private bool _newBar;
         private double _percentages;
@@ -119,15 +119,14 @@ namespace Alus
             if (_newBar && _choice)
             {
                 MessageBox.Show("New bar added");
-                this.Hide();
+                Close();
                 (new MainForm()).Show();
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            (new MainForm()).Show();
-            this.Hide();
+            Close();
         }
 
         private void changeEvaluationButton_Click(object sender, EventArgs e)
