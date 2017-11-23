@@ -7,11 +7,13 @@ namespace Alus
 {
     public partial class FeedbackForm : Form
     {
-        EmailValidator validator = new EmailValidator();
+        private readonly IEmailValidator _emailValidator;
 
-        public FeedbackForm()
+        public FeedbackForm(IEmailValidator emailValidator)
         {
             InitializeComponent();
+
+            _emailValidator = emailValidator;
 
             sendButton.Click += async (s, e) => await send_button_Click(s, e);
 
@@ -35,7 +37,7 @@ namespace Alus
                 Type = (FeedbackType)Enum.Parse(typeof(FeedbackType), feedbackComboBox.Text)
             };
 
-            if (!validator.Validate(feedback.EMail))
+            if (!_emailValidator.Validate(feedback.EMail))
             {
                 MessageBox.Show("Invalid email address");
                 return;
