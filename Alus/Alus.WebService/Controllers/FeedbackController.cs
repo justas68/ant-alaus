@@ -19,30 +19,22 @@ namespace Alus.WebService.Controllers
             _context = context;
         }
 
-        // GET api/values
         [HttpGet]
-        public async Task<IEnumerable<Feedback>> Get()
+        public async Task<IEnumerable<Feedback>> Get(int offset = 0, int count = 0)
         {
-            return await _context
-                .FeedbackItems
-                .Select(f => new Feedback(f))
-                .ToListAsync();
-        }
-        /*
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public Feedback Get(int id)
-        {
-            return new Feedback()
-            {
-                EMail = "andrius.bentkus@gmail.com",
-                Text = "Make the app better",
-                Type = FeedbackType.General
-            };
-        }
-        */
 
-        // POST api/values
+            var result = _context
+                .FeedbackItems
+                .Select(f => new Feedback(f));
+
+            if (!(offset == 0 && count == 0))
+            {
+                result = result.Skip(offset).Take(0);
+            }
+
+            return await result.ToListAsync();
+        }
+
         [HttpPost]
         public async Task Post([FromBody]Feedback feedback)
         {
@@ -57,20 +49,5 @@ namespace Alus.WebService.Controllers
             );
             await _context.SaveChangesAsync();
         }
-        /*
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-            throw new NotSupportedException();
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            throw new NotSupportedException();
-        }
-        */
     }
 }
