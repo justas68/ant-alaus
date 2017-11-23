@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 using Alus.Client;
 using Alus.Core.Models;
 using Unity;
@@ -18,7 +17,6 @@ namespace Alus
             }
         }
 
-        private readonly EvaluationForm brv = new EvaluationForm();
         private readonly IUnityContainer _container;
 
         public MainForm()
@@ -28,11 +26,12 @@ namespace Alus
             _container.RegisterType<IEmailValidator, EmailValidator>();
             _container.RegisterType<IColorPicker, ColorPicker>();
             _container.RegisterInstance<IFeedbackSender>(new FeedbackSender(new AlusClient()));
+            _container.RegisterInstance<IBarContainer>(new BarFileContainer("./../../../BarList.txt"));
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            brv.Show();
+            _container.Resolve<EvaluationForm>().Show();
             Hide();
         }
 
@@ -61,7 +60,7 @@ namespace Alus
 
         private void button6_Click(object sender, EventArgs e)
         {
-            (new StatisticalTableForm()).Show();
+            _container.Resolve<StatisticalTableForm>().Show(); ;
             Hide();
         }
     }

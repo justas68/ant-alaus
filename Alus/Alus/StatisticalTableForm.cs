@@ -16,23 +16,24 @@ namespace Alus
 {
     public partial class StatisticalTableForm : ChildForm
     {
-        private NearestBars nearestBars = new NearestBars();
-        private ReadAndWriteFromFile reader = new ReadAndWriteFromFile();
+        private readonly IBarContainer _barContainer;
 
-        public StatisticalTableForm()
+        private NearestBars nearestBars = new NearestBars();
+
+        public StatisticalTableForm(IBarContainer barContainer)
         {
             InitializeComponent();
+            _barContainer = barContainer;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            (new MainForm()).Show();
-            this.Close();
+            Close();
         }
 
         private void StaticticalTable_Load(object sender, EventArgs e)
         {
-            var evaluations = reader.ReadFile();
+            var evaluations = _barContainer.GetAll();
 
             var newBarList = nearestBars.FindBars().Select(bar =>
             {
