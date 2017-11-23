@@ -4,6 +4,8 @@ using Android.OS;
 using Java.Lang;
 using Android.Views;
 using Android.Content;
+using System;
+using Android.Runtime;
 
 namespace BeerApplication
 {
@@ -13,42 +15,32 @@ namespace BeerApplication
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
- 
+
             // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.Main);
-            var button = FindViewById<ImageButton>(Resource.Id.StatisticButton);
-            button.Click += delegate
+            SetContentView(Resource.Layout.activity_main_page);
+            var statisticButton = FindViewById<ImageButton>(Resource.Id.StatisticButton);
+            var evaluationButton = FindViewById<ImageButton>(Resource.Id.EvaluationButton);
+            var beerGlassButton = FindViewById<ImageButton>(Resource.Id.BeerGlassButton);
+            var feedbackButton = FindViewById<ImageButton>(Resource.Id.FeedbackButton);
+            var nearestBarButton = FindViewById<ImageButton>(Resource.Id.NearestBarButton);
+
+            beerGlassButton.Click += (sender, e) =>
             {
-                Intent next = new Intent(this, typeof(StatisticTable));
+                Intent next = new Intent(this, typeof(PhotoActivity));
                 StartActivity(next);
             };
-        }
 
-        public void BeerglassOnClick(View view)
-        {
-            StartActivity(typeof(StatisticTable));
-        }
+            statisticButton.Click += delegate
+            {
+                Intent next2 = new Intent(this, typeof(StatisticTable));
+                StartActivity(next2);
+            };
 
-        public void BarEvaluationOnClick(View view)
-        {
-            StartActivity(typeof(StatisticTable));
-        }
-
-        public void NearestBarsOnClick(View view)
-        {
-            StartActivity(typeof(StatisticTable));
-        }
-
-        public void FeedbackOnClick(View view)
-        {
-            StartActivity(typeof(StatisticTable));
-        }
-
-        public void StatisticalTableOnClick(View view)
-        {
-            Intent intent = new Intent(this, typeof(StatisticTable));
-            StartActivity(intent);
+            feedbackButton.Click += delegate
+            {
+                Intent next3 = new Intent(this, typeof(Feedbacks));
+                StartActivity(next3);
+            };
         }
     }
 }
-

@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Beer App</string>
+  <string-array name="feedback_choices">
+    <item>General</item>
+    <item>Suggestions</item>
+    <item>Bugs</item>
+    <item>Complaints</item>
+    <item>Other</item>
+  </string-array>
 </resources>
