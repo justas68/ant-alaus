@@ -7,12 +7,14 @@ namespace Alus
 {
     public partial class FeedbackForm : Form
     {
+        private readonly IFeedbackSender _feedbackSender;
         private readonly IEmailValidator _emailValidator;
 
-        public FeedbackForm(IEmailValidator emailValidator)
+        public FeedbackForm(IFeedbackSender feedbackSender, IEmailValidator emailValidator)
         {
             InitializeComponent();
 
+            _feedbackSender = feedbackSender;
             _emailValidator = emailValidator;
 
             sendButton.Click += async (s, e) => await send_button_Click(s, e);
@@ -51,13 +53,17 @@ namespace Alus
 
             try
             {
-                await FeedbackSender.Instance.SendAsync(feedback);
+                await _feedbackSender.SendAsync(feedback);
                 MessageBox.Show("Feedback sent. Thank you");
             }
-            catch (ArgumentNullException ex) when (ex.Message == "Buffer cannot be null.")
+            catch (FeedbackSenderException ex)
             {
-                MessageBox.Show("There was an error while sending your feedback");
+                MessageBox.Show(ex.Message);
 
+            }
+            catch
+            {
+                MessageBox.Show("There was an unexpected error while sending your feedback");
             }
         }
 

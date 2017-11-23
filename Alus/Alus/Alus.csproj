@@ -196,6 +196,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="FeedbackSender.cs" />
+    <Compile Include="FeedbackSenderException.cs" />
     <Compile Include="GoogleApi\BarObjects.cs" />
     <Compile Include="ReadAndWriteFromFile.cs" />
     <Compile Include="Calculator.cs" />

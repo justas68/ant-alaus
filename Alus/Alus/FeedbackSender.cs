@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Alus.Client;
 using Alus.Core.Models;
 
@@ -6,13 +7,6 @@ namespace Alus
 {
     public class FeedbackSender : IFeedbackSender
     {
-        public static FeedbackSender Instance { get; private set; }
-
-        static FeedbackSender()
-        {
-            Instance = new FeedbackSender(new AlusClient());
-        }
-
         private readonly AlusClient _client;
 
         public FeedbackSender(AlusClient client)
@@ -22,7 +16,17 @@ namespace Alus
 
         public async Task SendAsync(Feedback feedback)
         {
-            await _client.AddAsync(feedback);
+            try
+            {
+                await _client.AddAsync(feedback);
+            }
+            catch (ArgumentNullException ex) when (ex.Message == "Buffer cannot be null.")
+            {
+                // RestSharp is eating up the exception and spitting some
+                // really misleading exception, so I just wrap the misleading
+                // exception in an exception, which makes more sense
+                throw new FeedbackSenderException("Can't connect to remote", ex);
+            }
         }
     }
 }

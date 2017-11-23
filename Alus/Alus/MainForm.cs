@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using Alus.Client;
+using Alus.Core.Models;
 using Unity;
 
 namespace Alus
@@ -15,6 +17,7 @@ namespace Alus
             _container = new UnityContainer();
             _container.RegisterType<IEmailValidator, EmailValidator>();
             _container.RegisterType<IColorPicker, ColorPicker>();
+            _container.RegisterInstance<IFeedbackSender>(new FeedbackSender(new AlusClient()));
         }
 
         private void button1_Click(object sender, EventArgs e)
