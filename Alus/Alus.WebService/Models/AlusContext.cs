@@ -15,5 +15,6 @@ namespace Alus.WebService.Models
         }
         
         public DbSet<DatabaseFeedback> FeedbackItems { get; set; }
+        public DbSet<DatabaseBar> Bars { get; set; }
     }
 }

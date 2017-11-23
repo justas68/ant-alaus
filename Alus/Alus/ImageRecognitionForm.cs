@@ -194,7 +194,7 @@ namespace Alus
             else
             {
                 this.Close();
-                //(new EvaluationForm(proc)).Show();
+                MainForm.Instance.Resolve<EvaluationForm>().Show();
             }
         }
     }

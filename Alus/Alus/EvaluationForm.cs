@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Alus.Core.Models;
+
 namespace Alus
 {
     public partial class EvaluationForm : ChildForm
@@ -9,7 +11,7 @@ namespace Alus
         private readonly IBarContainer _barContainer;
 
         private bool _newBar;
-        private double _percentages;
+        public double Percentages { get; set; }
         private NearestBars _nearestBars = new NearestBars();
         private List<Bar> _nearestBarList;
         private IList<Bar> _barList;
@@ -26,12 +28,6 @@ namespace Alus
             _nearestBarList = _nearestBars.FindBars();
             evaluateButton.Visible = false;
             notThisBar.Visible = false;
-        }
-
-        public EvaluationForm(IBarContainer barContainer, double percentages)
-            : this(barContainer)
-        {
-            _percentages = percentages;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -99,7 +95,7 @@ namespace Alus
                 {
                     Bar bar = _nearestBarList.ElementAt(listBox1.SelectedIndex);
                     bar.Evaluation = trackBar1.Value.ToString();
-                    bar.Percentage = (bar.BeersBought * bar.Percentage + Math.Round(_percentages, 2)) / (bar.BeersBought + 1);
+                    bar.Percentage = (bar.BeersBought * bar.Percentage + Math.Round(Percentages, 2)) / (bar.BeersBought + 1);
                     bar.BeersBought++;
                     _barContainer.Add(bar);
                     _barList.Add(bar);

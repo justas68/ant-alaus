@@ -22,11 +22,18 @@ namespace Alus
         public MainForm()
         {
             InitializeComponent();
+            var client = new AlusClient();
             _container = new UnityContainer();
             _container.RegisterType<IEmailValidator, EmailValidator>();
             _container.RegisterType<IColorPicker, ColorPicker>();
-            _container.RegisterInstance<IFeedbackSender>(new FeedbackSender(new AlusClient()));
-            _container.RegisterInstance<IBarContainer>(new BarFileContainer("./../../../BarList.txt"));
+            _container.RegisterInstance<IFeedbackSender>(new FeedbackSender(client));
+            //_container.RegisterInstance<IBarContainer>(new BarFileContainer("./../../../BarList.txt"));
+            _container.RegisterInstance<IBarContainer>(new BarWebServiceContainer(client));
+        }
+
+        public T Resolve<T>()
+        {
+            return _container.Resolve<T>();
         }
 
         private void button1_Click(object sender, EventArgs e)

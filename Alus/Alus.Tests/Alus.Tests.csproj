@@ -62,14 +62,18 @@
     <Compile Include="EmailValidatorTest.cs" />
     <Compile Include="ListExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReadAndWriteToFileTest.cs" />
+    <Compile Include="BarFileContainerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Alus.Core\Alus.Core.csproj">
+      <Project>{d719574f-55a8-43e7-bf12-89ffb29ce494}</Project>
+      <Name>Alus.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Alus\Alus.csproj">
-      <Project>{F0D688E7-AE57-49CB-8F63-A6FA559DD4D3}</Project>
+      <Project>{f0d688e7-ae57-49cb-8f63-a6fa559dd4d3}</Project>
       <Name>Alus</Name>
     </ProjectReference>
   </ItemGroup>

@@ -188,7 +188,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bar.cs" />
+    <Compile Include="BarWebServiceContainer.cs" />
     <Compile Include="ChildForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,7 +201,7 @@
     <Compile Include="FeedbackSender.cs" />
     <Compile Include="FeedbackSenderException.cs" />
     <Compile Include="GoogleApi\BarObjects.cs" />
-    <Compile Include="ReadAndWriteFromFile.cs" />
+    <Compile Include="BarFileContainer.cs" />
     <Compile Include="Calculator.cs" />
     <Compile Include="EnumUtil.cs" />
     <Compile Include="EvaluationForm.cs">
