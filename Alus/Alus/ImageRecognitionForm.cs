@@ -181,8 +181,7 @@ namespace Alus
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.Close();
-            (new MainForm()).Show();
+            Close();
         }
 
         private void addBar_Click(object sender, EventArgs e)
@@ -194,7 +193,10 @@ namespace Alus
             else
             {
                 this.Close();
-                MainForm.Instance.Resolve<EvaluationForm>().Show();
+                var form = MainForm.Instance.Resolve<EvaluationForm>();
+                form.Percentages = percentage;
+                form.AddBar();
+                form.Show();
             }
         }
     }

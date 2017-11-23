@@ -30,8 +30,22 @@ namespace Alus
             notThisBar.Visible = false;
         }
 
+        public void AddBar()
+        {
+            _newBar = true;
+            changeEvaluationButton.Visible = false;
+            deleteBar.Visible = false;
+            evaluateButton.Visible = true;
+            notThisBar.Visible = true;
+        }
+
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (listBox1.SelectedIndex < 0)
+            {
+                return;
+            }
+
             if (_newBar)
             {
                 textBox2.Text = _nearestBarList.ElementAt(listBox1.SelectedIndex).Name;
@@ -116,7 +130,7 @@ namespace Alus
             {
                 MessageBox.Show("New bar added");
                 Close();
-                (new MainForm()).Show();
+                MainForm.Instance.Show();
             }
         }
 
