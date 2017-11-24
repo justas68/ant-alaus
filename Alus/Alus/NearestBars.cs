@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Drawing;
+using Alus.Core.Models;
 
 namespace Alus
 {

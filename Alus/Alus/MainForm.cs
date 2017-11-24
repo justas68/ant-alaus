@@ -1,39 +1,57 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using Alus.Client;
+using Alus.Core.Models;
+using Unity;
 
 namespace Alus
 {
-    public partial class MainForm : Form
+    public partial class MainForm : ChildForm
     {
-        EvaluationForm brv = new EvaluationForm();
+        private static readonly Lazy<MainForm> instance = new Lazy<MainForm>(() => new MainForm());
+
+        public static MainForm Instance
+        {
+            get
+            {
+                return instance.Value;
+            }
+        }
+
+        private readonly IUnityContainer _container;
+
         public MainForm()
         {
             InitializeComponent();
+            var client = new AlusClient();
+            _container = new UnityContainer();
+            _container.RegisterType<IEmailValidator, EmailValidator>();
+            _container.RegisterType<IColorPicker, ColorPicker>();
+            _container.RegisterInstance<IFeedbackSender>(new FeedbackSender(client));
+            //_container.RegisterInstance<IBarContainer>(new BarFileContainer("./../../../BarList.txt"));
+            _container.RegisterInstance<IBarContainer>(new BarWebServiceContainer(client));
+        }
+
+        public T Resolve<T>()
+        {
+            return _container.Resolve<T>();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            brv.Show();
-            this.Hide();
+            _container.Resolve<EvaluationForm>().Show();
+            Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             (new ImageRecognitionForm()).Show();
-            this.Hide();
+            Hide();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            (new LocationForm()).Show();
-             this.Hide();
+            _container.Resolve<LocationForm>().Show();
+             Hide();
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -43,14 +61,14 @@ namespace Alus
 
         private void suggestions_Click(object sender, EventArgs e)
         {
-            (new FeedbackForm()).Show();
-            this.Hide();
+            _container.Resolve<FeedbackForm>().Show();
+            Hide();
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            (new StatisticalTableForm()).Show();
-            this.Hide();
+            _container.Resolve<StatisticalTableForm>().Show(); ;
+            Hide();
         }
     }
 }

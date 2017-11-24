@@ -1,16 +1,16 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using Alus.Core.Models;
 
 namespace Alus.Tests
 {
     [TestClass]
-    public class ReadWriteToFileTest
+    public class BarFileContainerTest
     {
         [TestMethod]
         public void ReadWriteToFile()
         {
-            Alus.ReadAndWriteFromFile readwrite = new Alus.ReadAndWriteFromFile();
+            IBarContainer barContainer = new BarFileContainer("tmp.txt");
             Bar bar = new Bar(
               "Fabai",
               "54.734658,25.2540789",
@@ -21,9 +21,9 @@ namespace Alus.Tests
               50,
               5
             );
-            readwrite.WriteLineToFile(bar);
+            barContainer.Add(bar);
             List<Bar> barList;
-            barList = readwrite.ReadFile();
+            barList = new List<Bar>(barContainer.GetAll());
             Bar bar2 = barList[0];
             Assert.IsNotNull(bar2.Name);
             Assert.IsNotNull(bar2.Address);

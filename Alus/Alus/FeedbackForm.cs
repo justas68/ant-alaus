@@ -1,15 +1,23 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using Alus.Core.Models;
 
 namespace Alus
 {
-    public partial class FeedbackForm : Form
+    public partial class FeedbackForm : ChildForm
     {
-        EmailValidator validator = new EmailValidator();
+        private readonly IFeedbackSender _feedbackSender;
+        private readonly IEmailValidator _emailValidator;
 
-        public FeedbackForm()
+        public FeedbackForm(IFeedbackSender feedbackSender, IEmailValidator emailValidator)
         {
             InitializeComponent();
+
+            _feedbackSender = feedbackSender;
+            _emailValidator = emailValidator;
+
+            sendButton.Click += async (s, e) => await send_button_Click(s, e);
 
             foreach (var feedbackType in EnumUtil.GetValues<FeedbackType>())
             {
@@ -21,7 +29,7 @@ namespace Alus
             feedbackComboBox.SelectedIndex = 0;
         }
 
-        private void send_button_Click(object sender, EventArgs e)
+        private async Task send_button_Click(object sender, EventArgs e)
         {
             var feedback = new Feedback()
             {
@@ -31,7 +39,7 @@ namespace Alus
                 Type = (FeedbackType)Enum.Parse(typeof(FeedbackType), feedbackComboBox.Text)
             };
 
-            if (!validator.Validate(feedback.EMail))
+            if (!_emailValidator.Validate(feedback.EMail))
             {
                 MessageBox.Show("Invalid email address");
                 return;
@@ -43,16 +51,25 @@ namespace Alus
                 return;
             }
 
+            try
+            {
+                await _feedbackSender.SendAsync(feedback);
+                MessageBox.Show("Feedback sent. Thank you");
+            }
+            catch (FeedbackSenderException ex)
+            {
+                MessageBox.Show(ex.Message);
 
-            FeedbackFileSender.Instance.Send(feedback);
-
-            MessageBox.Show("Feedback sent. Thank you");
+            }
+            catch
+            {
+                MessageBox.Show("There was an unexpected error while sending your feedback");
+            }
         }
 
         private void suggestionExitButton_Click(object sender, EventArgs e)
         {
-            (new MainForm()).Show();
-            this.Hide();
+            Close();
         }
     }
 }

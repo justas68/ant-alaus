@@ -1,22 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Alus.Core.Models;
 
 namespace Alus
 {
     public class FeedbackFileSender : IFeedbackSender
     {
-        public static IFeedbackSender Instance { get; private set; }
-
-        static FeedbackFileSender()
-        {
-            Instance = new FeedbackFileSender("feedback.txt");
-        }
-
         public string Filename { get; private set; }
 
         public FeedbackFileSender(string filename)
@@ -24,9 +14,9 @@ namespace Alus
             Filename = filename;
         }
 
-        public void Send(Feedback feedback)
+        public Task SendAsync(Feedback feedback)
         {
-            File.AppendAllText(Filename, JsonConvert.SerializeObject(feedback) + "\n");
+            return Task.Run(() => File.AppendAllText(Filename, JsonConvert.SerializeObject(feedback) + "\n"));
         }
     }
 }

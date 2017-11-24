@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Alus
 {
-    public partial class ImageRecognitionForm : Form
+    public partial class ImageRecognitionForm : ChildForm
     {
         Point[] p1 = new Point[3];  //liniju pirmas taskas
         Point[] p2 = new Point[3];  //liniju antras taskas
@@ -181,8 +181,7 @@ namespace Alus
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.Close();
-            (new MainForm()).Show();
+            Close();
         }
 
         private void addBar_Click(object sender, EventArgs e)
@@ -194,7 +193,10 @@ namespace Alus
             else
             {
                 this.Close();
-                (new EvaluationForm(proc)).Show();
+                var form = MainForm.Instance.Resolve<EvaluationForm>();
+                form.Percentages = percentage;
+                form.AddBar();
+                form.Show();
             }
         }
     }

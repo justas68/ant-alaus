@@ -2,7 +2,7 @@
 
 namespace Alus
 {
-    public class EmailValidator : IValidator
+    public class EmailValidator : IEmailValidator
     {
         private static Regex validEmailRegex = CreateValidEmailRegex();
 

@@ -2,40 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Alus.Core.Models;
+
 namespace Alus
 {
-    public partial class EvaluationForm : Form
+    public partial class EvaluationForm : ChildForm
     {
+        private readonly IBarContainer _barContainer;
+
         private bool _newBar;
-        private double _percentages;
+        public double Percentages { get; set; }
         private NearestBars _nearestBars = new NearestBars();
         private List<Bar> _nearestBarList;
-        private List<Bar> _barList = new List<Bar>();
-        private ReadAndWriteFromFile _readerWriter = new ReadAndWriteFromFile();
+        private IList<Bar> _barList;
+
         private bool _choice;
-        public EvaluationForm()
+        public EvaluationForm(IBarContainer barContainer)
         {
             InitializeComponent();
+
+            _barContainer = barContainer;
+
             _newBar = false;
-            _barList = _readerWriter.ReadFile();
+            _barList = new List<Bar>(_barContainer.GetAll());
             _nearestBarList = _nearestBars.FindBars();
             evaluateButton.Visible = false;
             notThisBar.Visible = false;
         }
 
-        public EvaluationForm(double percentages)
+        public void AddBar()
         {
-            InitializeComponent();
             _newBar = true;
-            this._percentages = percentages;
             changeEvaluationButton.Visible = false;
             deleteBar.Visible = false;
-            _barList = _readerWriter.ReadFile();
-            _nearestBarList = _nearestBars.FindBars();
+            evaluateButton.Visible = true;
+            notThisBar.Visible = true;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (listBox1.SelectedIndex < 0)
+            {
+                return;
+            }
+
             if (_newBar)
             {
                 textBox2.Text = _nearestBarList.ElementAt(listBox1.SelectedIndex).Name;
@@ -99,9 +109,9 @@ namespace Alus
                 {
                     Bar bar = _nearestBarList.ElementAt(listBox1.SelectedIndex);
                     bar.Evaluation = trackBar1.Value.ToString();
-                    bar.Percentage = (bar.BeersBought * bar.Percentage + Math.Round(_percentages, 2)) / (bar.BeersBought + 1);
+                    bar.Percentage = (bar.BeersBought * bar.Percentage + Math.Round(Percentages, 2)) / (bar.BeersBought + 1);
                     bar.BeersBought++;
-                    _readerWriter.WriteLineToFile(bar);
+                    _barContainer.Add(bar);
                     _barList.Add(bar);
                     listBox1.Items.Add(textBox2.Text);
                     _choice = true;
@@ -119,21 +129,20 @@ namespace Alus
             if (_newBar && _choice)
             {
                 MessageBox.Show("New bar added");
-                this.Hide();
-                (new MainForm()).Show();
+                Close();
+                MainForm.Instance.Show();
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            (new MainForm()).Show();
-            this.Hide();
+            Close();
         }
 
         private void changeEvaluationButton_Click(object sender, EventArgs e)
         {
             _barList.ElementAt(listBox1.SelectedIndex).Evaluation = "" + trackBar1.Value.ToString();
-            _readerWriter.WriteListToFile(_barList);
+            _barContainer.SetAll(_barList);
             MessageBox.Show("Evaluation changed");
         }
 
@@ -151,7 +160,7 @@ namespace Alus
         private void deleteBar_Click(object sender, EventArgs e)
         {
             _barList.RemoveAt(listBox1.SelectedIndex);
-            _readerWriter.WriteListToFile(_barList);
+            _barContainer.SetAll(_barList);
             MessageBox.Show("Bar was deleted");
             textBox1.Text = null;
             textBox2.Text = null;

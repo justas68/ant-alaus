@@ -87,7 +87,6 @@
             this.sendButton.TabIndex = 4;
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = true;
-            this.sendButton.Click += new System.EventHandler(this.send_button_Click);
             // 
             // suggestionExitButton
             // 
