@@ -5,8 +5,20 @@ using Alus.Core.Models;
 
 namespace Alus
 {
+    public class FeedbackValidationEventArgs : EventArgs
+    {
+        public FeedbackValidationEventArgs(string errorMessage)
+        {
+            ErrorMessage = errorMessage;
+        }
+
+        public string ErrorMessage { get; set; }
+    }
+
     public partial class FeedbackForm : ChildForm
     {
+        private event EventHandler<FeedbackValidationEventArgs> ValidationError;
+
         private readonly IFeedbackSender _feedbackSender;
         private readonly IEmailValidator _emailValidator;
 
@@ -27,6 +39,18 @@ namespace Alus
 
             // preselected general
             feedbackComboBox.SelectedIndex = 0;
+
+            ValidationError += (obj, e) => MessageBox.Show(e.ErrorMessage);
+        }
+
+        private void FeedbackForm_errorMessage(object sender, string e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Raise(string errorMessage)
+        {
+            ValidationError?.Invoke(this, new FeedbackValidationEventArgs(errorMessage));
         }
 
         private async Task send_button_Click(object sender, EventArgs e)
@@ -41,13 +65,13 @@ namespace Alus
 
             if (!_emailValidator.Validate(feedback.EMail))
             {
-                MessageBox.Show("Invalid email address");
+                Raise("Invalid email address");
                 return;
             }
 
             if (feedback.Text.Length < 10)
             {
-                MessageBox.Show("The feedback should contain at least 10 symbols");
+                Raise("The feedback should contain at least 10 symbols");
                 return;
             }
 
@@ -63,7 +87,7 @@ namespace Alus
             }
             catch
             {
-                MessageBox.Show("There was an unexpected error while sending your feedback");
+                Raise("The feedback should contain at least 10 symbols");
             }
         }
 
