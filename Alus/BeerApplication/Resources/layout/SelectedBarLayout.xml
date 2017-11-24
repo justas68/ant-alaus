@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minWidth="25px"
+    android:background="#c8eac8"
+    android:minHeight="25px">
+  <TextView
+      android:text="Bar name"
+      android:textAppearance="?android:attr/textAppearanceLarge"
+      android:layout_width="378.5dp"
+      android:layout_height="wrap_content"
+      android:id="@+id/barName"
+      android:layout_marginLeft="131.5dp"
+      android:layout_marginTop="10.0dp" />
+  <TextView
+      android:text="Bar rank"
+      android:textAppearance="?android:attr/textAppearanceLarge"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/barEvaluation"
+      android:textSize="100dp"
+      android:layout_marginTop="29.0dp"
+      android:layout_marginLeft="157.0dp"
+      android:layout_marginRight="25.0dp" />
+  <SeekBar
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/newEvaluation"
+      android:background="#b3ffb3"
+      android:layout_marginTop="41.0dp"
+      android:max="10" />
+  <TextView
+      android:text="0"
+      android:textAppearance="?android:attr/textAppearanceLarge"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/newEvaluationValue" />
+  <Button
+      android:text="Change evaluation"
+      android:background="#b3ffb3"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/changeEvaluation"
+      android:layout_marginTop="25.5dp" />
+</LinearLayout>

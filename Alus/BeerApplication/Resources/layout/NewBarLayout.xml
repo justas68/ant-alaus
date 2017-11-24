@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#c8eac8">
+  <TextView
+      android:text="Bar name"
+      android:background="#009900"
+      android:textAppearance="?android:attr/textAppearanceLarge"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/textView1" />
+  <EditText
+      android:layout_width="match_parent"
+      android:background="#b3ffb3"
+      android:layout_height="wrap_content"
+      android:id="@+id/editText" />
+  <TextView
+      android:text="Your evaluation"
+      android:background="#009900"
+      android:textAppearance="?android:attr/textAppearanceLarge"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/textView2"
+      android:layout_marginTop="50.0dp" />
+  <SeekBar
+      android:layout_width="381.5dp"
+      android:background="#b3ffb3"
+      android:layout_height="wrap_content"
+      android:id="@+id/seekBarOne"
+      android:layout_marginTop="19.0dp"
+      android:max="10" />
+  <TextView
+      android:text="0"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/textView3"
+      android:layout_marginBottom="13.5dp" />
+  <Button
+      android:text="Button"
+      android:background="#006600"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/button1" />
+</LinearLayout>

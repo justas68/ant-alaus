@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#b3ffb3">
+  <TextView
+      android:text="Your email"
+      android:textAppearance="?android:attr/textAppearanceLarge"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/textView1"
+      android:layout_marginTop="19.0dp"
+      android:background="#36bc4f"
+      android:layout_marginBottom="12.5dp" />
+  <EditText
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/userEmail"
+      android:background="#36bc4f"
+      android:layout_marginTop="11.5dp"
+      android:layout_marginBottom="13.0dp" />
+  <TextView
+      android:text="Feedback options"
+      android:textAppearance="?android:attr/textAppearanceLarge"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/textView3"
+      android:layout_marginTop="18.0dp"
+      android:background="#36bc4f"
+      android:layout_marginBottom="12.5dp" />
+  <Spinner
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="#36bc4f"
+      android:id="@+id/feedbackOptions"
+      android:prompt="@string/feedback"
+      android:layout_marginBottom="22.0dp"
+      android:layout_marginTop="19.0dp" />
+  <TextView
+      android:text="Your feedback"
+      android:textAppearance="?android:attr/textAppearanceLarge"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="#36bc4f"
+      android:id="@+id/textView2"
+      android:layout_marginTop="16.0dp" />
+  <EditText
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="#36bc4f"
+      android:id="@+id/userFeedback"
+      android:layout_marginTop="16.5dp" />
+  <Button
+      android:text="Send"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/sendButton"
+      android:layout_marginTop="40.0dp" />
+</LinearLayout>

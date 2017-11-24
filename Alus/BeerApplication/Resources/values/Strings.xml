@@ -9,4 +9,11 @@
     <item>Complaints</item>
     <item>Other</item>
   </string-array>
+  <string name="feedback">Choose a feedback option</string>
+  <string-array name="feedback_options">
+    <item>Bug/Problem</item>
+    <item>Suggestion</item>
+    <item>General feedback</item>
+   <item>Other</item>
+  </string-array>
 </resources>

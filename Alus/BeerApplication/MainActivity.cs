@@ -6,12 +6,15 @@ using Android.Views;
 using Android.Content;
 using System;
 using Android.Runtime;
+using System.Collections.Generic;
 
 namespace BeerApplication
 {
     [Activity(Label = "Beer Application", MainLauncher = true)]
     public class MainActivity : Activity
     {
+        public static Lazy<Dictionary<string, int>> barInformation = new Lazy<Dictionary<string, int>>();
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -38,13 +41,18 @@ namespace BeerApplication
 
             feedbackButton.Click += delegate
             {
-                Intent next3 = new Intent(this, typeof(Feedbacks));
+                Intent next3 = new Intent(this, typeof(Feedback));
                 StartActivity(next3);
             };
             nearestBarButton.Click += delegate
             {
                 Intent next4 = new Intent(this, typeof(NearestBars));
                 StartActivity(next4);
+            };
+            evaluationButton.Click += delegate
+            {
+                Intent next5 = new Intent(this, typeof(BarList));
+                StartActivity(next5);
             };
         }
     }
