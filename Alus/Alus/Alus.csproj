@@ -200,7 +200,6 @@
     </Compile>
     <Compile Include="FeedbackSender.cs" />
     <Compile Include="FeedbackSenderException.cs" />
-    <Compile Include="GoogleApi\BarObjects.cs" />
     <Compile Include="BarFileContainer.cs" />
     <Compile Include="Calculator.cs" />
     <Compile Include="EnumUtil.cs" />
@@ -210,6 +209,7 @@
     <Compile Include="EvaluationForm.Designer.cs">
       <DependentUpon>EvaluationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="StandardLocationFinder.cs" />
     <Compile Include="Validators\EmailValidator.cs" />
     <Compile Include="FeedbackFileSender.cs" />
     <Compile Include="FeedbackForm.cs">
@@ -218,9 +218,6 @@
     <Compile Include="FeedbackForm.designer.cs">
       <DependentUpon>FeedbackForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="GoogleApi\RouteObjects.cs" />
-    <Compile Include="GoogleApi\DistanceMatrixObjects.cs" />
-    <Compile Include="GoogleApi\NearbyRequestObjects.cs" />
     <Compile Include="ImageRecognitionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -244,7 +241,6 @@
       <DependentUpon>LocationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ListExtensions.cs" />
-    <Compile Include="Location.cs" />
     <Compile Include="NearestBars.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -255,7 +251,6 @@
       <DependentUpon>StatisticalTableForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UnitOfLength.cs" />
-    <Compile Include="Vector2d.cs" />
     <EmbeddedResource Include="EvaluationForm.resx">
       <DependentUpon>EvaluationForm.cs</DependentUpon>
     </EmbeddedResource>

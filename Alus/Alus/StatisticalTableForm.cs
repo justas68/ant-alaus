@@ -19,12 +19,13 @@ namespace Alus
     {
         private readonly IBarContainer _barContainer;
 
-        private NearestBars nearestBars = new NearestBars();
+        private readonly NearestBars nearestBars;
 
-        public StatisticalTableForm(IBarContainer barContainer)
+        public StatisticalTableForm(IBarContainer barContainer, NearestBars nearestBars)
         {
             InitializeComponent();
             _barContainer = barContainer;
+            this.nearestBars = nearestBars;
         }
 
         private void button1_Click(object sender, EventArgs e)

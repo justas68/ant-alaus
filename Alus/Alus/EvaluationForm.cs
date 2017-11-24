@@ -12,14 +12,16 @@ namespace Alus
 
         private bool _newBar;
         public double Percentages { get; set; }
-        private NearestBars _nearestBars = new NearestBars();
+        private readonly NearestBars _nearestBars;
         private List<Bar> _nearestBarList;
         private IList<Bar> _barList;
 
         private bool _choice;
-        public EvaluationForm(IBarContainer barContainer)
+        public EvaluationForm(IBarContainer barContainer, NearestBars nearestBars)
         {
             InitializeComponent();
+
+            _nearestBars = nearestBars;
 
             _barContainer = barContainer;
 
