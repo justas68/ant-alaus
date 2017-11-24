@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Windows.Forms;
 using Alus.Client;
 using Alus.Core.Models;
 using Unity;
 
 namespace Alus
 {
-    public partial class MainForm : ChildForm
+    public partial class MainForm : Form
     {
         private static readonly Lazy<MainForm> instance = new Lazy<MainForm>(() => new MainForm());
 
@@ -18,6 +19,8 @@ namespace Alus
         }
 
         private readonly IUnityContainer _container;
+        private readonly IUnityContainer _onlineContainer;
+        private readonly IUnityContainer _offlineContainer;
 
         public MainForm()
         {
@@ -26,32 +29,44 @@ namespace Alus
             _container = new UnityContainer();
             _container.RegisterType<IEmailValidator, EmailValidator>();
             _container.RegisterType<IColorPicker, ColorPicker>();
-            _container.RegisterInstance<IFeedbackSender>(new FeedbackSender(client));
-            //_container.RegisterInstance<IBarContainer>(new BarFileContainer("./../../../BarList.txt"));
-            _container.RegisterInstance<IBarContainer>(new BarWebServiceContainer(client));
+
+            _onlineContainer = _container.CreateChildContainer();
+            _onlineContainer.RegisterInstance<IFeedbackSender>(new FeedbackSender(client));
+            _onlineContainer.RegisterInstance<IBarContainer>(new BarWebServiceContainer(client));
+
+            _offlineContainer = _container.CreateChildContainer();
+            _offlineContainer.RegisterInstance<IFeedbackSender>(new FeedbackFileSender("feedback.txt"));
+            _offlineContainer.RegisterInstance<IBarContainer>(new BarFileContainer("./../../../BarList.txt"));
+
         }
 
         public T Resolve<T>()
         {
-            return _container.Resolve<T>();
+            var container = modeCheckbox.Checked ? _onlineContainer : _offlineContainer;
+            return container.Resolve<T>();
+        }
+
+        public T ResolveForm<T>() where T : Form
+        {
+            var t = Resolve<T>();
+            t.Show();
+            Hide();
+            return t;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _container.Resolve<EvaluationForm>().Show();
-            Hide();
+            ResolveForm<EvaluationForm>();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            (new ImageRecognitionForm()).Show();
-            Hide();
+            ResolveForm<ImageRecognitionForm>();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            _container.Resolve<LocationForm>().Show();
-             Hide();
+            ResolveForm<LocationForm>();
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -61,14 +76,12 @@ namespace Alus
 
         private void suggestions_Click(object sender, EventArgs e)
         {
-            _container.Resolve<FeedbackForm>().Show();
-            Hide();
+            ResolveForm<FeedbackForm>();
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            _container.Resolve<StatisticalTableForm>().Show(); ;
-            Hide();
+            ResolveForm<StatisticalTableForm>();
         }
     }
 }

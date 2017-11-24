@@ -47,6 +47,9 @@ namespace Alus
                     catch (IOException)
                     {
                     }
+                    catch
+                    {
+                    }
 
                     if (bar != null)
                     {
