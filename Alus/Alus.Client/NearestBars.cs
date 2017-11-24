@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Drawing;
+using Alus.Core;
 using Alus.Core.Models;
 
 namespace Alus
@@ -18,9 +19,17 @@ namespace Alus
 
         public Location Location
         {
-            get {
+            get
+            {
                 return _location;
             }
+        }
+
+        private readonly ILocationFinder _locationFinder;
+
+        public NearestBars(ILocationFinder locationFinder)
+        {
+            _locationFinder = locationFinder;
         }
 
         // use coordinates of faculty campus as default location
@@ -30,7 +39,7 @@ namespace Alus
         {
             if (_location.IsZero)
             {
-                _location = Alus.Location.FindLocation(defaultLocation: defaultLocation);
+                _location = _locationFinder.FindLocation(defaultLocation: defaultLocation);
             }
 
             var barList = new List<Bar>();

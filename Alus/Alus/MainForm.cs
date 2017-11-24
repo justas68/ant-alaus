@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Alus.Client;
+using Alus.Core;
 using Alus.Core.Models;
 using Unity;
 
@@ -29,6 +30,8 @@ namespace Alus
             _container = new UnityContainer();
             _container.RegisterType<IEmailValidator, EmailValidator>();
             _container.RegisterType<IColorPicker, ColorPicker>();
+            _container.RegisterType<ILocationFinder, StandardLocationFinder>();
+            _container.RegisterType<NearestBars, NearestBars>();
 
             _onlineContainer = _container.CreateChildContainer();
             _onlineContainer.RegisterInstance<IFeedbackSender>(new FeedbackSender(client));

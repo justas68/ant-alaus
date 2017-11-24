@@ -20,14 +20,15 @@ namespace Alus
         private bool _ctrl = false;
         Location _centerLocation;
         Vector2d _direction;
-        private NearestBars nearestBars = new NearestBars();
+        private readonly NearestBars nearestBars;
         IEnumerable<Location> directions = null;
 
-        public LocationForm(IColorPicker colorPicker)
+        public LocationForm(IColorPicker colorPicker, NearestBars nearestBars)
         {
             InitializeComponent();
             _colorPicker = colorPicker;
             this.pictureBox1.MouseWheel += pictureBox1_MouseWheel;
+            this.nearestBars = nearestBars;
         }
 
         private char LetterAt(int index, char start = 'A')
