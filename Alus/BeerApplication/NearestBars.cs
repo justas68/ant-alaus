@@ -82,7 +82,6 @@ namespace BeerApplication
                 lng = currentLocation.Longitude;
                 if (firstTime == true)
                 {
-
                     CameraPosition.Builder builder = CameraPosition.InvokeBuilder();
                     builder.Target(new LatLng(lat, lng));
                     CameraPosition cameraPosition = builder.Build();
