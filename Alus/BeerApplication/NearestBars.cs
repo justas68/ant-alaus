@@ -76,6 +76,7 @@ namespace BeerApplication
                 lng = currentLocation.Longitude;
                 if (firstTime == true)
                 {
+
                     CameraPosition.Builder builder = CameraPosition.InvokeBuilder();
                     builder.Target(new LatLng(lat, lng));
                     CameraPosition cameraPosition = builder.Build();
@@ -89,9 +90,7 @@ namespace BeerApplication
                     {
                         MarkerOptions tempMarker = new MarkerOptions();
                         String[] cords = bar.Coordinates.Split(',');
-                        cords[0] = cords[0].Replace('.', ',');
-                        cords[1] = cords[1].Replace('.', ',');
-                        tempMarker.SetPosition(new LatLng(double.Parse(cords[0]), double.Parse(cords[1])));
+                        tempMarker.SetPosition(new LatLng(Convert.ToDouble(cords[0], System.Globalization.CultureInfo.InvariantCulture), Convert.ToDouble(cords[1], System.Globalization.CultureInfo.InvariantCulture)));
                         tempMarker.SetTitle(bar.Name);
                         tempMarker.SetSnippet(bar.Address);
                         map.AddMarker(tempMarker);
