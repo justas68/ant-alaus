@@ -32,14 +32,19 @@ namespace BeerApplication
 
             statisticButton.Click += delegate
             {
-                Intent next2 = new Intent(this, typeof(StatisticTable));
-                StartActivity(next2);
+                Intent next = new Intent(this, typeof(StatisticTable));
+                StartActivity(next);
             };
 
             feedbackButton.Click += delegate
             {
-                Intent next3 = new Intent(this, typeof(Feedbacks));
-                StartActivity(next3);
+                Intent next = new Intent(this, typeof(Feedbacks));
+                StartActivity(next);
+            };
+            nearestBarButton.Click += delegate
+            {
+                Intent next = new Intent(this, typeof(NearestBars));
+                StartActivity(next);
             };
         }
     }
