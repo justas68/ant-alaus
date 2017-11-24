@@ -14,8 +14,7 @@ namespace BeerApplication
             else
             {
                 return new Location(54.73157, 25.26187);
-            }
-            
+            }   
         }
     }
 }
