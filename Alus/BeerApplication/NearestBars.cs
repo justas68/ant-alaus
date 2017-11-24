@@ -22,6 +22,7 @@ namespace BeerApplication
         LocationManager locMgr;
         String provider;
         bool firstTime = true;
+        float[] hue = new float[22];
 
         public void OnMapReady(GoogleMap googleMap)
         {
@@ -35,6 +36,11 @@ namespace BeerApplication
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            Random rand = new Random();
+            for (int i = 0; i < 22; i++)
+            {
+                hue[i] = rand.Next(0, 360);
+            }
             SetContentView(Resource.Layout.activity_nearest_bars);
             MapFragment mapFragment = (MapFragment)FragmentManager.FindFragmentById(Resource.Id.map);
             mapFragment.GetMapAsync(this);
@@ -86,6 +92,7 @@ namespace BeerApplication
                     firstTime = false;
                     Alus.NearestBars findBars = new Alus.NearestBars(new AndroidLocationFinder());
                     List<Bar> bars = findBars.FindBars();
+                    int i = 0;
                     foreach (var bar in bars)
                     {
                         MarkerOptions tempMarker = new MarkerOptions();
@@ -93,7 +100,9 @@ namespace BeerApplication
                         tempMarker.SetPosition(new LatLng(Convert.ToDouble(cords[0], System.Globalization.CultureInfo.InvariantCulture), Convert.ToDouble(cords[1], System.Globalization.CultureInfo.InvariantCulture)));
                         tempMarker.SetTitle(bar.Name);
                         tempMarker.SetSnippet(bar.Address);
+                        tempMarker.SetIcon(BitmapDescriptorFactory.DefaultMarker(hue[i]));
                         map.AddMarker(tempMarker);
+                        i++;
                     }
                 }
                 MarkerOptions marker = new MarkerOptions();
