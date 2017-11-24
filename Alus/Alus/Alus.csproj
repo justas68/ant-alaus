@@ -241,7 +241,6 @@
       <DependentUpon>LocationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ListExtensions.cs" />
-    <Compile Include="NearestBars.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatisticalTableForm.cs">
