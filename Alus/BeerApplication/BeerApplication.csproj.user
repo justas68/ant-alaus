@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AndroidDesignerPreferredDevice>Nexus 4</AndroidDesignerPreferredDevice>
     <AndroidDesignerPreferredTheme>Theme.DeviceDefault.Light.DarkActionBar</AndroidDesignerPreferredTheme>
-    <SelectedDevice>Samsung SM-G900H</SelectedDevice>
-    <DefaultDevice>5.1_WVGA_API_25</DefaultDevice>
+    <SelectedDevice>android_phone</SelectedDevice>
+    <DefaultDevice>android_phone</DefaultDevice>
   </PropertyGroup>
 </Project>

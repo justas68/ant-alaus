@@ -26,8 +26,8 @@ namespace BeerApplication
 
             beerGlassButton.Click += (sender, e) =>
             {
-                Intent next = new Intent(this, typeof(PhotoActivity));
-                StartActivity(next);
+                Intent next1 = new Intent(this, typeof(PhotoActivity));
+                StartActivity(next1);
             };
 
             statisticButton.Click += delegate
@@ -40,6 +40,11 @@ namespace BeerApplication
             {
                 Intent next3 = new Intent(this, typeof(Feedbacks));
                 StartActivity(next3);
+            };
+            nearestBarButton.Click += delegate
+            {
+                Intent next4 = new Intent(this, typeof(NearestBars));
+                StartActivity(next4);
             };
         }
     }
