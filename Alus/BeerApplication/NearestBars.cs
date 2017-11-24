@@ -6,15 +6,19 @@ using Android.Runtime;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Locations;
+using Alus.Core;
+using Alus.Client;
+using System.Collections.Generic;
+using Alus.Core.Models;
 
 namespace BeerApplication
 {
     [Activity(Label = "Nearest bars")]
-    class NearestBars : Activity, IOnMapReadyCallback, ILocationListener
+    public class NearestBars : Activity, IOnMapReadyCallback, ILocationListener
     {
 
         GoogleMap map;
-        Location currentLocation;
+        public static Location currentLocation;
         LocationManager locMgr;
         String provider;
         bool firstTime = true;
@@ -55,7 +59,7 @@ namespace BeerApplication
             locMgr.RemoveUpdates(this);
         }
 
-        public void OnLocationChanged(Location location)
+        public void OnLocationChanged(Android.Locations.Location location)
         {
             currentLocation = location;
             if (currentLocation == null)
@@ -79,6 +83,19 @@ namespace BeerApplication
                     CameraUpdate cameraUpdate = CameraUpdateFactory.NewCameraPosition(cameraPosition);
                     map.MoveCamera(cameraUpdate);
                     firstTime = false;
+                    Alus.NearestBars findBars = new Alus.NearestBars(new AndroidLocationFinder());
+                    List<Bar> bars = findBars.FindBars();
+                    foreach (var bar in bars)
+                    {
+                        MarkerOptions tempMarker = new MarkerOptions();
+                        String[] cords = bar.Coordinates.Split(',');
+                        cords[0] = cords[0].Replace('.', ',');
+                        cords[1] = cords[1].Replace('.', ',');
+                        tempMarker.SetPosition(new LatLng(double.Parse(cords[0]), double.Parse(cords[1])));
+                        tempMarker.SetTitle(bar.Name);
+                        tempMarker.SetSnippet(bar.Address);
+                        map.AddMarker(tempMarker);
+                    }
                 }
                 MarkerOptions marker = new MarkerOptions();
                 marker.SetPosition(new LatLng(lat, lng));
@@ -99,6 +116,5 @@ namespace BeerApplication
         public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras)
         {
         }
-
     }
 }
