@@ -78,7 +78,7 @@ namespace Alus
 
         private string ToString(Bar bar)
         {
-            return string.Format("{0};{1};{2};{3};{4};{5};{6}",
+            return string.Format("{0};{1};{2};{3};{4};{5};{6};{7}",
                 bar.Name,
                 bar.Coordinates,
                 bar.OnlineRating.ToString(CultureInfo.InvariantCulture),
