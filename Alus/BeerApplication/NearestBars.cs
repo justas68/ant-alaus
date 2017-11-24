@@ -6,18 +6,23 @@ using Android.Runtime;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Locations;
+using Alus.Core;
+using Alus.Client;
+using System.Collections.Generic;
+using Alus.Core.Models;
 
 namespace BeerApplication
 {
     [Activity(Label = "Nearest bars")]
-    class NearestBars : Activity, IOnMapReadyCallback, ILocationListener
+    public class NearestBars : Activity, IOnMapReadyCallback, ILocationListener
     {
 
         GoogleMap map;
-        Location currentLocation;
+        public static Location currentLocation;
         LocationManager locMgr;
         String provider;
         bool firstTime = true;
+        float[] hue = new float[22];
 
         public void OnMapReady(GoogleMap googleMap)
         {
@@ -31,6 +36,11 @@ namespace BeerApplication
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            Random rand = new Random();
+            for (int i = 0; i < 22; i++)
+            {
+                hue[i] = rand.Next(0, 360);
+            }
             SetContentView(Resource.Layout.activity_nearest_bars);
             MapFragment mapFragment = (MapFragment)FragmentManager.FindFragmentById(Resource.Id.map);
             mapFragment.GetMapAsync(this);
@@ -55,7 +65,7 @@ namespace BeerApplication
             locMgr.RemoveUpdates(this);
         }
 
-        public void OnLocationChanged(Location location)
+        public void OnLocationChanged(Android.Locations.Location location)
         {
             currentLocation = location;
             if (currentLocation == null)
@@ -79,6 +89,20 @@ namespace BeerApplication
                     CameraUpdate cameraUpdate = CameraUpdateFactory.NewCameraPosition(cameraPosition);
                     map.MoveCamera(cameraUpdate);
                     firstTime = false;
+                    Alus.NearestBars findBars = new Alus.NearestBars(new AndroidLocationFinder());
+                    List<Bar> bars = findBars.FindBars();
+                    int i = 0;
+                    foreach (var bar in bars)
+                    {
+                        MarkerOptions tempMarker = new MarkerOptions();
+                        String[] cords = bar.Coordinates.Split(',');
+                        tempMarker.SetPosition(new LatLng(Convert.ToDouble(cords[0], System.Globalization.CultureInfo.InvariantCulture), Convert.ToDouble(cords[1], System.Globalization.CultureInfo.InvariantCulture)));
+                        tempMarker.SetTitle(bar.Name);
+                        tempMarker.SetSnippet(bar.Address);
+                        tempMarker.SetIcon(BitmapDescriptorFactory.DefaultMarker(hue[i]));
+                        map.AddMarker(tempMarker);
+                        i++;
+                    }
                 }
                 MarkerOptions marker = new MarkerOptions();
                 marker.SetPosition(new LatLng(lat, lng));
@@ -99,6 +123,5 @@ namespace BeerApplication
         public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras)
         {
         }
-
     }
 }
