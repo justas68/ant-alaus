@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <string name="drawer_open">Open</string>
+  <string name="drawer_close">Close</string>
   <string name="app_name">Beer App</string>
   <string name="GoogleKey">AIzaSyD4oq-CNnJT86QPiWa34d5APIHq9Jq0YHk</string>
   <string-array name="feedback_choices">

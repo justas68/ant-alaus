@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <group android:checkableBehavior="single">
+    <item android:id="@+id/Current_location" android:title="Current location" />
+    <item android:id="@+id/bar1" android:title="bar1" />
+    <item android:id="@+id/bar2" android:title="bar2" />
+    <item android:id="@+id/bar3" android:title="bar3" />
+    <item android:id="@+id/bar4" android:title="bar4" />
+    <item android:id="@+id/bar5" android:title="bar5" />
+    <item android:id="@+id/bar6" android:title="bar6" />
+    <item android:id="@+id/bar7" android:title="bar7" />
+    <item android:id="@+id/bar8" android:title="bar8" />
+    <item android:id="@+id/bar9" android:title="bar9" />
+    <item android:id="@+id/bar10" android:title="bar10" />
+    <item android:id="@+id/bar11" android:title="bar11" />
+    <item android:id="@+id/bar12" android:title="bar12" />
+    <item android:id="@+id/bar13" android:title="bar13" />
+    <item android:id="@+id/bar14" android:title="bar14" />
+    <item android:id="@+id/bar15" android:title="bar15" />
+    <item android:id="@+id/bar16" android:title="bar16" />
+    <item android:id="@+id/bar17" android:title="bar17" />
+    <item android:id="@+id/bar18" android:title="bar18" />
+    <item android:id="@+id/bar19" android:title="bar19" />
+    <item android:id="@+id/bar20" android:title="bar20" />
+  </group>
+</menu>
