@@ -120,9 +120,11 @@ namespace BeerApplication
                         tempMarker.SetSnippet(bar.Address);
                         tempMarker.SetIcon(BitmapDescriptorFactory.DefaultMarker(hue[i]));
                         map.AddMarker(tempMarker);
-                        i++;
+                        
                         var menu = navigationView.Menu;
-                        var menuItem = menu.FindItem(2131362006 + i);
+                        var Id = menu.GetItem(1).ItemId;
+                        var menuItem = menu.FindItem(Id + i);
+                        i++;
                         menuItem.SetTitle(bar.Name);
                     }
                 }
@@ -146,8 +148,10 @@ namespace BeerApplication
             navigationView.NavigationItemSelected += (sender, e) =>
             {
                 LatLng cord;
+                var menu = navigationView.Menu;
+                var Id = menu.GetItem(1).ItemId;
                 e.MenuItem.SetChecked(true);
-                if (e.MenuItem.ItemId == 2131362006)
+                if (e.MenuItem.ItemId == Id-1)
                 {
                     Double lat, lng;
                     lat = currentLocation.Latitude;
@@ -156,7 +160,7 @@ namespace BeerApplication
                 }
                 else
                 {
-                    var bar = bars[e.MenuItem.ItemId - 2131362007];
+                    var bar = bars[e.MenuItem.ItemId - Id];
                     String[] cords = bar.Coordinates.Split(',');
                     cord = new LatLng(Convert.ToDouble(cords[0], System.Globalization.CultureInfo.InvariantCulture), Convert.ToDouble(cords[1], System.Globalization.CultureInfo.InvariantCulture));
                 }

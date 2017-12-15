@@ -2397,8 +2397,8 @@ namespace BeerApplication
 			// aapt resource value: 0x7f0a0082
 			public const int BeerGlassButton = 2131361922;
 			
-			// aapt resource value: 0x7f0a00d6
-			public const int Current_location = 2131362006;
+			// aapt resource value: 0x7f0a00d2
+			public const int Current_location = 2131362002;
 			
 			// aapt resource value: 0x7f0a0083
 			public const int EvaluationButton = 2131361923;
@@ -2499,74 +2499,71 @@ namespace BeerApplication
 			// aapt resource value: 0x7f0a0019
 			public const int auto = 2131361817;
 			
-			// aapt resource value: 0x7f0a00d7
-			public const int bar1 = 2131362007;
-			
-			// aapt resource value: 0x7f0a00e0
-			public const int bar10 = 2131362016;
-			
-			// aapt resource value: 0x7f0a00e1
-			public const int bar11 = 2131362017;
-			
-			// aapt resource value: 0x7f0a00e2
-			public const int bar12 = 2131362018;
-			
-			// aapt resource value: 0x7f0a00e3
-			public const int bar13 = 2131362019;
-			
-			// aapt resource value: 0x7f0a00e4
-			public const int bar14 = 2131362020;
-			
-			// aapt resource value: 0x7f0a00e5
-			public const int bar15 = 2131362021;
-			
-			// aapt resource value: 0x7f0a00e6
-			public const int bar16 = 2131362022;
-			
-			// aapt resource value: 0x7f0a00e7
-			public const int bar17 = 2131362023;
-			
-			// aapt resource value: 0x7f0a00e8
-			public const int bar18 = 2131362024;
-			
-			// aapt resource value: 0x7f0a00e9
-			public const int bar19 = 2131362025;
-			
-			// aapt resource value: 0x7f0a00d8
-			public const int bar2 = 2131362008;
-			
-			// aapt resource value: 0x7f0a00ea
-			public const int bar20 = 2131362026;
-			
-			// aapt resource value: 0x7f0a00d9
-			public const int bar3 = 2131362009;
-			
-			// aapt resource value: 0x7f0a00da
-			public const int bar4 = 2131362010;
-			
-			// aapt resource value: 0x7f0a00db
-			public const int bar5 = 2131362011;
+			// aapt resource value: 0x7f0a00d3
+			public const int bar1 = 2131362003;
 			
 			// aapt resource value: 0x7f0a00dc
-			public const int bar6 = 2131362012;
+			public const int bar10 = 2131362012;
 			
 			// aapt resource value: 0x7f0a00dd
-			public const int bar7 = 2131362013;
+			public const int bar11 = 2131362013;
 			
 			// aapt resource value: 0x7f0a00de
-			public const int bar8 = 2131362014;
+			public const int bar12 = 2131362014;
 			
 			// aapt resource value: 0x7f0a00df
-			public const int bar9 = 2131362015;
+			public const int bar13 = 2131362015;
+			
+			// aapt resource value: 0x7f0a00e0
+			public const int bar14 = 2131362016;
+			
+			// aapt resource value: 0x7f0a00e1
+			public const int bar15 = 2131362017;
+			
+			// aapt resource value: 0x7f0a00e2
+			public const int bar16 = 2131362018;
+			
+			// aapt resource value: 0x7f0a00e3
+			public const int bar17 = 2131362019;
+			
+			// aapt resource value: 0x7f0a00e4
+			public const int bar18 = 2131362020;
+			
+			// aapt resource value: 0x7f0a00e5
+			public const int bar19 = 2131362021;
+			
+			// aapt resource value: 0x7f0a00d4
+			public const int bar2 = 2131362004;
+			
+			// aapt resource value: 0x7f0a00e6
+			public const int bar20 = 2131362022;
+			
+			// aapt resource value: 0x7f0a00d5
+			public const int bar3 = 2131362005;
+			
+			// aapt resource value: 0x7f0a00d6
+			public const int bar4 = 2131362006;
+			
+			// aapt resource value: 0x7f0a00d7
+			public const int bar5 = 2131362007;
+			
+			// aapt resource value: 0x7f0a00d8
+			public const int bar6 = 2131362008;
+			
+			// aapt resource value: 0x7f0a00d9
+			public const int bar7 = 2131362009;
+			
+			// aapt resource value: 0x7f0a00da
+			public const int bar8 = 2131362010;
+			
+			// aapt resource value: 0x7f0a00db
+			public const int bar9 = 2131362011;
 			
 			// aapt resource value: 0x7f0a00c9
 			public const int barEvaluation = 2131361993;
 			
 			// aapt resource value: 0x7f0a00c8
 			public const int barName = 2131361992;
-			
-			// aapt resource value: 0x7f0a00d2
-			public const int bars = 2131362002;
 			
 			// aapt resource value: 0x7f0a002b
 			public const int beginning = 2131361835;
@@ -2795,15 +2792,6 @@ namespace BeerApplication
 			
 			// aapt resource value: 0x7f0a0024
 			public const int multiply = 2131361828;
-			
-			// aapt resource value: 0x7f0a00d5
-			public const int nav_FeedBack = 2131362005;
-			
-			// aapt resource value: 0x7f0a00d4
-			public const int nav_about = 2131362004;
-			
-			// aapt resource value: 0x7f0a00d3
-			public const int nav_messages = 2131362003;
 			
 			// aapt resource value: 0x7f0a0092
 			public const int nav_view = 2131361938;
@@ -3385,10 +3373,7 @@ namespace BeerApplication
 		{
 			
 			// aapt resource value: 0x7f0e0000
-			public const int bars = 2131623936;
-			
-			// aapt resource value: 0x7f0e0001
-			public const int nav_menu = 2131623937;
+			public const int nav_menu = 2131623936;
 			
 			static Menu()
 			{
