@@ -12,6 +12,7 @@
     <item>Other</item>
   </string-array>
   <string name="feedback">Choose a feedback option</string>
+  <string name="myConnectionString">Data Source=beer-app.database.windows.net;Initial Catalog=Bars;Persist Security Info=True;User ID=BeerApp;Password=Alus123*</string>
   <string-array name="feedback_options">
     <item>Bug/Problem</item>
     <item>Suggestion</item>
